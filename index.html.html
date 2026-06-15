@@ -590,7 +590,9 @@
         function buatKartuHTML(item, prefixArea) {
             let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian">
                 <option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
-            if (item.kategori.toUpperCase() !== "LEBARAN") {
+            
+            // Perbaikan pengecekan kategori lebaran menggunakan huruf kecil total agar aman
+            if (item.kategori.toLowerCase() !== "lebaran") {
                 selectVarianHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
             }
             selectVarianHtml += `</select>`;
@@ -612,31 +614,29 @@
             const pencarian = document.getElementById('search-input').value.toLowerCase();
             const catalogArea = document.getElementById('katalog-produk');
 
-            // 1. KONDISI PENCARIAN (Lebaran diblokir total)
+            // 1. KONDISI PENCARIAN (Aman & terkunci menggunakan huruf kecil)
             if (pencarian !== "") {
-                let hasil = produkBase.filter(p => p.nama.toLowerCase().includes(pencarian) && p.kategori.toUpperCase() !== "LEBARAN");
+                let hasil = produkBase.filter(p => p.nama.toLowerCase().includes(pencarian) && p.kategori.toLowerCase() !== "lebaran");
                 if (hasil.length === 0) { catalogArea.innerHTML = `<div class="loading-status">Pencarian tidak ditemukan...</div>`; return; }
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'cari')).join('')}</div>`;
                 return;
             }
 
-            // 2. KONDISI KLIK KATEGORI KHUSUS (Termasuk jika klik tombol "LEBARAN")
+            // 2. KONDISI KLIK KATEGORI KHUSUS
             if (kategoriAktif !== "Semua") {
                 let hasil = produkBase.filter(p => p.kategori === kategoriAktif);
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'kat')).join('')}</div>`;
                 return;
             }
 
-            // 3. KONDISI DEFAULT ("SEMUA TAMPILAN" - SAAT BARU BUKA HALAMAN)
-            // KUNCI UTAMA: Buat saringan murni produk non-Lebaran terlebih dahulu
-            let itemBukanLebaran = produkBase.filter(p => p.kategori.toUpperCase() !== "LEBARAN");
+            // 3. KONDISI DEFAULT ("SEMUA TAMPILAN")
+            // Ambil data murni non-Lebaran dengan huruf kecil total
+            let itemBukanLebaran = produkBase.filter(p => p.kategori.toLowerCase() !== "lebaran");
 
-            // PERBAIKAN FATAL: Pengambilan promo & baru wajib disaring HANYA dari data non-Lebaran
             let itemPromo = itemBukanLebaran.filter(p => p.label === 'promo');
             let itemBaru = itemBukanLebaran.filter(p => p.label === 'baru');
             let itemSemua = itemBukanLebaran; 
 
-            // Cadangan sistem jika label spreadsheet kosong, ambil contoh murni dari data non-Lebaran
             if (itemPromo.length === 0) itemPromo = itemBukanLebaran.slice(0, 4);
             if (itemBaru.length === 0) itemBaru = [...itemBukanLebaran].reverse().slice(0, 4);
 
@@ -670,7 +670,6 @@
             updateKeranjang();
         }
 
-        // Fungsi kontrol keranjang standar
         function kurangiQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); } }
         function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); } }
         function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
