@@ -457,7 +457,6 @@
         <p style="margin-top:10px; font-size: 0.9rem;">© 2026 Grosir Snack Mickey Mouse.</p>
     </footer>
 
-    <!-- MODAL KERANJANG -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-content">
             <button class="btn-close" onclick="toggleCart()">×</button>
@@ -613,7 +612,7 @@
             const pencarian = document.getElementById('search-input').value.toLowerCase();
             const catalogArea = document.getElementById('katalog-produk');
 
-            // 1. KONDISI PENCARIAN (Lebaran diblokir total tanpa kompromi saat mencari)
+            // 1. KONDISI PENCARIAN (Lebaran diblokir total)
             if (pencarian !== "") {
                 let hasil = produkBase.filter(p => p.nama.toLowerCase().includes(pencarian) && p.kategori.toUpperCase() !== "LEBARAN");
                 if (hasil.length === 0) { catalogArea.innerHTML = `<div class="loading-status">Pencarian tidak ditemukan...</div>`; return; }
@@ -628,16 +627,16 @@
                 return;
             }
 
-            // 3. KONDISI MEMBUKA HALAMAN UTAMA ("SEMUA TAMPILAN")
-            // Ambil produk non-lebaran saja untuk pengaman data cadangan halaman depan
+            // 3. KONDISI DEFAULT ("SEMUA TAMPILAN" - SAAT BARU BUKA HALAMAN)
+            // KUNCI UTAMA: Buat saringan murni produk non-Lebaran terlebih dahulu
             let itemBukanLebaran = produkBase.filter(p => p.kategori.toUpperCase() !== "LEBARAN");
 
-            // Filter data murni berdasarkan label spreadsheet Anda
-            let itemPromo = produkBase.filter(p => p.label === 'promo');
-            let itemBaru = produkBase.filter(p => p.label === 'baru');
-            let itemSemua = itemBukanLebaran; // Telusuri semuanya dipaksa bersih dari Lebaran
+            // PERBAIKAN FATAL: Pengambilan promo & baru wajib disaring HANYA dari data non-Lebaran
+            let itemPromo = itemBukanLebaran.filter(p => p.label === 'promo');
+            let itemBaru = itemBukanLebaran.filter(p => p.label === 'baru');
+            let itemSemua = itemBukanLebaran; 
 
-            // PERBAIKAN TOTAL: Jika data label kosong, sistem cadangan dipaksa hanya mengambil data Non-Lebaran
+            // Cadangan sistem jika label spreadsheet kosong, ambil contoh murni dari data non-Lebaran
             if (itemPromo.length === 0) itemPromo = itemBukanLebaran.slice(0, 4);
             if (itemBaru.length === 0) itemBaru = [...itemBukanLebaran].reverse().slice(0, 4);
 
@@ -671,12 +670,9 @@
             updateKeranjang();
         }
 
-        function kurangiQty(cartId) {
-            const item = keranjang.find(k => k.cartId === cartId);
-            if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
-        }
+        // Fungsi kontrol keranjang standar
+        function kurangiQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); } }
         function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); } }
-        function sample(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
         function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
 
         function updateKeranjang() {
