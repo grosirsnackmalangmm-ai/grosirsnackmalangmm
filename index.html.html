@@ -6,8 +6,6 @@
     <title>Grosir Snack Mickey Mouse | Malang</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <style>
         /* CSS Dasar & Warna Tema Premium */
@@ -306,34 +304,6 @@
             box-shadow: 0 4px 12px rgba(229, 9, 20, 0.2);
         }
 
-        /* Box Tombol Upload Manual Lokal */
-        .local-upload-box {
-            margin: 20px auto;
-            padding: 25px;
-            background: #fff5f5;
-            border: 2px dashed var(--primary);
-            border-radius: 16px;
-            max-width: 450px;
-            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.05);
-        }
-        .btn-choose-file {
-            margin-top: 15px;
-            padding: 12px 25px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(229, 9, 20, 0.2);
-        }
-        .btn-choose-file:hover {
-            background-color: #c40811;
-            transform: translateY(-2px);
-        }
-
         /* Status Loading Indikator */
         .loading-status {
             text-align: center;
@@ -500,7 +470,7 @@
     </button>
 
     <section id="home">
-        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse Malang">
+        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse Malang" onerror="this.src='https://placehold.co/1200x400/1e1e24/fff?text=Grosir+Snack+Mickey+Mouse'">
     </section>
 
     <section id="pesan" class="section">
@@ -518,7 +488,7 @@
 
         <div class="katalog" id="katalog-produk">
             <div class="loading-status" id="loading-text">
-                <i class="fa-solid fa-spinner fa-spin"></i> .......
+                <i class="fa-solid fa-spinner fa-spin"></i> Memuat database barang dari Spreadsheet...
             </div>
         </div>
     </section>
@@ -554,7 +524,7 @@
                 <i class="fa-solid fa-location-dot"></i>
                 <h3>Lokasi Kami</h3>
                 <p>Jl. Mayjen Sungkono No.38, Arjowinangun, Kec. Kedungkandang, Kota Malang</p>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.9436412123516!2d112.6409579!3d-7.9944444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629e46a7be76f%3A0x67fa234fe37fc738!2sGrosir%20Snack%20Mickey%20Mouse!5e0!3m2!1sid!2sid!4v1686800000000!5m2!1sid!2sid" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.943673752766!2d112.6416845!3d-7.015243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629e12089db01%3A0x6bba8ff798229b15!2sJl.%20Mayjen%20Sungkono%20No.38%2C%20Arjowinangun%2C%20Kec.%20Kedungkandang%2C%20Kota%20Malang%2C%20Jawa%20Timur%2065132!5e0!3m2!1sid!2sid!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
@@ -598,51 +568,61 @@
         let kategoriAktif = "Semua";
         let totalHargaGlobal = 0;
 
-        // FUNGSI UTAMA: Pemetaan data Excel & Perhitungan Sesuai Aturan User
-        function parseDataWorkbook(workbook) {
-            const sheetNama = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetNama];
-            const jsonRows = XLSX.utils.sheet_to_json(sheet);
+        // FUNGSI UTAMA: Parsing Data CSV bawaan Google Sheets Google Web Publish
+        function parseCSVData(text) {
+            let lines = [];
+            let row = [""];
+            let inQuotes = false;
 
-            produkBase = jsonRows.map((row, index) => {
-                let namaBarang = "";
-                let kategori = "Lainnya";
-                let isi = 1;
-                let ecerLabel = "Pcs";
-                let hargaKarton = 0;
-                let harga4 = 0;
-                let gambar = "";
-
-                // Deteksi canggih kolom tanpa peduli spasi atau huruf besar/kecil
-                for (let key in row) {
-                    let normalizedKey = key.replace(/\s+/g, '').toLowerCase().trim();
-                    let val = row[key];
-
-                    if (normalizedKey.includes('nama') || normalizedKey.includes('barang')) {
-                        namaBarang = val;
-                    } else if (normalizedKey.includes('kategori')) {
-                        kategori = val ? val.toString().trim() : "Lainnya";
-                    } else if (normalizedKey === 'isi') {
-                        isi = Number(val) || 1;
-                    } else if (normalizedKey === 'ecer') {
-                        ecerLabel = val ? val.toString().trim() : "Pcs";
-                    } else if (normalizedKey.includes('hargakarton')) {
-                        hargaKarton = Number(val) || 0;
-                    } else if (normalizedKey.includes('harga4')) {
-                        harga4 = Number(val) || 0;
-                    } else if (normalizedKey.includes('gambar') || normalizedKey.includes('foto')) {
-                        gambar = val ? val.toString().trim() : "";
-                    }
+            // Parser CSV Aman untuk karakter koma di dalam tanda kutip teks nama barang
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i];
+                let next = text[i+1];
+                if (c === '"') {
+                    if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
+                    else { inQuotes = !inQuotes; }
+                } else if (c === ',' && !inQuotes) {
+                    row.push('');
+                } else if ((c === '\r' || c === '\n') && !inQuotes) {
+                    if (c === '\r' && next === '\n') { i++; }
+                    lines.push(row);
+                    row = [''];
+                } else {
+                    row[row.length - 1] += c;
                 }
+            }
+            if (row.length > 1 || row[0] !== '') lines.push(row);
+            if (lines.length < 2) return;
 
-                // Skip baris jika nama barang kosong
-                if (!namaBarang) return null;
+            // Mengambil baris pertama sebagai Header kunci nama kolom
+            let headers = lines[0].map(h => h.replace(/\s+/g, '').toLowerCase().trim());
+            
+            produkBase = [];
+            for (let i = 1; i < lines.length; i++) {
+                let currentLine = lines[i];
+                if (currentLine.length < headers.length) continue;
 
-                // Aturan: harga ecer itu harga 4 dibagi sama isi
+                let itemRaw = {};
+                headers.forEach((header, index) => {
+                    itemRaw[header] = currentLine[index] ? currentLine[index].trim() : "";
+                });
+
+                // Menyesuaikan penamaan kolom dinamis berdasarkan excel asli Anda
+                let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || "";
+                let kategori = itemRaw['kategori'] || "Lainnya";
+                let isi = Number(itemRaw['isi']) || 1;
+                let ecerLabel = itemRaw['eceer'] || itemRaw['ecer'] || "Pcs";
+                let hargaKarton = Number(itemRaw['hargakarton']) || 0;
+                let harga4 = Number(itemRaw['harga4']) || 0;
+                let gambar = itemRaw['gambar'] || itemRaw['foto'] || "";
+
+                if (!namaBarang) continue;
+
+                // Logika Aturan Perhitungan Ecer Toko: Harga4 dibagi Isi
                 let hargaEceran = Math.ceil(harga4 / isi);
 
-                return {
-                    id: index + 1,
+                produkBase.push({
+                    id: i,
                     nama: namaBarang,
                     kategori: kategori,
                     hargaKarton: hargaKarton,
@@ -650,65 +630,40 @@
                     isi: isi,
                     ecerLabel: ecerLabel,
                     gambar: gambar
-                };
-            }).filter(p => p !== null);
+                });
+            }
 
             buatTombolKategoriDinamis();
             jalankanFilter();
         }
 
-        // Jalankan Otomatis Saat Akses Web
+        // Menghubungkan Fetch langsung ke Link Hasil Publikasi CSV milik Anda
         document.addEventListener("DOMContentLoaded", () => {
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
                 .then(res => {
-                    if (!res.ok) throw new Error("Gagal mengambil data online.");
-                    return res.arrayBuffer();
+                    if (!res.ok) throw new Error("Gagal memuat.");
+                    return res.text();
                 })
-                .then(ab => {
-                    const dataUint = new Uint8Array(ab);
-                    const workbook = XLSX.read(dataUint, { type: 'array' });
-                    parseDataWorkbook(workbook);
+                .then(text => {
+                    parseCSVData(text);
                 })
                 .catch(err => {
                     document.getElementById('loading-text').innerHTML = `
-                        <div class="local-upload-box">
-                            <span style="color:var(--primary); font-weight:bold; font-size:1.1rem;">
-                                <i class="fa-solid fa-shield-halved"></i> Mode Offline / Menunggu Link Sheets
-                            </span>
-                            <p style="font-size:0.85rem; margin-top:5px; color:#475569; line-height:1.5;">
-                                Jika link Google Sheets belum dimasukkan ke kode, Anda bisa mencoba mengunggah file <strong>database.xlsx</strong> secara manual di bawah ini.
-                            </p>
-                            <input type="file" id="local-excel-picker" accept=".xlsx, .xls" style="display:none;" onchange="handleFileLokal(event)">
-                            <button class="btn-choose-file" onclick="document.getElementById('local-excel-picker').click()">
-                                <i class="fa-solid fa-file-excel"></i> Pilih File database.xlsx
-                            </button>
+                        <div style="color:var(--primary); font-weight:bold; padding:20px;">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Gagal sinkronisasi data online. Pastikan Spreadsheet Anda telah di-publish ke web.
                         </div>
                     `;
                 });
         });
 
-        function handleFileLokal(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            document.getElementById('loading-text').innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Membaca data barang...`;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                parseDataWorkbook(workbook);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
         function buatTombolKategoriDinamis() {
             const container = document.getElementById('kategori-container');
-            const daftarKategori = [...new Set(produkBase.map(p => p.kategori))];
+            const daftarKategori = [...new Set(produkBase.map(p => p.kategori))].filter(k => k !== "");
             
             let htmlTombol = `<button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua</button>`;
             daftarKategori.forEach(kat => {
-                htmlTombol += `<button class="kategori-btn" id="btn-cat-${kat.replace(/\s+/g, '')}" onclick="gantiKategori('${kat}')">${kat}</button>`;
+                let safeId = kat.replace(/[^a-zA-Z0-9]/g, '');
+                htmlTombol += `<button class="kategori-btn" id="btn-cat-${safeId}" onclick="gantiKategori('${kat}')">${kat}</button>`;
             });
             container.innerHTML = htmlTombol;
         }
@@ -717,8 +672,8 @@
             kategoriAktif = kat;
             document.querySelectorAll('.kategori-btn').forEach(btn => btn.classList.remove('active'));
             
-            const targetId = `btn-cat-${kat.replace(/\s+/g, '')}`;
-            const targetBtn = document.getElementById(targetId);
+            let safeId = kat.replace(/[^a-zA-Z0-9]/g, '');
+            const targetBtn = document.getElementById(`btn-cat-${safeId}`);
             if (targetBtn) targetBtn.classList.add('active');
             
             jalankanFilter();
@@ -754,7 +709,6 @@
                 }
                 selectVarianHtml += `</select>`;
 
-                // PENANGANAN JALUR GAMBAR OTOMATIS UNTUK VERCEL
                 let finalImgSrc = item.gambar;
                 if (item.gambar && !item.gambar.startsWith('http')) {
                     finalImgSrc = `${window.location.origin}/${item.gambar}`;
@@ -847,30 +801,41 @@
                     <div class="cart-item">
                         <div class="cart-info">
                             <h4>${item.namaLengkap}</h4>
-                            <p style="color:var(--primary); font-weight:700; font-size:0.85rem;">Rp ${item.harga.toLocaleString('id-ID')} x ${item.jumlah}</p>
+                            <p style="font-size:0.85rem; color:#64748b;">
+                                Rp ${item.harga.toLocaleString('id-ID')} x ${item.jumlah}
+                            </p>
                         </div>
                         <div class="cart-controls">
                             <button class="btn-qty" onclick="kurangiQty('${item.cartId}')">-</button>
-                            <span style="font-weight:600; min-width:15px; text-align:center;">${item.jumlah}</span>
+                            <span style="font-weight:600; font-size:0.95rem;">${item.jumlah}</span>
                             <button class="btn-qty" onclick="tambahQty('${item.cartId}')">+</button>
-                            <button class="btn-hapus" onclick="hapusItem('${item.cartId}')"><i class="fa-solid fa-trash-can"></i></button>
+                            <button class="btn-hapus" onclick="hapusItem('${item.cartId}')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
                         </div>
                     </div>
                 `;
             });
+
             container.innerHTML = html;
             totalSpan.innerText = totalHargaGlobal.toLocaleString('id-ID');
         }
 
         function toggleCart() {
             const modal = document.getElementById('cart-modal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
         }
 
         function toggleAddress() {
             const method = document.getElementById('delivery-method').value;
-            const addressArea = document.getElementById('cust-address');
-            addressArea.style.display = method === 'kirim' ? 'block' : 'none';
+            const addressInput = document.getElementById('cust-address');
+            if (method === 'kirim') {
+                addressInput.style.display = 'block';
+                addressInput.setAttribute('required', 'true');
+            } else {
+                addressInput.style.display = 'none';
+                addressInput.removeAttribute('required');
+            }
         }
 
         function checkoutWA() {
@@ -879,7 +844,7 @@
             const alamat = document.getElementById('cust-address').value.trim();
 
             if (!nama) {
-                alert("Mohon masukkan nama Anda terlebih dahulu.");
+                alert("Silakan masukkan Nama Anda terlebih dahulu.");
                 return;
             }
             if (keranjang.length === 0) {
@@ -887,18 +852,38 @@
                 return;
             }
             if (metode === 'kirim' && !alamat) {
-                alert("Mohon isi alamat lengkap pengiriman Anda.");
+                alert("Silakan isi Alamat Lengkap pengiriman Anda.");
+                return;
+            }
+            if (metode === 'kirim' && totalHargaGlobal < 3000000) {
+                alert("Maaf, layanan pengiriman / kirim ke alamat hanya tersedia untuk total belanja di atas Rp 3.000.000.");
                 return;
             }
 
-            let teksPesanan = `*HALO ADMIN GROSIR SNACK MICKEY MOUSE*\n\n`;
-            teksPesanan += `Saya ingin melakukan pesanan dengan data berikut:\n`;
-            teksPesanan += `👤 *Nama:* ${nama}\n`;
-            teksPesanan += `📦 *Metode:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Dikirim ke Alamat'}\n`;
-            
+            let teksKirim = `*PESANAN BARU - GROSIR SNACK MICKEY MOUSE*\n`;
+            teksKirim += `--------------------------------------------------\n`;
+            teksKirim += `*Nama Pelanggan:* ${nama}\n`;
+            teksKirim += `*Metode Ambil:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Dikirim ke Alamat'}\n`;
             if (metode === 'kirim') {
-                teksPesanan += `📍 *Alamat:* ${alamat}\n`;
+                teksKirim += `*Alamat Pengiriman:* ${alamat}\n`;
             }
-            teksPesanan += `\n🛒 *DAFTAR BELANJAAN:*\n`;
+            teksKirim += `--------------------------------------------------\n\n`;
+            teksKirim += `*Daftar Belanja:*\n`;
 
             keranjang.forEach((item, index) => {
+                const subtotal = item.harga * item.jumlah;
+                teksKirim += `${index + 1}. ${item.namaLengkap}\n`;
+                teksKirim += `   ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${subtotal.toLocaleString('id-ID')}\n`;
+            });
+
+            teksKirim += `\n--------------------------------------------------\n`;
+            teksKirim += `*TOTAL PEMBAYARAN:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}\n`;
+            teksKirim += `--------------------------------------------------\n`;
+            teksKirim += `_Mohon segera diproses ya Admin, Terima kasih!_`;
+
+            const urlWA = `https://wa.me/6285100116986?text=${encodeURIComponent(teksKirim)}`;
+            window.open(urlWA, '_blank');
+        }
+    </script>
+</body>
+</html>
