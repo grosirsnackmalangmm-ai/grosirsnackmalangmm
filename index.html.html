@@ -4,18 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grosir Snack Mickey Mouse | Malang</title>
-    <!-- Kombinasi Font Baru yang Ramah dan Modern -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* CSS Dasar & Warna Tema Baru (Merah & Kuning Modern) */
         :root {
-            --primary: #E62020; /* Merah Berani */
+            --primary: #E62020;
             --primary-hover: #cc1b1b;
-            --secondary: #FFD700; /* Kuning Emas */
-            --dark: #1A1A1A; /* Hitam Pekat */
-            --light: #F8FAFC; /* Putih Kebiruan Lembut */
+            --secondary: #FFD700;
+            --dark: #1A1A1A;
+            --light: #F8FAFC;
             --white: #FFFFFF;
             --text-gray: #64748B;
         }
@@ -30,12 +28,9 @@
             background-color: var(--light);
             color: var(--dark);
         }
-
         h1, h2, h3, h4, .logo {
             font-family: 'Fredoka', sans-serif;
         }
-
-        /* Navigasi (Navbar) */
         nav {
             background-color: var(--white);
             display: flex;
@@ -55,7 +50,6 @@
             font-weight: 600;
         }
         .logo span { color: var(--primary); }
-
         .nav-links {
             list-style: none;
             display: flex;
@@ -68,11 +62,8 @@
             font-size: 1.05rem;
             transition: all 0.3s ease;
         }
-        .nav-links a:hover { 
-            color: var(--primary);
-        }
+        .nav-links a:hover { color: var(--primary); }
 
-        /* Tombol Keranjang Mengambang */
         .floating-cart {
             position: fixed;
             bottom: 30px;
@@ -113,7 +104,6 @@
             border: 2px solid white;
         }
 
-        /* Hero Section */
         #home {
             width: 100%;
             text-align: center;
@@ -129,7 +119,6 @@
             margin: 0 auto;
         }
 
-        /* Container Utama */
         .section {
             padding: 4rem 5%;
             max-width: 1300px;
@@ -143,7 +132,6 @@
         }
         h2.title span { color: var(--primary); }
 
-        /* Pencarian & Filter */
         .search-filter-box {
             background: var(--white);
             padding: 1.5rem 2rem;
@@ -201,7 +189,6 @@
             box-shadow: 0 4px 12px rgba(230, 32, 32, 0.2);
         }
 
-        /* Pembatas Kategori di Beranda */
         .section-subtitle {
             font-size: 1.6rem;
             color: var(--dark);
@@ -219,7 +206,6 @@
             border-radius: 2px;
         }
 
-        /* LAYOUT KATALOG */
         .katalog-horizontal {
             display: flex;
             overflow-x: auto;
@@ -239,7 +225,6 @@
             padding: 10px;
         }
 
-        /* KARTU PRODUK */
         .produk-card {
             background: var(--white);
             border-radius: 20px;
@@ -293,7 +278,6 @@
             top: 10px; left: 10px;
             font-weight: 700;
             z-index: 5;
-            font-family: 'Quicksand', sans-serif;
         }
 
         .btn-plus-img {
@@ -309,9 +293,7 @@
             transition: all 0.2s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
-        .btn-plus-img:hover {
-            transform: scale(1.15); background-color: var(--dark);
-        }
+        .btn-plus-img:hover { transform: scale(1.15); background-color: var(--dark); }
 
         .produk-card h3 { 
             font-size: 1.1rem; margin-bottom: 10px; line-height: 1.3;
@@ -325,11 +307,9 @@
             font-weight: 600; background-color: #f8fafc; color: var(--text-gray);
             cursor: pointer; margin-top: auto;
         }
-        .select-varian:focus { border-color: var(--primary); }
 
         .loading-status { text-align: center; font-size: 1.1rem; color: var(--text-gray); padding: 3rem 0; width: 100%; }
 
-        /* ABOUT & PROMOSI SECTION */
         .promo-banner {
             background: linear-gradient(135deg, var(--primary), #a80f0f);
             border-radius: 24px;
@@ -368,7 +348,6 @@
 
         footer { background-color: var(--white); color: var(--text-gray); text-align: center; padding: 3rem 5%; border-top: 1px solid #e2e8f0; }
 
-        /* Modal Keranjang */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000;
@@ -378,10 +357,7 @@
             background: var(--white); width: 90%; max-width: 520px; border-radius: 24px;
             padding: 2.5rem; position: relative; max-height: 85vh; overflow-y: auto;
         }
-        .btn-close {
-            position: absolute; top: 20px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #a0aec0; background: none; border: none;
-        }
-        .btn-close:hover { color: var(--dark); }
+        .btn-close { position: absolute; top: 20px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #a0aec0; background: none; border: none; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-bottom: 1px solid #f1f5f9; }
         .cart-info h4 { margin-bottom: 4px; font-size: 0.95rem; color: var(--dark); }
         .cart-controls { display: flex; align-items: center; gap: 10px; }
@@ -392,7 +368,6 @@
         .total-harga { font-size: 1.4rem; font-weight: 700; text-align: right; margin: 1.5rem 0; color: var(--dark); }
         .checkout-form { background: var(--light); padding: 20px; border-radius: 16px; margin-bottom: 20px; }
         .checkout-form input, .checkout-form select, .checkout-form textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; outline: none; }
-        .checkout-form input:focus, .checkout-form select:focus, .checkout-form textarea:focus { border-color: var(--primary); }
         .btn-wa { background-color: #25D366; color: white; border: none; padding: 1.2rem; border-radius: 12px; width: 100%; font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .btn-wa:hover { background-color: #1ebd57; transform: translateY(-2px); }
 
@@ -421,10 +396,9 @@
     </button>
 
     <section id="home">
-        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse Malang" onerror="this.src='https://placehold.co/1200x400/F8FAFC/E62020?text=Grosir+Snack+Mickey+Mouse'">
+        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse" onerror="this.src='https://placehold.co/1200x400/F8FAFC/E62020?text=Grosir+Snack+Mickey+Mouse'">
     </section>
 
-    <!-- SECTION KATALOG PESANAN -->
     <section id="pesan" class="section">
         <h2 class="title">Katalog <span>Produk</span></h2>
         
@@ -438,7 +412,6 @@
             </div>
         </div>
 
-        <!-- Area dimana produk akan dirender -->
         <div id="katalog-produk">
             <div class="loading-status" id="loading-text">
                 <i class="fa-solid fa-cookie-bite fa-spin" style="color:var(--primary); font-size: 2rem; margin-bottom: 15px;"></i><br>
@@ -447,68 +420,50 @@
         </div>
     </section>
 
-    <!-- SECTION ABOUT (Ditaruh di Atas Contact) -->
     <section id="about" class="section">
         <div class="promo-banner">
             <div class="promo-content">
                 <div class="promo-badge">🎉 Sejak 2006</div>
                 <h3>Pusat Kulakan Jajanan Termurah di Malang!</h3>
-                <p>
-                    Sudah lebih dari <strong>20 Tahun</strong> Grosir Snack Mickey Mouse dipercaya oleh ribuan toko, agen, dan masyarakat Malang Raya. Ingin belanja eceran tapi dapat harga grosir yang super miring? Di sini surganya! Cocok untuk kebutuhan hajatan, parcel, hingga stok jualan Anda.
-                </p>
+                <p>Sudah lebih dari 20 Tahun Grosir Snack Mickey Mouse dipercaya oleh ribuan toko dan agen di Malang Raya.</p>
                 <div style="font-size: 1.1rem; font-weight: 700; color: var(--secondary);">
                     <i class="fa-solid fa-clock"></i> Buka Setiap Hari (08.00 - 17.00 WIB)
                 </div>
             </div>
-            <div style="font-size: 6rem; opacity: 0.2; transform: rotate(15deg);">
-                <i class="fa-solid fa-store"></i>
-            </div>
         </div>
-
         <div class="info-grid">
             <div class="info-card map-container">
                 <i class="fa-solid fa-map-location-dot"></i>
                 <h3>Kunjungi Toko Kami</h3>
-                <p style="color: var(--text-gray); margin-top: 5px;">Jl. Mayjen Sungkono No.38, Arjowinangun, Kec. Kedungkandang, Kota Malang</p>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.943673752766!2d112.6416845!3d-7.015243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629e12089db01%3A0x6bba8ff798229b15!2sJl.%20Mayjen%20Sungkono%20No.38%2C%20Arjowinangun%2C%20Kec.%20Kedungkandang%2C%20Kota%20Malang%2C%20Jawa%20Timur%2065132!5e0!3m2!1sid!2sid!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+                <p style="color: var(--text-gray); margin-top: 5px;">Jl. Mayjen Sungkono No.38, Arjowinangun, Malang</p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.943673752766!2d112.6416845!3d-7.015243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629e12089db01%3A0x6bba8ff798229b15!2sJl.%20Mayjen%20Sungkono%20No.38%2C%20Arjowinangun%2C%20Kec.%20Kedungkandang%2C%20Kota%20Malang" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
-    <!-- SECTION CONTACT -->
     <section id="contact" class="section" style="padding-top: 0;">
         <h2 class="title">Hubungi <span>Kami</span></h2>
         <div class="info-grid" style="max-width: 800px; margin: auto;">
             <div class="info-card">
                 <i class="fa-brands fa-whatsapp"></i>
                 <h3>WhatsApp Admin</h3>
-                <p style="color: var(--text-gray); margin-bottom: 10px; font-size: 0.9rem;">Pesan cepat langsung diproses</p>
                 <a href="https://wa.me/6285100116986" class="social-btn btn-whatsapp" target="_blank">Chat WA Sekarang</a>
-            </div>
-            <div class="info-card">
-                <i class="fa-brands fa-tiktok" style="color: #000;"></i>
-                <h3>TikTok Toko</h3>
-                <p style="color: var(--text-gray); margin-bottom: 10px; font-size: 0.9rem;">Lihat review & keramaian toko</p>
-                <a href="https://tiktok.com/@grosirsnackmm" class="social-btn btn-tiktok" target="_blank">Follow @grosirsnackmm</a>
             </div>
         </div>
     </section>
 
     <footer>
         <h3 class="logo" style="font-size: 1.5rem;">Snack<span>MickeyMouse</span></h3>
-        <p style="margin-top:10px; font-size: 0.9rem;">© 2026 Grosir Snack Mickey Mouse. All Rights Reserved.</p>
+        <p style="margin-top:10px; font-size: 0.9rem;">© 2026 Grosir Snack Mickey Mouse.</p>
     </footer>
 
     <!-- MODAL KERANJANG -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-content">
             <button class="btn-close" onclick="toggleCart()">×</button>
-            <h2 style="margin-bottom: 1.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; font-family: 'Fredoka', sans-serif;">
-                <i class="fa-solid fa-cart-shopping" style="color: var(--primary);"></i> Keranjang
-            </h2>
-            <div id="cart-items-container" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px; padding-right: 5px;"></div>
+            <h2 style="margin-bottom: 1.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px;"><i class="fa-solid fa-cart-shopping" style="color: var(--primary);"></i> Keranjang</h2>
+            <div id="cart-items-container" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px;"></div>
             <div class="total-harga">Total: Rp <span id="cart-total-price">0</span></div>
-
             <div class="checkout-form">
                 <input type="text" id="cust-name" placeholder="Nama Lengkap Anda" required>
                 <select id="delivery-method" onchange="toggleAddress()">
@@ -516,14 +471,8 @@
                     <option value="kirim">Dikirim ke Alamat</option>
                 </select>
                 <textarea id="cust-address" placeholder="Tuliskan Alamat Lengkap Pengiriman..." style="display: none; height: 80px; resize: none;"></textarea>
-                <div style="font-size: 0.8rem; color: var(--primary); font-weight: 600; font-style: italic;">
-                    *Layanan pengiriman khusus total belanja di atas Rp 3.000.000. (Malang Raya Free Ongkir)
-                </div>
             </div>
-
-            <button class="btn-wa" onclick="checkoutWA()">
-                <i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp
-            </button>
+            <button class="btn-wa" onclick="checkoutWA()"><i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp</button>
         </div>
     </div>
 
@@ -533,7 +482,6 @@
         let kategoriAktif = "Semua";
         let totalHargaGlobal = 0;
 
-        // FUNGSI KONVERSI GAMBAR
         function konversiLinkDrive(url) {
             if (!url) return "";
             url = url.replace(/\s+/g, '').trim();
@@ -549,19 +497,16 @@
             return url;
         }
 
-        // AMBIL DATA CSV DARI SPREADSHEET
+        // PARSE DATA SPREADSHEET (SISTEM DETEKSI GEBAL EROR)
         function parseCSVData(text) {
-            let lines = [];
-            let row = [""];
-            let inQuotes = false;
+            let lines = []; let row = [""]; let inQuotes = false;
             for (let i = 0; i < text.length; i++) {
                 let c = text[i]; let next = text[i+1];
                 if (c === '"') {
                     if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
                     else { inQuotes = !inQuotes; }
-                } else if (c === ',' && !inQuotes) {
-                    row.push('');
-                } else if ((c === '\r' || c === '\n') && !inQuotes) {
+                } else if (c === ',' && !inQuotes) { row.push(''); }
+                else if ((c === '\r' || c === '\n') && !inQuotes) {
                     if (c === '\r' && next === '\n') { i++; }
                     lines.push(row); row = [''];
                 } else { row[row.length - 1] += c; }
@@ -569,23 +514,37 @@
             if (row.length > 1 || row[0] !== '') lines.push(row);
             if (lines.length < 2) return;
 
-            let headers = lines[0].map(h => h.replace(/\s+/g, '').toLowerCase().trim());
+            // Bersihkan nama header agar tidak ada spasi tersembunyi
+            let headers = lines[0].map(h => h.trim().toLowerCase());
             produkBase = [];
+
             for (let i = 1; i < lines.length; i++) {
                 let currentLine = lines[i];
                 if (currentLine.length < headers.length) continue;
+                
                 let itemRaw = {};
-                headers.forEach((h, idx) => { itemRaw[h] = currentLine[idx] ? currentLine[idx].trim() : ""; });
+                headers.forEach((h, idx) => { 
+                    itemRaw[h] = currentLine[idx] ? currentLine[idx].trim() : ""; 
+                });
 
-                let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || "";
+                // Cari kolom Nama Barang fleksibel
+                let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || itemRaw['nama barang'] || "";
                 if (!namaBarang) continue;
 
                 let kategori = itemRaw['kategori'] || "Lainnya";
                 let isi = Number(itemRaw['isi']) || 1;
                 let ecerLabel = itemRaw['eceer'] || itemRaw['ecer'] || "Pcs";
-                let hargaKarton = Number(itemRaw['hargakarton']) || 0;
+                let hargaKarton = Number(itemRaw['hargakarton']) || Number(itemRaw['harga karton']) || 0;
                 let harga4 = Number(itemRaw['harga4']) || 0;
-                let label = itemRaw['label'] || ""; // PENAMBAHAN BACA LABEL
+                
+                // PENCARIAN KOLOM LABEL YANG LEBIH SAKTI
+                let label = "";
+                for (let key in itemRaw) {
+                    if (key.replace(/\s+/g, '') === 'label') {
+                        label = itemRaw[key].toLowerCase().trim();
+                        break;
+                    }
+                }
 
                 let gambarRaw = "";
                 for (let key in itemRaw) {
@@ -598,7 +557,7 @@
                     id: i, nama: namaBarang, kategori: kategori,
                     hargaKarton: hargaKarton, hargaEcer: Math.ceil(harga4 / isi),
                     isi: isi, ecerLabel: ecerLabel, gambar: konversiLinkDrive(gambarRaw),
-                    label: label // MEMASUKKAN LABEL KE DALAM DATA
+                    label: label
                 });
             }
             buatTombolKategoriDinamis();
@@ -607,11 +566,9 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
-                .then(res => { if (!res.ok) throw new Error(); return res.text(); })
+                .then(res => res.text())
                 .then(text => parseCSVData(text))
-                .catch(err => {
-                    document.getElementById('loading-text').innerHTML = `Gagal memuat data.`;
-                });
+                .catch(err => { document.getElementById('loading-text').innerHTML = `Gagal memuat data.`; });
         });
 
         function buatTombolKategoriDinamis() {
@@ -634,26 +591,20 @@
             jalankanFilter();
         }
 
-        // FUNGSI MEMBUAT KARTU HTML
         function buatKartuHTML(item, prefixArea) {
             let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian">
                 <option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
-            
             if (item.kategori.toUpperCase() !== "LEBARAN") {
                 selectVarianHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
             }
             selectVarianHtml += `</select>`;
-
             let img = item.gambar ? item.gambar : 'https://placehold.co/300/F8FAFC/a0aec0?text=No+Image';
-
             return `
                 <div class="produk-card">
                     <span class="kategori-badge">${item.kategori}</span>
                     <div class="produk-img-wrapper">
                         <img src="${img}" alt="${item.nama}" class="produk-img" onerror="this.src='https://placehold.co/300/F8FAFC/a0aec0?text=No+Image'">
-                        <button class="btn-plus-img" onclick="tambahKeKeranjang(${item.id}, '${prefixArea}')" title="Tambah">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
+                        <button class="btn-plus-img" onclick="tambahKeKeranjang(${item.id}, '${prefixArea}')"><i class="fa-solid fa-plus"></i></button>
                     </div>
                     <h3>${item.nama}</h3>
                     ${selectVarianHtml}
@@ -661,37 +612,32 @@
             `;
         }
 
-        // FILTER UTAMA (SISTEM MEMBACA LABEL PROMO & BARU)
+        // ROUTING FILTER TAMPILAN MARKETPLACE
         function jalankanFilter() {
             const pencarian = document.getElementById('search-input').value.toLowerCase();
             const catalogArea = document.getElementById('katalog-produk');
 
-            // 1. JIKA ADA PENCARIAN (Tampilkan Grid Biasa)
             if (pencarian !== "") {
                 let hasil = produkBase.filter(p => p.nama.toLowerCase().includes(pencarian));
-                if (hasil.length === 0) {
-                    catalogArea.innerHTML = `<div class="loading-status">Pencarian tidak ditemukan...</div>`;
-                    return;
-                }
+                if (hasil.length === 0) { catalogArea.innerHTML = `<div class="loading-status">Pencarian tidak ditemukan...</div>`; return; }
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'cari')).join('')}</div>`;
                 return;
             }
 
-            // 2. JIKA FILTER KATEGORI TERTENTU (Tampilkan Grid Biasa)
             if (kategoriAktif !== "Semua") {
                 let hasil = produkBase.filter(p => p.kategori === kategoriAktif);
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'kat')).join('')}</div>`;
                 return;
             }
 
-            // 3. JIKA HALAMAN "SEMUA" DEFAULT (Membaca otomatis dari kolom "Label" di Spreadsheet)
-            let itemPromo = produkBase.filter(p => p.label && p.label.toLowerCase() === 'promo');
-            let itemBaru = produkBase.filter(p => p.label && p.label.toLowerCase() === 'baru');
+            // Memisahkan produk berdasarkan isi kolom label
+            let itemPromo = produkBase.filter(p => p.label === 'promo');
+            let itemBaru = produkBase.filter(p => p.label === 'baru');
             let itemSemua = produkBase.filter(p => p.kategori.toUpperCase() !== "LEBARAN");
 
-            // Jika di spreadsheet belum diisi label, kita kasih backup otomatis agar web tidak kosong
-            if (itemPromo.length === 0) itemPromo = produkBase.slice(0, 6); 
-            if (itemBaru.length === 0) itemBaru = [...produkBase].reverse().slice(0, 6);
+            // BACKUP: Jika di spreadsheet sama sekali belum diisi kata "promo"/"baru", ambil produk teratas sebagai pajangan awal biar tidak kosong.
+            if (itemPromo.length === 0) itemPromo = produkBase.slice(0, 4);
+            if (itemBaru.length === 0) itemBaru = [...produkBase].reverse().slice(0, 4);
 
             let htmlMarketplace = `
                 <h3 class="section-subtitle"><i class="fa-solid fa-fire" style="color:var(--primary);"></i> Promo Spesial</h3>
@@ -709,128 +655,67 @@
                     ${itemSemua.map(p => buatKartuHTML(p, 'semua')).join('')}
                 </div>
             `;
-
             catalogArea.innerHTML = htmlMarketplace;
         }
 
-        // FUNGSI KERANJANG & CHECKOUT WA
         function tambahKeKeranjang(id, prefixArea) {
             const item = produkBase.find(p => p.id === id);
             const varian = document.getElementById(`varian-${prefixArea}-${id}`).value;
-            
             const harga = varian === 'ecer' ? item.hargaEcer : item.hargaKarton;
-            const labelVarian = varian === 'ecer' ? `(ECER / ${item.ecerLabel})` : "(Kartonan)";
+            const labelVarian = varian === 'ecer' ? `(ECER)` : "(Kartonan)";
             const cartId = `${id}-${varian}`;
-
             const ada = keranjang.find(k => k.cartId === cartId);
-            if (ada) {
-                ada.jumlah += 1;
-            } else {
-                keranjang.push({ cartId: cartId, namaLengkap: `${item.nama} ${labelVarian}`, harga: harga, jumlah: 1 });
-            }
+            if (ada) { ada.jumlah += 1; } else { keranjang.push({ cartId: cartId, namaLengkap: `${item.nama} ${labelVarian}`, harga: harga, jumlah: 1 }); }
             updateKeranjang();
-            
-            const badge = document.getElementById('cart-badge');
-            badge.style.transform = "scale(1.5)";
-            setTimeout(() => badge.style.transform = "scale(1)", 200);
         }
 
         function kurangiQty(cartId) {
             const item = keranjang.find(k => k.cartId === cartId);
-            if (item) {
-                item.jumlah -= 1;
-                if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId);
-                updateKeranjang();
-            }
+            if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
         }
-
-        function tambahQty(cartId) {
-            const item = keranjang.find(k => k.cartId === cartId);
-            if (item) { item.jumlah += 1; updateKeranjang(); }
-        }
-
-        function hapusItem(cartId) {
-            keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang();
-        }
+        function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); } }
+        function sample(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
+        function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
 
         function updateKeranjang() {
             const container = document.getElementById('cart-items-container');
             const totalSpan = document.getElementById('cart-total-price');
             const badge = document.getElementById('cart-badge');
-            
             const totalItem = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
             badge.innerText = totalItem;
 
-            if (keranjang.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-gray); text-align: center;">Keranjang kosong.</p>';
-                totalSpan.innerText = '0'; totalHargaGlobal = 0; return;
-            }
-
+            if (keranjang.length === 0) { container.innerHTML = '<p style="color: var(--text-gray); text-align: center;">Keranjang kosong.</p>'; totalSpan.innerText = '0'; totalHargaGlobal = 0; return; }
             let html = ''; totalHargaGlobal = 0;
             keranjang.forEach(item => {
-                const subtotal = item.harga * item.jumlah;
-                totalHargaGlobal += subtotal;
-                html += `
-                    <div class="cart-item">
-                        <div class="cart-info">
-                            <h4>${item.namaLengkap}</h4>
-                            <p style="font-size:0.85rem; color:var(--text-gray);">Rp ${item.harga.toLocaleString('id-ID')} x ${item.jumlah}</p>
-                        </div>
-                        <div class="cart-controls">
-                            <button class="btn-qty" onclick="kurangiQty('${item.cartId}')">-</button>
-                            <span style="font-weight:600; font-size:0.95rem; width: 20px; text-align: center;">${item.jumlah}</span>
-                            <button class="btn-qty" onclick="tambahQty('${item.cartId}')">+</button>
-                            <button class="btn-hapus" onclick="hapusItem('${item.cartId}')"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
+                const subtotal = item.harga * item.jumlah; totalHargaGlobal += subtotal;
+                html += `<div class="cart-item">
+                    <div class="cart-info"><h4>${item.namaLengkap}</h4><p style="font-size:0.85rem; color:var(--text-gray);">Rp ${item.harga.toLocaleString('id-ID')} x ${item.jumlah}</p></div>
+                    <div class="cart-controls">
+                        <button class="btn-qty" onclick="kurangiQty('${item.cartId}')">-</button>
+                        <span style="font-weight:600; width:20px; text-align:center;">${item.jumlah}</span>
+                        <button class="btn-qty" onclick="tambahQty('${item.cartId}')">+</button>
+                        <button class="btn-hapus" onclick="hapusItem('${item.cartId}')"><i class="fa-solid fa-trash-can"></i></button>
                     </div>
-                `;
+                </div>`;
             });
-            container.innerHTML = html;
-            totalSpan.innerText = totalHargaGlobal.toLocaleString('id-ID');
+            container.innerHTML = html; totalSpan.innerText = totalHargaGlobal.toLocaleString('id-ID');
         }
 
-        function toggleCart() {
-            const modal = document.getElementById('cart-modal');
-            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function toggleAddress() {
-            const method = document.getElementById('delivery-method').value;
-            const addressInput = document.getElementById('cust-address');
-            if (method === 'kirim') {
-                addressInput.style.display = 'block'; addressInput.setAttribute('required', 'true');
-            } else {
-                addressInput.style.display = 'none'; addressInput.removeAttribute('required');
-            }
-        }
+        function toggleCart() { const modal = document.getElementById('cart-modal'); modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex'; }
+        function toggleAddress() { const method = document.getElementById('delivery-method').value; const addressInput = document.getElementById('cust-address'); addressInput.style.display = (method === 'kirim') ? 'block' : 'none'; }
 
         function checkoutWA() {
             const nama = document.getElementById('cust-name').value.trim();
             const metode = document.getElementById('delivery-method').value;
             const alamat = document.getElementById('cust-address').value.trim();
-
             if (!nama) { alert("Silakan isi Nama Anda."); return; }
             if (keranjang.length === 0) { alert("Keranjang masih kosong."); return; }
-            if (metode === 'kirim' && !alamat) { alert("Silakan isi Alamat Lengkap."); return; }
-            if (metode === 'kirim' && totalHargaGlobal < 3000000) {
-                alert("Pengiriman ke alamat khusus untuk belanja di atas Rp 3.000.000."); return;
-            }
-
-            let teksKirim = `*PESANAN GROSIR SNACK MICKEY MOUSE*\n`;
-            teksKirim += `------------------------------------------\n`;
-            teksKirim += `*Nama:* ${nama}\n*Metode:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Kirim ke Alamat'}\n`;
+            let teksKirim = `*PESANAN GROSIR SNACK MICKEY MOUSE*\n------------------------------------------\n*Nama:* ${nama}\n*Metode:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Kirim'}\n`;
             if (metode === 'kirim') teksKirim += `*Alamat:* ${alamat}\n`;
             teksKirim += `------------------------------------------\n\n`;
-
-            keranjang.forEach((item, index) => {
-                const subtotal = item.harga * item.jumlah;
-                teksKirim += `${index + 1}. ${item.namaLengkap}\n   ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${subtotal.toLocaleString('id-ID')}\n`;
-            });
-
-            teksKirim += `\n------------------------------------------\n*TOTAL:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}\n------------------------------------------\n_Mohon segera diproses Admin, Terima kasih!_`;
-
-            const urlWA = `https://wa.me/6285100116986?text=${encodeURIComponent(teksKirim)}`;
-            window.open(urlWA, '_blank');
+            keranjang.forEach((item, index) => { teksKirim += `${index + 1}. ${item.namaLengkap}\n   ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${(item.harga * item.jumlah).toLocaleString('id-ID')}\n`; });
+            teksKirim += `\n------------------------------------------\n*TOTAL:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}`;
+            window.open(`https://wa.me/6285100116986?text=${encodeURIComponent(teksKirim)}`, '_blank');
         }
     </script>
 </body>
