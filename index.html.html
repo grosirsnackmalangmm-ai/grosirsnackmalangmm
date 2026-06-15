@@ -659,7 +659,7 @@
 
         // Jalankan Otomatis Saat Akses Web
         document.addEventListener("DOMContentLoaded", () => {
-            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pubhtml')
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
                 .then(res => {
                     if (!res.ok) throw new Error("Gagal mengambil data online.");
                     return res.arrayBuffer();
