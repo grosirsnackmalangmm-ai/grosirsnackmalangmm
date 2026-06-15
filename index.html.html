@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grosir Snack Mickey Mouse | Malang</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Righteous&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* CSS Dasar & Warna Tema Premium */
+        /* CSS Dasar & Warna Tema Premium (Tema Makanan/Snack Hangat) */
         :root {
-            --primary: #E50914; 
-            --secondary: #2563eb; 
-            --dark: #1e1e24;
-            --light: #f8fafc;
-            --accent: #f59e0b;
+            --primary: #ff5e00; /* Oranye Segar */
+            --primary-hover: #e05300;
+            --secondary: #f59e0b; /* Kuning Keemasan */
+            --dark: #2d3748;
+            --light: #fff9f0; /* Cream Lembut */
+            --white: #ffffff;
+            --text-gray: #718096;
         }
         * {
             box-sizing: border-box;
@@ -30,42 +32,39 @@
 
         /* Navigasi (Navbar) */
         nav {
-            background-color: var(--dark);
-            color: white;
+            background-color: var(--white);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 5%;
+            padding: 1rem 5%;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         }
+        /* Style Logo Teks Baru */
         .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: white;
+            font-family: 'Righteous', cursive;
+            font-size: 1.8rem;
+            color: var(--dark);
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
         .logo span { color: var(--primary); }
+
         .nav-links {
             list-style: none;
             display: flex;
             gap: 25px;
         }
         .nav-links a {
-            color: #cbd5e1;
+            color: var(--text-gray);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
         .nav-links a:hover { 
-            color: white;
-            transform: translateY(-2px);
+            color: var(--primary);
         }
 
         /* Tombol Keranjang Mengambang */
@@ -81,23 +80,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 94, 0, 0.4);
             z-index: 1500;
             border: none;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .floating-cart:hover {
             transform: scale(1.1) translateY(-5px);
-            background-color: #c40811;
+            background-color: var(--primary-hover);
         }
         .badge-qty {
             position: absolute;
-            top: -2px;
-            right: -2px;
-            background: white;
-            color: var(--primary);
+            top: 0px;
+            right: 0px;
+            background: var(--dark);
+            color: white;
             width: 24px;
             height: 24px;
             border-radius: 50%;
@@ -106,16 +105,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 2px solid var(--primary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid white;
         }
 
         /* Hero Section */
         #home {
             width: 100%;
-            background-color: white;
             text-align: center;
             overflow: hidden;
+            background-color: var(--white);
         }
         #home img {
             width: 100%;
@@ -123,7 +121,6 @@
             height: auto;
             aspect-ratio: 1793 / 592;
             object-fit: cover;
-            border-bottom: 5px solid var(--primary);
             display: block;
             margin: 0 auto;
         }
@@ -131,27 +128,26 @@
         /* Container Utama */
         .section {
             padding: 4rem 5%;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: auto;
         }
         h2.title {
             text-align: center;
-            font-size: 2.2rem;
+            font-family: 'Righteous', cursive;
+            font-size: 2.5rem;
             margin-bottom: 2rem;
-            text-transform: uppercase;
-            font-weight: 700;
             letter-spacing: 1px;
+            color: var(--dark);
         }
         h2.title span { color: var(--primary); }
 
         /* Kolom Pencarian & Filter Area */
         .search-filter-box {
-            background: white;
-            padding: 2rem;
+            background: var(--white);
+            padding: 1.5rem 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            margin-bottom: 3rem;
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            margin-bottom: 2.5rem;
         }
         .search-wrapper {
             position: relative;
@@ -162,13 +158,13 @@
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 1.3rem;
+            color: #cbd5e1;
+            font-size: 1.2rem;
         }
         .search-input {
             width: 100%;
             padding: 14px 14px 14px 55px;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #f1f5f9;
             border-radius: 50px;
             font-size: 1rem;
             outline: none;
@@ -177,22 +173,22 @@
         }
         .search-input:focus {
             border-color: var(--primary);
-            background-color: white;
-            box-shadow: 0 0 15px rgba(229, 9, 20, 0.15);
+            background-color: var(--white);
+            box-shadow: 0 0 15px rgba(255, 94, 0, 0.1);
         }
         
-        /* Menu Kategori Otomatis */
+        /* Menu Kategori */
         .kategori-menu {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
         }
         .kategori-btn {
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
             border: 1px solid #e2e8f0;
-            color: #475569;
-            padding: 0.7rem 1.8rem;
+            color: var(--text-gray);
+            padding: 0.6rem 1.5rem;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
@@ -203,40 +199,74 @@
             background-color: var(--primary);
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(229, 9, 20, 0.2);
+            box-shadow: 0 4px 12px rgba(255, 94, 0, 0.2);
         }
 
-        /* Grid & Kartu Produk Menarik */
-        .katalog {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+        /* ========================================= */
+        /* LAYOUT KATALOG: HORIZONTAL & GRID SCROLL  */
+        /* ========================================= */
+        
+        /* 1. Layout Scroll Samping (Untuk Semua selain Lebaran) */
+        .katalog-horizontal {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.8rem;
+            padding: 10px 10px 2rem 10px;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
         }
+        /* Desain Scrollbar untuk Horizontal */
+        .katalog-horizontal::-webkit-scrollbar {
+            height: 8px;
+        }
+        .katalog-horizontal::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .katalog-horizontal::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* 2. Layout Grid (Khusus Lebaran) */
+        .katalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            padding: 10px;
+        }
+
+        /* KARTU PRODUK & TOMBOL PLUS */
         .produk-card {
-            background: white;
+            background: var(--white);
             border-radius: 20px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            padding: 1.2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
             transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
+            position: relative;
             display: flex;
             flex-direction: column;
-            position: relative;
-            overflow: hidden;
         }
+        /* Set lebar tetap jika sedang berada di mode Horizontal */
+        .katalog-horizontal .produk-card {
+            min-width: 270px;
+            max-width: 270px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+
         .produk-card:hover { 
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-            border-color: #cbd5e1;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
         }
         
         .produk-img-wrapper {
             width: 100%;
-            height: 180px;
-            border-radius: 14px;
+            height: 200px;
+            border-radius: 16px;
             margin-bottom: 15px;
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
+            position: relative; /* Untuk posisi tombol plus */
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -246,84 +276,82 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s;
+            transition: transform 0.4s;
         }
         .produk-card:hover .produk-img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
+        /* Badge Kategori */
         .kategori-badge {
-            background: var(--secondary);
+            background: var(--dark);
             color: white;
-            font-size: 0.75rem;
-            padding: 6px 14px;
+            font-size: 0.7rem;
+            padding: 5px 12px;
             border-radius: 50px;
             position: absolute;
-            top: 25px;
-            left: 25px;
+            top: 15px;
+            left: 15px;
             font-weight: 600;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 10;
-        }
-        .produk-card h3 { 
-            font-size: 1.1rem; 
-            margin-bottom: 15px; 
-            line-height: 1.4;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0f172a;
-            font-weight: 600;
-        }
-        .select-varian {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
-            margin-bottom: 18px;
-            font-size: 0.9rem;
-            outline: none;
-            font-weight: 600;
-            background-color: white;
-            color: #334155;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-        .select-varian:focus {
-            border-color: var(--secondary);
-        }
-        .btn-tambah {
-            background-color: var(--dark);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 10px;
-            width: 100%;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            margin-top: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
-        }
-        .btn-tambah:hover { 
-            background-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(229, 9, 20, 0.2);
+            z-index: 5;
         }
 
-        /* Status Loading Indikator */
+        /* TOMBOL PLUS BARU DI GAMBAR */
+        .btn-plus-img {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: var(--primary);
+            color: white;
+            border: 3px solid white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .btn-plus-img:hover {
+            transform: scale(1.15);
+            background-color: var(--dark);
+        }
+
+        .produk-card h3 { 
+            font-size: 1.05rem; 
+            margin-bottom: 10px; 
+            line-height: 1.4;
+            height: 45px;
+            color: var(--dark);
+            font-weight: 600;
+            text-align: left;
+        }
+        
+        .select-varian {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            outline: none;
+            font-weight: 600;
+            background-color: #f8fafc;
+            color: var(--text-gray);
+            cursor: pointer;
+            margin-top: auto;
+        }
+        .select-varian:focus { border-color: var(--primary); }
+
         .loading-status {
             text-align: center;
             font-size: 1.1rem;
-            color: #64748b;
+            color: var(--text-gray);
             padding: 3rem 0;
-            grid-column: 1 / -1;
+            width: 100%;
         }
 
         /* MODAL KERANJANG & CHECKOUT */
@@ -331,29 +359,29 @@
             display: none; 
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(45, 55, 72, 0.7);
+            backdrop-filter: blur(5px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
         }
         .modal-content {
-            background: white;
+            background: var(--white);
             width: 90%;
             max-width: 520px;
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 2.5rem;
             position: relative;
             max-height: 85vh;
             overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
         .btn-close {
             position: absolute;
             top: 20px; right: 20px;
             font-size: 1.8rem;
             cursor: pointer;
-            color: #64748b;
+            color: #a0aec0;
             background: none; border: none;
             transition: color 0.2s;
         }
@@ -366,50 +394,48 @@
             padding: 1.2rem 0;
             border-bottom: 1px solid #f1f5f9;
         }
-        .cart-info h4 { margin-bottom: 4px; font-size: 0.95rem; color: #1e293b; font-weight: 600; }
+        .cart-info h4 { margin-bottom: 4px; font-size: 0.95rem; color: var(--dark); }
         .cart-controls {
             display: flex;
             align-items: center;
             gap: 10px;
         }
         .btn-qty {
-            background: #e2e8f0; border: none; width: 28px; height: 28px;
-            border-radius: 6px; cursor: pointer; font-weight: bold; color: #334155;
+            background: #f1f5f9; border: none; width: 28px; height: 28px;
+            border-radius: 6px; cursor: pointer; font-weight: bold; color: var(--dark);
             transition: background 0.2s;
         }
-        .btn-qty:hover { background: #cbd5e1; }
+        .btn-qty:hover { background: #e2e8f0; }
         
         .btn-hapus {
-            color: #94a3b8; background: none; border: none;
+            color: #cbd5e1; background: none; border: none;
             cursor: pointer; font-size: 1.2rem; margin-left: 8px;
             transition: color 0.2s;
         }
-        .btn-hapus:hover { color: var(--primary); }
+        .btn-hapus:hover { color: #ef4444; }
         
         .total-harga {
-            font-size: 1.4rem; font-weight: 700; text-align: right; margin: 1.5rem 0; color: #0f172a;
+            font-size: 1.4rem; font-weight: 700; text-align: right; margin: 1.5rem 0; color: var(--dark);
         }
 
         .checkout-form {
-            background: #f8fafc;
+            background: var(--light);
             padding: 20px;
-            border-radius: 14px;
+            border-radius: 16px;
             margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
         }
         .checkout-form input, .checkout-form select, .checkout-form textarea {
             width: 100%;
             padding: 12px;
             margin-bottom: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
             font-size: 0.9rem;
             outline: none;
-            background-color: white;
+            background-color: var(--white);
         }
         .checkout-form input:focus, .checkout-form select:focus, .checkout-form textarea:focus {
-            border-color: var(--secondary);
+            border-color: var(--primary);
         }
         .note-ongkir {
             font-size: 0.8rem;
@@ -421,7 +447,7 @@
         }
         .btn-wa {
             background-color: #25D366; color: white; border: none; padding: 1.2rem;
-            border-radius: 10px; width: 100%; font-size: 1.1rem; font-weight: 700;
+            border-radius: 12px; width: 100%; font-size: 1.1rem; font-weight: 700;
             cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
             transition: all 0.2s;
@@ -436,9 +462,8 @@
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
         }
         .info-card {
-            background: white; padding: 2.5rem; border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03); text-align: center;
-            border: 1px solid #e2e8f0;
+            background: var(--white); padding: 2.5rem; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;
         }
         .info-card i.fa-brands, .info-card i.fa-solid {
             font-size: 3rem; color: var(--primary); margin-bottom: 1.2rem;
@@ -457,18 +482,18 @@
         .btn-whatsapp { background-color: #25D366; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2); }
         .btn-whatsapp:hover { background-color: #1ebd57; transform: translateY(-2px); }
 
-        footer { background-color: var(--dark); color: white; text-align: center; padding: 3rem 5%; }
+        footer { background-color: var(--white); color: var(--text-gray); text-align: center; padding: 3rem 5%; border-top: 1px solid #e2e8f0; }
 
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            h2.title { font-size: 1.8rem; }
+            h2.title { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#home" class="logo"><i class="fa-solid fa-cookie-bite"></i> Snack <span>Mickey Mouse</span></a>
+        <a href="#home" class="logo">Snack<span>MickeyMouse</span></a>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#pesan">Pesan</a></li>
@@ -483,7 +508,7 @@
     </button>
 
     <section id="home">
-        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse Malang" onerror="this.src='https://placehold.co/1200x400/1e1e24/fff?text=Grosir+Snack+Mickey+Mouse'">
+        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse Malang" onerror="this.src='https://placehold.co/1200x400/fff9f0/ff5e00?text=Grosir+Snack+Mickey+Mouse'">
     </section>
 
     <section id="pesan" class="section">
@@ -499,16 +524,42 @@
             </div>
         </div>
 
-        <div class="katalog" id="katalog-produk">
+        <div id="katalog-produk" class="katalog-horizontal">
             <div class="loading-status" id="loading-text">
-                <i class="fa-solid fa-spinner fa-spin"></i> Memuat database barang dari Spreadsheet...
+                <i class="fa-solid fa-spinner fa-spin" style="color:var(--primary); font-size: 1.5rem; margin-bottom: 10px;"></i><br>
+                Memuat database barang dari Spreadsheet...
             </div>
         </div>
     </section>
 
-    <section id="contact" class="section" style="background-color: white;">
-        <h2 class="title">Hubungi <span>Kami</span></h2>
+    <section id="about" class="section" style="background-color: var(--white); border-radius: 30px; padding: 4rem 5%; box-shadow: 0 10px 40px rgba(0,0,0,0.02); max-width: 1200px; margin-bottom: 3rem;">
+        <h2 class="title">Tentang <span>Toko</span></h2>
         <div class="info-grid">
+            <div class="info-card" style="text-align: left; background: var(--light); border: none;">
+                <h3 class="logo" style="font-size: 2rem; margin-bottom: 15px;">Snack<span>MickeyMouse</span></h3>
+                <p style="font-size: 1rem; line-height: 1.7; color: var(--text-gray); margin-bottom: 15px;">
+                    <strong style="color: var(--primary);">Berpengalaman Lebih Dari 20 Tahun!</strong><br>
+                    Kami adalah pusat grosir kulakan snack, makanan, dan minuman termurah & terlengkap di Kota Malang. Ingin belanja eceran tapi dapat harga grosir? Di sini tempatnya!
+                </p>
+                <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-gray);">
+                    Kami melayani pembelian ecer, kartonan, dan partai besar. Sangat cocok untuk mitra reseller, kebutuhan toko, hajatan, hingga parcel lebaran dengan harga super miring.
+                </p>
+                <hr style="margin: 20px 0; border: 0; border-top: 2px dashed #cbd5e1;">
+                <h4 style="color: var(--dark);"><i class="fa-regular fa-clock" style="color: var(--primary);"></i> Buka Setiap Hari</h4>
+                <p style="font-weight: 700; color: var(--primary); margin-top: 5px; font-size: 1.1rem;">08.00 - 17.00 WIB</p>
+            </div>
+            <div class="info-card map-container" style="padding: 1.5rem;">
+                <i class="fa-solid fa-location-dot"></i>
+                <h3 style="margin-bottom: 5px;">Lokasi Kami</h3>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">Jl. Mayjen Sungkono No.38, Arjowinangun, Kec. Kedungkandang, Kota Malang</p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.943673752766!2d112.6416845!3d-7.015243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629e12089db01%3A0x6bba8ff798229b15!2sJl.%20Mayjen%20Sungkono%20No.38%2C%20Arjowinangun%2C%20Kec.%20Kedungkandang%2C%20Kota%20Malang%2C%20Jawa%20Timur%2065132!5e0!3m2!1sid!2sid!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2 class="title">Hubungi <span>Kami</span></h2>
+        <div class="info-grid" style="max-width: 800px; margin: auto;">
             <div class="info-card">
                 <i class="fa-brands fa-whatsapp"></i>
                 <h3>WhatsApp Admin</h3>
@@ -522,55 +573,34 @@
         </div>
     </section>
 
-    <section id="about" class="section">
-        <h2 class="title">Tentang <span>Toko</span></h2>
-        <div class="info-grid">
-            <div class="info-card">
-                <i class="fa-solid fa-store"></i>
-                <h3>Grosir Snack Mickey Mouse</h3>
-                <p>Pusat kulakan snack, makanan, minuman termurah di Kota Malang.</p>
-                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #e2e8f0;">
-                <h4><i class="fa-regular fa-clock"></i> Jam Operasional</h4>
-                <p style="font-weight: bold; color: var(--primary); margin-top: 5px;">Buka Setiap Hari: 08.00 - 17.00 WIB</p>
-            </div>
-            <div class="info-card map-container">
-                <i class="fa-solid fa-location-dot"></i>
-                <h3>Lokasi Kami</h3>
-                <p>Jl. Mayjen Sungkono No.38, Arjowinangun, Kec. Kedungkandang, Kota Malang</p>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.943673752766!2d112.6416845!3d-7.015243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629e12089db01%3A0x6bba8ff798229b15!2sJl.%20Mayjen%20Sungkono%20No.38%2C%20Arjowinangun%2C%20Kec.%20Kedungkandang%2C%20Kota%20Malang%2C%20Jawa%20Timur%2065132!5e0!3m2!1sid!2sid!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-        </div>
-    </section>
-
     <footer>
-        <div><i class="fa-solid fa-cookie-bite" style="color:var(--primary); font-size:2.2rem;"></i></div>
-        <h3 style="margin-top: 5px;">Snack Mickey Mouse</h3>
-        <p style="color: #94a3b8; margin-top:10px; font-size: 0.85rem;">© 2026 Grosir Snack Mickey Mouse. All Rights Reserved.</p>
+        <h3 class="logo" style="font-size: 1.5rem; justify-content: center;">Snack<span>MickeyMouse</span></h3>
+        <p style="margin-top:10px; font-size: 0.85rem;">© 2026 Grosir Snack Mickey Mouse. All Rights Reserved.</p>
     </footer>
 
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-content">
             <button class="btn-close" onclick="toggleCart()">×</button>
-            <h2 style="margin-bottom: 1.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; color: #0f172a;">
-                <i class="fa-solid fa-cart-shopping" style="color: var(--primary);"></i> Keranjang Anda
+            <h2 style="margin-bottom: 1.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; color: var(--dark); font-family: 'Righteous', cursive;">
+                <i class="fa-solid fa-cart-shopping" style="color: var(--primary);"></i> Keranjang
             </h2>
             <div id="cart-items-container" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px; padding-right: 5px;"></div>
             <div class="total-harga">Total: Rp <span id="cart-total-price">0</span></div>
 
             <div class="checkout-form">
-                <input type="text" id="cust-name" placeholder="Nama Anda" required>
+                <input type="text" id="cust-name" placeholder="Nama Lengkap Anda" required>
                 <select id="delivery-method" onchange="toggleAddress()">
                     <option value="ambil">Diambil di Toko</option>
                     <option value="kirim">Dikirim ke Alamat</option>
                 </select>
-                <textarea id="cust-address" placeholder="Tuliskan Alamat Lengkap Anda..." style="display: none; height: 80px; resize: none;"></textarea>
+                <textarea id="cust-address" placeholder="Tuliskan Alamat Lengkap Pengiriman..." style="display: none; height: 80px; resize: none;"></textarea>
                 <div class="note-ongkir">
-                    *Catatan: Layanan pengiriman khusus untuk total belanja di atas Rp 3.000.000. (Kota dan Kabupaten Malang Free Ongkir)
+                    *Catatan: Layanan pengiriman khusus untuk total belanja di atas Rp 3.000.000. (Kota & Kabupaten Malang Free Ongkir)
                 </div>
             </div>
 
             <button class="btn-wa" onclick="checkoutWA()">
-                <i class="fa-brands fa-whatsapp"></i> Konfirmasi Pesanan ke WA
+                <i class="fa-brands fa-whatsapp"></i> Konfirmasi Pesanan via WA
             </button>
         </div>
     </div>
@@ -581,10 +611,8 @@
         let kategoriAktif = "Semua";
         let totalHargaGlobal = 0;
 
-        // FUNGSI KONVERSI LINK DRIVE (Ditingkatkan: Kebal spasi/karakter enters)
         function konversiLinkDrive(url) {
             if (!url) return "";
-            // Menghilangkan spasi acak atau karakter enter tersembunyi dari spreadsheet
             url = url.replace(/\s+/g, '').trim();
             
             let id = "";
@@ -602,7 +630,6 @@
             return url;
         }
 
-        // Parsing Data CSV Google Sheets
         function parseCSVData(text) {
             let lines = [];
             let row = [""];
@@ -627,7 +654,6 @@
             if (row.length > 1 || row[0] !== '') lines.push(row);
             if (lines.length < 2) return;
 
-            // Mengubah header menjadi huruf kecil tanpa spasi sama sekali
             let headers = lines[0].map(h => h.replace(/\s+/g, '').toLowerCase().trim());
             
             produkBase = [];
@@ -647,7 +673,6 @@
                 let hargaKarton = Number(itemRaw['hargakarton']) || 0;
                 let harga4 = Number(itemRaw['harga4']) || 0;
                 
-                // SISTEM SCAN KOLOM OTOMATIS: Mencari teks yang mengandung unsur kata 'gambar' atau 'foto'
                 let gambarRaw = "";
                 for (let key in itemRaw) {
                     if (key.includes("gambar") || key.includes("foto")) {
@@ -689,7 +714,7 @@
                 .catch(err => {
                     document.getElementById('loading-text').innerHTML = `
                         <div style="color:var(--primary); font-weight:bold; padding:20px;">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Gagal sinkronisasi data online. Pastikan Spreadsheet Anda telah di-publish ke web.
+                            <i class="fa-solid fa-triangle-exclamation"></i> Gagal sinkronisasi data online. Pastikan Spreadsheet ter-publish.
                         </div>
                     `;
                 });
@@ -722,6 +747,14 @@
             const pencarian = document.getElementById('search-input').value.toLowerCase();
             const catalogArea = document.getElementById('katalog-produk');
 
+            // --- PENGATURAN UI GRID VS HORIZONTAL ---
+            if (kategoriAktif.toUpperCase() === "LEBARAN") {
+                catalogArea.className = "katalog-grid";
+            } else {
+                catalogArea.className = "katalog-horizontal";
+            }
+            // ----------------------------------------
+
             let hasilFilter = produkBase;
 
             if (kategoriAktif === "Semua") {
@@ -735,7 +768,7 @@
             }
 
             if (hasilFilter.length === 0) {
-                catalogArea.innerHTML = `<div class="loading-status">Barang tidak ditemukan...</div>`;
+                catalogArea.innerHTML = `<div class="loading-status">Pencarian tidak ditemukan...</div>`;
                 return;
             }
 
@@ -757,15 +790,15 @@
                     <div class="produk-card">
                         <span class="kategori-badge">${item.kategori}</span>
                         <div class="produk-img-wrapper">
-                            <img src="${finalImgSrc}" alt="${item.nama}" class="produk-img" onerror="this.src='https://placehold.co/300/f1f5f9/64748b?text=No+Image'">
+                            <img src="${finalImgSrc}" alt="${item.nama}" class="produk-img" onerror="this.src='https://placehold.co/300/f1f5f9/a0aec0?text=No+Image'">
+                            
+                            <button class="btn-plus-img" onclick="tambahKeKeranjang(${item.id})" title="Tambah ke Keranjang">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
                         </div>
-                        <h3>${item.nama}</h3>
                         
+                        <h3>${item.nama}</h3>
                         ${selectVarianHtml}
-
-                        <button class="btn-tambah" onclick="tambahKeKeranjang(${item.id})">
-                            <i class="fa-solid fa-cart-plus"></i> Masukkan Keranjang
-                        </button>
                     </div>
                 `;
             }).join('');
@@ -791,6 +824,11 @@
                 });
             }
             updateKeranjang();
+            
+            // Opsional efek alert mini
+            const badge = document.getElementById('cart-badge');
+            badge.style.transform = "scale(1.5)";
+            setTimeout(() => badge.style.transform = "scale(1)", 200);
         }
 
         function kurangiQty(cartId) {
@@ -826,7 +864,7 @@
             badge.innerText = totalItem;
 
             if (keranjang.length === 0) {
-                container.innerHTML = '<p style="color: #64748b; text-align: center; padding: 10px;">Keranjang masih kosong.</p>';
+                container.innerHTML = '<p style="color: var(--text-gray); text-align: center; padding: 10px;">Keranjang masih kosong.</p>';
                 totalSpan.innerText = '0';
                 totalHargaGlobal = 0;
                 return;
@@ -842,13 +880,13 @@
                     <div class="cart-item">
                         <div class="cart-info">
                             <h4>${item.namaLengkap}</h4>
-                            <p style="font-size:0.85rem; color:#64748b;">
+                            <p style="font-size:0.85rem; color:var(--text-gray);">
                                 Rp ${item.harga.toLocaleString('id-ID')} x ${item.jumlah}
                             </p>
                         </div>
                         <div class="cart-controls">
                             <button class="btn-qty" onclick="kurangiQty('${item.cartId}')">-</button>
-                            <span style="font-weight:600; font-size:0.95rem;">${item.jumlah}</span>
+                            <span style="font-weight:600; font-size:0.95rem; width: 20px; text-align: center;">${item.jumlah}</span>
                             <button class="btn-qty" onclick="tambahQty('${item.cartId}')">+</button>
                             <button class="btn-hapus" onclick="hapusItem('${item.cartId}')">
                                 <i class="fa-solid fa-trash-can"></i>
@@ -884,32 +922,20 @@
             const metode = document.getElementById('delivery-method').value;
             const alamat = document.getElementById('cust-address').value.trim();
 
-            if (!nama) {
-                alert("Silakan masukkan Nama Anda terlebih dahulu.");
-                return;
-            }
-            if (keranjang.length === 0) {
-                alert("Keranjang belanja Anda masih kosong.");
-                return;
-            }
-            if (metode === 'kirim' && !alamat) {
-                alert("Silakan isi Alamat Lengkap pengiriman Anda.");
-                return;
-            }
+            if (!nama) { alert("Silakan isi Nama Anda."); return; }
+            if (keranjang.length === 0) { alert("Keranjang masih kosong."); return; }
+            if (metode === 'kirim' && !alamat) { alert("Silakan isi Alamat Lengkap."); return; }
             if (metode === 'kirim' && totalHargaGlobal < 3000000) {
-                alert("Maaf, layanan pengiriman / kirim ke alamat hanya tersedia untuk total belanja di atas Rp 3.000.000.");
+                alert("Pengiriman ke alamat khusus untuk belanja di atas Rp 3.000.000.");
                 return;
             }
 
-            let teksKirim = `*PESANAN BARU - GROSIR SNACK MICKEY MOUSE*\n`;
-            teksKirim += `--------------------------------------------------\n`;
-            teksKirim += `*Nama Pelanggan:* ${nama}\n`;
-            teksKirim += `*Metode Ambil:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Dikirim ke Alamat'}\n`;
-            if (metode === 'kirim') {
-                teksKirim += `*Alamat Pengiriman:* ${alamat}\n`;
-            }
-            teksKirim += `--------------------------------------------------\n\n`;
-            teksKirim += `*Daftar Belanja:*\n`;
+            let teksKirim = `*PESANAN GROSIR SNACK MICKEY MOUSE*\n`;
+            teksKirim += `------------------------------------------\n`;
+            teksKirim += `*Nama:* ${nama}\n`;
+            teksKirim += `*Metode:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Kirim ke Alamat'}\n`;
+            if (metode === 'kirim') teksKirim += `*Alamat:* ${alamat}\n`;
+            teksKirim += `------------------------------------------\n\n`;
 
             keranjang.forEach((item, index) => {
                 const subtotal = item.harga * item.jumlah;
@@ -917,10 +943,10 @@
                 teksKirim += `   ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${subtotal.toLocaleString('id-ID')}\n`;
             });
 
-            teksKirim += `\n--------------------------------------------------\n`;
-            teksKirim += `*TOTAL PEMBAYARAN:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}\n`;
-            teksKirim += `--------------------------------------------------\n`;
-            teksKirim += `_Mohon segera diproses ya Admin, Terima kasih!_`;
+            teksKirim += `\n------------------------------------------\n`;
+            teksKirim += `*TOTAL:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}\n`;
+            teksKirim += `------------------------------------------\n`;
+            teksKirim += `_Mohon segera diproses Admin, Terima kasih!_`;
 
             const urlWA = `https://wa.me/6285100116986?text=${encodeURIComponent(teksKirim)}`;
             window.open(urlWA, '_blank');
