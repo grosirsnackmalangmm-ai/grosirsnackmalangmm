@@ -231,13 +231,25 @@
             border-color: #cbd5e1;
         }
         
-        .produk-img {
+        .produk-img-wrapper {
             width: 100%;
             height: 180px;
-            object-fit: cover;
             border-radius: 14px;
             margin-bottom: 15px;
             background-color: #f1f5f9;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .produk-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .produk-card:hover .produk-img {
+            transform: scale(1.05);
         }
 
         .kategori-badge {
@@ -253,6 +265,7 @@
             box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            z-index: 10;
         }
         .produk-card h3 { 
             font-size: 1.1rem; 
@@ -568,13 +581,31 @@
         let kategoriAktif = "Semua";
         let totalHargaGlobal = 0;
 
-        // FUNGSI UTAMA: Parsing Data CSV bawaan Google Sheets Google Web Publish
+        // FUNGSI BARU: Otomatis mengubah link share Google Drive biasa menjadi Direct Link Gambar
+        function konversiLinkDrive(url) {
+            if (!url) return "";
+            url = url.trim();
+            // Jika ini link share google drive biasa
+            if (url.includes("drive.google.com/file/d/")) {
+                let idMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                if (idMatch && idMatch[1]) {
+                    return `https://docs.google.com/uc?export=view&id=${idMatch[1]}`;
+                }
+            } else if (url.includes("drive.google.com/open?id=")) {
+                let idMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (idMatch && idMatch[1]) {
+                    return `https://docs.google.com/uc?export=view&id=${idMatch[1]}`;
+                }
+            }
+            return url; // Kembalikan apa adanya jika bukan link drive atau sudah format lain
+        }
+
+        // Parsing Data CSV bawaan Google Sheets Google Web Publish
         function parseCSVData(text) {
             let lines = [];
             let row = [""];
             let inQuotes = false;
 
-            // Parser CSV Aman untuk karakter koma di dalam tanda kutip teks nama barang
             for (let i = 0; i < text.length; i++) {
                 let c = text[i];
                 let next = text[i+1];
@@ -594,7 +625,6 @@
             if (row.length > 1 || row[0] !== '') lines.push(row);
             if (lines.length < 2) return;
 
-            // Mengambil baris pertama sebagai Header kunci nama kolom
             let headers = lines[0].map(h => h.replace(/\s+/g, '').toLowerCase().trim());
             
             produkBase = [];
@@ -607,18 +637,19 @@
                     itemRaw[header] = currentLine[index] ? currentLine[index].trim() : "";
                 });
 
-                // Menyesuaikan penamaan kolom dinamis berdasarkan excel asli Anda
                 let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || "";
                 let kategori = itemRaw['kategori'] || "Lainnya";
                 let isi = Number(itemRaw['isi']) || 1;
                 let ecerLabel = itemRaw['eceer'] || itemRaw['ecer'] || "Pcs";
                 let hargaKarton = Number(itemRaw['hargakarton']) || 0;
                 let harga4 = Number(itemRaw['harga4']) || 0;
-                let gambar = itemRaw['gambar'] || itemRaw['foto'] || "";
+                
+                // Mendeteksi kolom gambar/foto secara fleksibel
+                let gambarRaw = itemRaw['gambar'] || itemRaw['foto'] || itemRaw['linkgambar'] || "";
+                let gambar = konversiLinkDrive(gambarRaw);
 
                 if (!namaBarang) continue;
 
-                // Logika Aturan Perhitungan Ecer Toko: Harga4 dibagi Isi
                 let hargaEceran = Math.ceil(harga4 / isi);
 
                 produkBase.push({
@@ -637,7 +668,6 @@
             jalankanFilter();
         }
 
-        // Menghubungkan Fetch langsung ke Link Hasil Publikasi CSV milik Anda
         document.addEventListener("DOMContentLoaded", () => {
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
                 .then(res => {
@@ -717,7 +747,9 @@
                 return `
                     <div class="produk-card">
                         <span class="kategori-badge">${item.kategori}</span>
-                        <img src="${finalImgSrc}" alt="${item.nama}" class="produk-img" onerror="this.src='https://placehold.co/300x200/f1f5f9/64748b?text=No+Image'">
+                        <div class="produk-img-wrapper">
+                            <img src="${finalImgSrc}" alt="${item.nama}" class="produk-img" onerror="this.src='https://placehold.co/300/f1f5f9/64748b?text=No+Image'">
+                        </div>
                         <h3>${item.nama}</h3>
                         
                         ${selectVarianHtml}
