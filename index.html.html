@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grosir Snack Mickey Mouse | Malang</title>
+    <!-- Kombinasi Font Baru yang Ramah dan Modern -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -423,6 +424,7 @@
         <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse Malang" onerror="this.src='https://placehold.co/1200x400/F8FAFC/E62020?text=Grosir+Snack+Mickey+Mouse'">
     </section>
 
+    <!-- SECTION KATALOG PESANAN -->
     <section id="pesan" class="section">
         <h2 class="title">Katalog <span>Produk</span></h2>
         
@@ -432,10 +434,11 @@
                 <input type="text" id="search-input" class="search-input" placeholder="Cari nama snack, jajanan..." oninput="jalankanFilter()">
             </div>
             <div class="kategori-menu" id="kategori-container">
-                <button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Halaman</button>
+                <button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Tampilan</button>
             </div>
         </div>
 
+        <!-- Area dimana produk akan dirender -->
         <div id="katalog-produk">
             <div class="loading-status" id="loading-text">
                 <i class="fa-solid fa-cookie-bite fa-spin" style="color:var(--primary); font-size: 2rem; margin-bottom: 15px;"></i><br>
@@ -444,6 +447,7 @@
         </div>
     </section>
 
+    <!-- SECTION ABOUT (Ditaruh di Atas Contact) -->
     <section id="about" class="section">
         <div class="promo-banner">
             <div class="promo-content">
@@ -471,6 +475,7 @@
         </div>
     </section>
 
+    <!-- SECTION CONTACT -->
     <section id="contact" class="section" style="padding-top: 0;">
         <h2 class="title">Hubungi <span>Kami</span></h2>
         <div class="info-grid" style="max-width: 800px; margin: auto;">
@@ -494,6 +499,7 @@
         <p style="margin-top:10px; font-size: 0.9rem;">© 2026 Grosir Snack Mickey Mouse. All Rights Reserved.</p>
     </footer>
 
+    <!-- MODAL KERANJANG -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-content">
             <button class="btn-close" onclick="toggleCart()">×</button>
@@ -527,7 +533,7 @@
         let kategoriAktif = "Semua";
         let totalHargaGlobal = 0;
 
-        // FUNGSI KONVERSI GAMBAR (Tetap Kuat)
+        // FUNGSI KONVERSI GAMBAR
         function konversiLinkDrive(url) {
             if (!url) return "";
             url = url.replace(/\s+/g, '').trim();
@@ -543,7 +549,7 @@
             return url;
         }
 
-        // AMBIL DATA CSV
+        // AMBIL DATA CSV DARI SPREADSHEET
         function parseCSVData(text) {
             let lines = [];
             let row = [""];
@@ -579,7 +585,8 @@
                 let ecerLabel = itemRaw['eceer'] || itemRaw['ecer'] || "Pcs";
                 let hargaKarton = Number(itemRaw['hargakarton']) || 0;
                 let harga4 = Number(itemRaw['harga4']) || 0;
-                
+                let label = itemRaw['label'] || ""; // PENAMBAHAN BACA LABEL
+
                 let gambarRaw = "";
                 for (let key in itemRaw) {
                     if (key.includes("gambar") || key.includes("foto")) {
@@ -590,7 +597,8 @@
                 produkBase.push({
                     id: i, nama: namaBarang, kategori: kategori,
                     hargaKarton: hargaKarton, hargaEcer: Math.ceil(harga4 / isi),
-                    isi: isi, ecerLabel: ecerLabel, gambar: konversiLinkDrive(gambarRaw)
+                    isi: isi, ecerLabel: ecerLabel, gambar: konversiLinkDrive(gambarRaw),
+                    label: label // MEMASUKKAN LABEL KE DALAM DATA
                 });
             }
             buatTombolKategoriDinamis();
@@ -626,9 +634,8 @@
             jalankanFilter();
         }
 
-        // FUNGSI MEMBUAT KARTU HTML (Dibuat terpisah agar bisa dipakai berulang)
+        // FUNGSI MEMBUAT KARTU HTML
         function buatKartuHTML(item, prefixArea) {
-            // Prefix Area digunakan agar ID varian tidak bentrok (misal: varian-promo-12, varian-semua-12)
             let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian">
                 <option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
             
@@ -654,6 +661,7 @@
             `;
         }
 
+        // FILTER UTAMA (SISTEM MEMBACA LABEL PROMO & BARU)
         function jalankanFilter() {
             const pencarian = document.getElementById('search-input').value.toLowerCase();
             const catalogArea = document.getElementById('katalog-produk');
@@ -676,15 +684,14 @@
                 return;
             }
 
-            // 3. JIKA HALAMAN "SEMUA" DEFAULT (Tampilan ala Marketplace)
-            // Sengaja mengambil beberapa item dari database untuk pura-pura jadi promo (misal 6 data pertama)
-            let itemPromo = produkBase.slice(0, 6);
-            
-            // Mengambil item terbaru (misal 6 data terakhir dari spreadsheet)
-            let itemBaru = [...produkBase].reverse().slice(0, 6);
-            
-            // Semua Item (kecuali kategori lebaran jika Anda tidak mau menampilkannya di halaman depan)
+            // 3. JIKA HALAMAN "SEMUA" DEFAULT (Membaca otomatis dari kolom "Label" di Spreadsheet)
+            let itemPromo = produkBase.filter(p => p.label && p.label.toLowerCase() === 'promo');
+            let itemBaru = produkBase.filter(p => p.label && p.label.toLowerCase() === 'baru');
             let itemSemua = produkBase.filter(p => p.kategori.toUpperCase() !== "LEBARAN");
+
+            // Jika di spreadsheet belum diisi label, kita kasih backup otomatis agar web tidak kosong
+            if (itemPromo.length === 0) itemPromo = produkBase.slice(0, 6); 
+            if (itemBaru.length === 0) itemBaru = [...produkBase].reverse().slice(0, 6);
 
             let htmlMarketplace = `
                 <h3 class="section-subtitle"><i class="fa-solid fa-fire" style="color:var(--primary);"></i> Promo Spesial</h3>
@@ -706,10 +713,9 @@
             catalogArea.innerHTML = htmlMarketplace;
         }
 
-        // Modifikasi fungsi tambah keranjang agar membaca ID Varian yang tepat
+        // FUNGSI KERANJANG & CHECKOUT WA
         function tambahKeKeranjang(id, prefixArea) {
             const item = produkBase.find(p => p.id === id);
-            // Ambil value dari dropdown spesifik yang diklik (misal: varian-promo-12)
             const varian = document.getElementById(`varian-${prefixArea}-${id}`).value;
             
             const harga = varian === 'ecer' ? item.hargaEcer : item.hargaKarton;
@@ -724,7 +730,6 @@
             }
             updateKeranjang();
             
-            // Efek animasi keranjang
             const badge = document.getElementById('cart-badge');
             badge.style.transform = "scale(1.5)";
             setTimeout(() => badge.style.transform = "scale(1)", 200);
