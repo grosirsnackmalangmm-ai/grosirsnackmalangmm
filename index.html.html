@@ -613,7 +613,7 @@
             const pencarian = document.getElementById('search-input').value.toLowerCase();
             const catalogArea = document.getElementById('katalog-produk');
 
-            // 1. KONDISI PENCARIAN (Lebaran tetap diblokir total dari kolom Search)
+            // 1. KONDISI PENCARIAN (Lebaran diblokir total tanpa kompromi saat mencari)
             if (pencarian !== "") {
                 let hasil = produkBase.filter(p => p.nama.toLowerCase().includes(pencarian) && p.kategori.toUpperCase() !== "LEBARAN");
                 if (hasil.length === 0) { catalogArea.innerHTML = `<div class="loading-status">Pencarian tidak ditemukan...</div>`; return; }
@@ -621,24 +621,25 @@
                 return;
             }
 
-            // 2. KONDISI KLIK KATEGORI KHUSUS (Termasuk jika user klik tombol "LEBARAN")
+            // 2. KONDISI KLIK KATEGORI KHUSUS (Termasuk jika klik tombol "LEBARAN")
             if (kategoriAktif !== "Semua") {
                 let hasil = produkBase.filter(p => p.kategori === kategoriAktif);
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'kat')).join('')}</div>`;
                 return;
             }
 
-            // 3. KONDISI MENU UTAMA ("SEMUA TAMPILAN")
-            // Promo & Baru mengambil dari seluruh basis data (Lebaran BISA MASUK jika ada labelnya)
+            // 3. KONDISI MEMBUKA HALAMAN UTAMA ("SEMUA TAMPILAN")
+            // Ambil produk non-lebaran saja untuk pengaman data cadangan halaman depan
+            let itemBukanLebaran = produkBase.filter(p => p.kategori.toUpperCase() !== "LEBARAN");
+
+            // Filter data murni berdasarkan label spreadsheet Anda
             let itemPromo = produkBase.filter(p => p.label === 'promo');
             let itemBaru = produkBase.filter(p => p.label === 'baru');
+            let itemSemua = itemBukanLebaran; // Telusuri semuanya dipaksa bersih dari Lebaran
 
-            // Telusuri Semuanya (Baris bawah) di-lock khusus produk NON-LEBARAN saja
-            let itemSemua = produkBase.filter(p => p.kategori.toUpperCase() !== "LEBARAN");
-
-            // Cadangan otomatis jika data label di spreadsheet masih kosong
-            if (itemPromo.length === 0) itemPromo = produkBase.slice(0, 4);
-            if (itemBaru.length === 0) itemBaru = [...produkBase].reverse().slice(0, 4);
+            // PERBAIKAN TOTAL: Jika data label kosong, sistem cadangan dipaksa hanya mengambil data Non-Lebaran
+            if (itemPromo.length === 0) itemPromo = itemBukanLebaran.slice(0, 4);
+            if (itemBaru.length === 0) itemBaru = [...itemBukanLebaran].reverse().slice(0, 4);
 
             let htmlMarketplace = `
                 <h3 class="section-subtitle"><i class="fa-solid fa-fire" style="color:var(--primary);"></i> Promo Spesial</h3>
@@ -675,6 +676,7 @@
             if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
         }
         function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); } }
+        function sample(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
         function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
 
         function updateKeranjang() {
