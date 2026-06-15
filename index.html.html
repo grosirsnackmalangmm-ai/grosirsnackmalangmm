@@ -518,7 +518,7 @@
 
         <div class="katalog" id="katalog-produk">
             <div class="loading-status" id="loading-text">
-                <i class="fa-solid fa-spinner fa-spin"></i> Memuat database barang dari Spreadsheet...
+                <i class="fa-solid fa-spinner fa-spin"></i> .......
             </div>
         </div>
     </section>
@@ -659,7 +659,7 @@
 
         // Jalankan Otomatis Saat Akses Web
         document.addEventListener("DOMContentLoaded", () => {
-            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=xlsx')
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pubhtml')
                 .then(res => {
                     if (!res.ok) throw new Error("Gagal mengambil data online.");
                     return res.arrayBuffer();
