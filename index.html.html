@@ -457,7 +457,6 @@
         <p style="margin-top:10px; font-size: 0.9rem;">© 2026 Grosir Snack Mickey Mouse.</p>
     </footer>
 
-    <!-- MODAL KERANJANG -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-content">
             <button class="btn-close" onclick="toggleCart()">×</button>
@@ -497,7 +496,7 @@
             return url;
         }
 
-        // PARSE DATA SPREADSHEET (SISTEM DETEKSI GEBAL EROR)
+        // PARSE DATA SPREADSHEET (SISTEM ULTRA SAKTI ANTI-ERROR)
         function parseCSVData(text) {
             let lines = []; let row = [""]; let inQuotes = false;
             for (let i = 0; i < text.length; i++) {
@@ -505,8 +504,10 @@
                 if (c === '"') {
                     if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
                     else { inQuotes = !inQuotes; }
-                } else if (c === ',' && !inQuotes) { row.push(''); }
-                else if ((c === '\r' || c === '\n') && !inQuotes) {
+                } else if ((c === ',' || c === ';') && !inQuotes) { 
+                    // Solusi utama: support pembatas koma maupun titik koma sekaligus
+                    row.push(''); 
+                } else if ((c === '\r' || c === '\n') && !inQuotes) {
                     if (c === '\r' && next === '\n') { i++; }
                     lines.push(row); row = [''];
                 } else { row[row.length - 1] += c; }
@@ -514,8 +515,8 @@
             if (row.length > 1 || row[0] !== '') lines.push(row);
             if (lines.length < 2) return;
 
-            // Bersihkan nama header agar tidak ada spasi tersembunyi
-            let headers = lines[0].map(h => h.trim().toLowerCase());
+            // Normalisasi nama kolom header
+            let headers = lines[0].map(h => h.trim().toLowerCase().replace(/\s+/g, ''));
             produkBase = [];
 
             for (let i = 1; i < lines.length; i++) {
@@ -527,21 +528,20 @@
                     itemRaw[h] = currentLine[idx] ? currentLine[idx].trim() : ""; 
                 });
 
-                // Cari kolom Nama Barang fleksibel
-                let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || itemRaw['nama barang'] || "";
+                let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || "";
                 if (!namaBarang) continue;
 
                 let kategori = itemRaw['kategori'] || "Lainnya";
                 let isi = Number(itemRaw['isi']) || 1;
                 let ecerLabel = itemRaw['eceer'] || itemRaw['ecer'] || "Pcs";
-                let hargaKarton = Number(itemRaw['hargakarton']) || Number(itemRaw['harga karton']) || 0;
+                let hargaKarton = Number(itemRaw['hargakarton']) || 0;
                 let harga4 = Number(itemRaw['harga4']) || 0;
                 
-                // PENCARIAN KOLOM LABEL YANG LEBIH SAKTI
+                // DETEKSI KOLOM LABEL GABUNGAN (KEBAL CAPS LOCK & SPASI)
                 let label = "";
                 for (let key in itemRaw) {
-                    if (key.replace(/\s+/g, '') === 'label') {
-                        label = itemRaw[key].toLowerCase().trim();
+                    if (key.includes('label')) {
+                        label = itemRaw[key].toLowerCase().replace(/\s+/g, '');
                         break;
                     }
                 }
@@ -612,7 +612,6 @@
             `;
         }
 
-        // ROUTING FILTER TAMPILAN MARKETPLACE
         function jalankanFilter() {
             const pencarian = document.getElementById('search-input').value.toLowerCase();
             const catalogArea = document.getElementById('katalog-produk');
@@ -630,12 +629,12 @@
                 return;
             }
 
-            // Memisahkan produk berdasarkan isi kolom label
+            // Memisahkan produk (Sudah ditrim otomatis pada saat parsing)
             let itemPromo = produkBase.filter(p => p.label === 'promo');
             let itemBaru = produkBase.filter(p => p.label === 'baru');
             let itemSemua = produkBase.filter(p => p.kategori.toUpperCase() !== "LEBARAN");
 
-            // BACKUP: Jika di spreadsheet sama sekali belum diisi kata "promo"/"baru", ambil produk teratas sebagai pajangan awal biar tidak kosong.
+            // BACKUP OTOMATIS: Jika di spreadsheet belum mendeteksi label apa pun, sistem mencadangkannya agar web tidak kosong.
             if (itemPromo.length === 0) itemPromo = produkBase.slice(0, 4);
             if (itemBaru.length === 0) itemBaru = [...produkBase].reverse().slice(0, 4);
 
@@ -674,7 +673,6 @@
             if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
         }
         function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); } }
-        function sample(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
         function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
 
         function updateKeranjang() {
