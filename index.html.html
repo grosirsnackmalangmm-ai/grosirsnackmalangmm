@@ -17,330 +17,87 @@
             --white: #FFFFFF;
             --text-gray: #64748B;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Quicksand', sans-serif;
-            scroll-behavior: smooth;
-        }
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-        }
-        h1, h2, h3, h4, .logo {
-            font-family: 'Fredoka', sans-serif;
-        }
-        nav {
-            background-color: var(--white);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 5%;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .logo {
-            font-size: 1.8rem;
-            color: var(--dark);
-            text-decoration: none;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--light); color: var(--dark); overflow-x: hidden; }
+        h1, h2, h3, h4, .logo { font-family: 'Fredoka', sans-serif; }
+        
+        /* NAVBAR & MENU HAMBURGER */
+        nav { background-color: var(--white); display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .logo { font-size: 1.8rem; color: var(--dark); text-decoration: none; letter-spacing: 0.5px; font-weight: 600; }
         .logo span { color: var(--primary); }
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 25px;
-        }
-        .nav-links a {
-            color: var(--text-gray);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-        }
+        .nav-links { list-style: none; display: flex; gap: 25px; transition: all 0.3s ease; }
+        .nav-links a { color: var(--text-gray); text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; }
         .nav-links a:hover { color: var(--primary); }
+        .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: var(--dark); }
 
-        .floating-cart {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--primary);
-            color: white;
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.6rem;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(230, 32, 32, 0.4);
-            z-index: 1500;
-            border: none;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .floating-cart:hover {
-            transform: scale(1.1) translateY(-5px);
-            background-color: var(--primary-hover);
-        }
-        .badge-qty {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            background: var(--secondary);
-            color: var(--dark);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid white;
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links { position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); flex-direction: column; gap: 0; box-shadow: 0 10px 15px rgba(0,0,0,0.05); display: none; }
+            .nav-links.active { display: flex; }
+            .nav-links li { text-align: center; border-bottom: 1px solid #f1f5f9; }
+            .nav-links a { display: block; padding: 15px; }
         }
 
-        #home {
-            width: 100%;
-            text-align: center;
-            background-color: var(--white);
-        }
-        #home img {
-            width: 100%;
-            max-width: 1793px;
-            height: auto;
-            aspect-ratio: 1793 / 592;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto;
-        }
+        /* TOMBOL KERANJANG MENGAMBANG */
+        .floating-cart { position: fixed; bottom: 30px; right: 30px; background-color: var(--primary); color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.6rem; cursor: pointer; box-shadow: 0 8px 25px rgba(230, 32, 32, 0.4); z-index: 1500; border: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .floating-cart:hover { transform: scale(1.1) translateY(-5px); background-color: var(--primary-hover); }
+        .badge-qty { position: absolute; top: 0px; right: 0px; background: var(--secondary); color: var(--dark); width: 24px; height: 24px; border-radius: 50%; font-size: 0.85rem; font-weight: 700; display: flex; justify-content: center; align-items: center; border: 2px solid white; }
 
-        .section {
-            padding: 4rem 5%;
-            max-width: 1300px;
-            margin: auto;
-        }
-        h2.title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--dark);
-        }
+        /* HERO & BASIC SECTIONS */
+        #home { width: 100%; text-align: center; background-color: var(--white); }
+        #home img { width: 100%; max-width: 1793px; height: auto; aspect-ratio: 1793 / 592; object-fit: cover; display: block; margin: 0 auto; }
+        .section { padding: 4rem 5%; max-width: 1300px; margin: auto; }
+        h2.title { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; color: var(--dark); }
         h2.title span { color: var(--primary); }
 
-        .search-filter-box {
-            background: var(--white);
-            padding: 1.5rem 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            margin-bottom: 2rem;
-        }
-        .search-wrapper {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-        .search-wrapper i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #cbd5e1;
-            font-size: 1.2rem;
-        }
-        .search-input {
-            width: 100%;
-            padding: 14px 14px 14px 55px;
-            border: 2px solid #e2e8f0;
-            border-radius: 50px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
-            background-color: var(--light);
-        }
-        .search-input:focus {
-            border-color: var(--primary);
-            background-color: var(--white);
-        }
-        
-        .kategori-menu {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .kategori-btn {
-            background-color: #f1f5f9;
-            border: none;
-            color: var(--text-gray);
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-        }
-        .kategori-btn.active, .kategori-btn:hover {
-            background-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(230, 32, 32, 0.2);
-        }
+        /* PENCARIAN & FILTER */
+        .search-filter-box { background: var(--white); padding: 1.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 2rem; }
+        .search-wrapper { position: relative; margin-bottom: 1.5rem; }
+        .search-wrapper i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #cbd5e1; font-size: 1.2rem; }
+        .search-input { width: 100%; padding: 14px 14px 14px 55px; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 1rem; outline: none; transition: all 0.3s ease; background-color: var(--light); }
+        .search-input:focus { border-color: var(--primary); background-color: var(--white); }
+        .kategori-menu { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .kategori-btn { background-color: #f1f5f9; border: none; color: var(--text-gray); padding: 0.6rem 1.5rem; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: all 0.2s ease; }
+        .kategori-btn.active, .kategori-btn:hover { background-color: var(--primary); color: white; box-shadow: 0 4px 12px rgba(230, 32, 32, 0.2); }
+        .section-subtitle { font-size: 1.6rem; color: var(--dark); margin: 2rem 0 1rem 0; display: flex; align-items: center; gap: 10px; }
+        .section-subtitle::after { content: ""; flex-grow: 1; height: 2px; background: #e2e8f0; margin-left: 15px; border-radius: 2px; }
 
-        .section-subtitle {
-            font-size: 1.6rem;
-            color: var(--dark);
-            margin: 2rem 0 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-subtitle::after {
-            content: "";
-            flex-grow: 1;
-            height: 2px;
-            background: #e2e8f0;
-            margin-left: 15px;
-            border-radius: 2px;
-        }
-
-        .katalog-horizontal {
-            display: flex;
-            overflow-x: auto;
-            gap: 1.5rem;
-            padding: 10px 10px 1.5rem 10px;
-            scroll-snap-type: x mandatory;
-        }
+        /* GRID & HORIZONTAL SCROLL */
+        .katalog-horizontal { display: flex; overflow-x: auto; gap: 1.5rem; padding: 10px 10px 1.5rem 10px; scroll-behavior: smooth; }
         .katalog-horizontal::-webkit-scrollbar { height: 8px; }
         .katalog-horizontal::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
         .katalog-horizontal::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .katalog-horizontal::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+        .katalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; padding: 10px; }
 
-        .katalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            padding: 10px;
-        }
-
-        .produk-card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 1.2rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #f1f5f9;
-        }
-        .katalog-horizontal .produk-card {
-            min-width: 250px;
-            max-width: 250px;
-            flex-shrink: 0;
-            scroll-snap-align: start;
-        }
-        .produk-card:hover { 
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
-            border-color: #cbd5e1;
-        }
-        
-        .produk-img-wrapper {
-            width: 100%;
-            height: 180px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            background-color: var(--light);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .produk-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s;
-        }
+        /* KARTU PRODUK */
+        .produk-card { background: var(--white); border-radius: 20px; padding: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.03); transition: all 0.3s ease; position: relative; display: flex; flex-direction: column; border: 1px solid #f1f5f9; }
+        .katalog-horizontal .produk-card { min-width: 250px; max-width: 250px; flex-shrink: 0; }
+        .produk-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: #cbd5e1; }
+        .produk-img-wrapper { width: 100%; height: 180px; border-radius: 16px; margin-bottom: 15px; background-color: var(--light); position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .produk-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
         .produk-card:hover .produk-img { transform: scale(1.08); }
-
-        .kategori-badge {
-            background: var(--dark);
-            color: white;
-            font-size: 0.7rem;
-            padding: 5px 12px;
-            border-radius: 50px;
-            position: absolute;
-            top: 10px; left: 10px;
-            font-weight: 700;
-            z-index: 5;
-        }
-
-        .btn-plus-img {
-            position: absolute;
-            bottom: 10px; right: 10px;
-            background-color: var(--primary);
-            color: white;
-            border: 3px solid white;
-            width: 42px; height: 42px;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.2rem; cursor: pointer; z-index: 10;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        .btn-plus-img:hover { transform: scale(1.15); background-color: var(--dark); }
-
-        .produk-card h3 { 
-            font-size: 1.1rem; margin-bottom: 10px; line-height: 1.3;
-            height: 42px; color: var(--dark); font-weight: 600;
-            text-align: left;
-        }
+        .kategori-badge { background: var(--dark); color: white; font-size: 0.7rem; padding: 5px 12px; border-radius: 50px; position: absolute; top: 10px; left: 10px; font-weight: 700; z-index: 5; }
         
-        .select-varian {
-            width: 100%; padding: 10px; border-radius: 10px;
-            border: 1px solid #e2e8f0; font-size: 0.85rem; outline: none;
-            font-weight: 600; background-color: #f8fafc; color: var(--text-gray);
-            cursor: pointer; margin-top: auto;
-        }
+        .btn-plus-img { position: absolute; bottom: 10px; right: 10px; background-color: var(--primary); color: white; border: 3px solid white; width: 42px; height: 42px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; z-index: 10; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .btn-plus-img:hover { transform: scale(1.15); background-color: var(--dark); }
+        .produk-card h3 { font-size: 1.1rem; margin-bottom: 10px; line-height: 1.3; height: 42px; color: var(--dark); font-weight: 600; text-align: left; }
+        .select-varian { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #e2e8f0; font-size: 0.85rem; outline: none; font-weight: 600; background-color: #f8fafc; color: var(--text-gray); cursor: pointer; margin-top: auto; }
 
         .loading-status { text-align: center; font-size: 1.1rem; color: var(--text-gray); padding: 3rem 0; width: 100%; }
 
-        .promo-banner {
-            background: linear-gradient(135deg, var(--primary), #a80f0f);
-            border-radius: 24px;
-            padding: 3rem;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            box-shadow: 0 15px 40px rgba(230, 32, 32, 0.2);
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-        }
+        /* PROMO & INFO SECTIONS */
+        .promo-banner { background: linear-gradient(135deg, var(--primary), #a80f0f); border-radius: 24px; padding: 3rem; color: white; display: flex; align-items: center; gap: 2rem; box-shadow: 0 15px 40px rgba(230, 32, 32, 0.2); margin-bottom: 4rem; flex-wrap: wrap; }
         .promo-content { flex: 1; min-width: 300px; }
-        .promo-badge {
-            background: var(--secondary); color: var(--dark); font-weight: 700;
-            padding: 8px 16px; border-radius: 50px; display: inline-block;
-            margin-bottom: 1rem; font-size: 0.9rem;
-        }
+        .promo-badge { background: var(--secondary); color: var(--dark); font-weight: 700; padding: 8px 16px; border-radius: 50px; display: inline-block; margin-bottom: 1rem; font-size: 0.9rem; }
         .promo-banner h3 { font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2; }
         .promo-banner p { font-size: 1.05rem; opacity: 0.9; margin-bottom: 1.5rem; line-height: 1.6; font-weight: 500; }
-        
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .info-card { background: var(--white); padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center; border: 1px solid #f1f5f9; }
         .info-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 1.2rem; }
         .map-container iframe { width: 100%; height: 250px; border: none; border-radius: 14px; margin-top: 1.2rem; }
-
-        .social-btn {
-            display: inline-block; margin-top: 15px; padding: 12px 30px;
-            border-radius: 50px; color: white; text-decoration: none;
-            font-weight: 700; transition: all 0.2s; font-size: 0.95rem;
-        }
+        
+        .social-btn { display: inline-block; margin-top: 15px; padding: 12px 30px; border-radius: 50px; color: white; text-decoration: none; font-weight: 700; transition: all 0.2s; font-size: 0.95rem; }
         .btn-tiktok { background-color: #000; }
         .btn-tiktok:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .btn-whatsapp { background-color: #25D366; }
@@ -348,15 +105,9 @@
 
         footer { background-color: var(--white); color: var(--text-gray); text-align: center; padding: 3rem 5%; border-top: 1px solid #e2e8f0; }
 
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000;
-            justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: var(--white); width: 90%; max-width: 520px; border-radius: 24px;
-            padding: 2.5rem; position: relative; max-height: 85vh; overflow-y: auto;
-        }
+        /* MODAL & TOAST */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--white); width: 90%; max-width: 520px; border-radius: 24px; padding: 2.5rem; position: relative; max-height: 85vh; overflow-y: auto; }
         .btn-close { position: absolute; top: 20px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #a0aec0; background: none; border: none; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-bottom: 1px solid #f1f5f9; }
         .cart-info h4 { margin-bottom: 4px; font-size: 0.95rem; color: var(--dark); }
@@ -369,24 +120,25 @@
         .checkout-form { background: var(--light); padding: 20px; border-radius: 16px; margin-bottom: 20px; }
         .checkout-form input, .checkout-form select, .checkout-form textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; outline: none; }
         .btn-wa { background-color: #25D366; color: white; border: none; padding: 1.2rem; border-radius: 12px; width: 100%; font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
-        .btn-wa:hover { background-color: #1ebd57; transform: translateY(-2px); }
+        
+        #toast { visibility: hidden; min-width: 250px; background-color: var(--dark); color: #fff; text-align: center; border-radius: 50px; padding: 12px 24px; position: fixed; z-index: 4000; left: 50%; transform: translateX(-50%); bottom: 30px; font-size: 0.95rem; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 110px; }
 
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            h2.title { font-size: 2rem; }
-            .promo-banner { padding: 2rem; text-align: center; }
-        }
+        @media (max-width: 768px) { h2.title { font-size: 2rem; } .promo-banner { padding: 2rem; text-align: center; } }
     </style>
 </head>
 <body>
 
+    <div id="toast">Produk ditambahkan!</div>
+
     <nav>
         <a href="#home" class="logo">Snack<span>MickeyMouse</span></a>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
         <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#pesan">Produk</a></li>
-            <li><a href="#about">Tentang</a></li>
-            <li><a href="#contact">Kontak</a></li>
+            <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+            <li><a href="#pesan" onclick="toggleMenu()">Produk</a></li>
+            <li><a href="#about" onclick="toggleMenu()">Tentang</a></li>
+            <li><a href="#contact" onclick="toggleMenu()">Kontak</a></li>
         </ul>
     </nav>
 
@@ -435,26 +187,33 @@
             <div class="info-card map-container">
                 <i class="fa-solid fa-map-location-dot"></i>
                 <h3>Kunjungi Toko Kami</h3>
-                <p style="color: var(--text-gray); margin-top: 5px;">Jl. Mayjen Sungkono No.38, Arjowinangun, Malang</p>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.943673752766!2d112.6416845!3d-7.015243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629e12089db01%3A0x6bba8ff798229b15!2sJl.%20Mayjen%20Sungkono%20No.38%2C%20Arjowinangun%2C%20Kec.%20Kedungkandang%2C%20Kota%20Malang" allowfullscreen="" loading="lazy"></iframe>
+                <p style="color: var(--text-gray); margin-top: 5px; font-size: 0.9rem;">Jl. Mayjen Sungkono No.38, Arjowinangun, Kec. Kedungkandang, Kota Malang</p>
+                <iframe src="https://maps.google.com/maps?q=Jl.+Mayjen+Sungkono+No.38,+Arjowinangun,+Malang&t=&z=14&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
 
     <section id="contact" class="section" style="padding-top: 0;">
         <h2 class="title">Hubungi <span>Kami</span></h2>
-        <div class="info-grid" style="max-width: 800px; margin: auto;">
+        <div class="info-grid" style="max-width: 900px; margin: auto;">
             <div class="info-card">
                 <i class="fa-brands fa-whatsapp"></i>
                 <h3>WhatsApp Admin</h3>
+                <p style="color: var(--text-gray); margin-bottom: 10px; font-size: 0.9rem;">Pesan cepat langsung diproses</p>
                 <a href="https://wa.me/6285100116986" class="social-btn btn-whatsapp" target="_blank">Chat WA Sekarang</a>
+            </div>
+            <div class="info-card">
+                <i class="fa-brands fa-tiktok" style="color: #000;"></i>
+                <h3>TikTok Toko</h3>
+                <p style="color: var(--text-gray); margin-bottom: 10px; font-size: 0.9rem;">Lihat review & keramaian toko</p>
+                <a href="https://tiktok.com/@grosirsnackmm" class="social-btn btn-tiktok" target="_blank">Follow @grosirsnackmm</a>
             </div>
         </div>
     </section>
 
     <footer>
         <h3 class="logo" style="font-size: 1.5rem;">Snack<span>MickeyMouse</span></h3>
-        <p style="margin-top:10px; font-size: 0.9rem;">© 2026 Grosir Snack Mickey Mouse.</p>
+        <p style="margin-top:10px; font-size: 0.9rem;">© 2026 Grosir Snack Mickey Mouse. All Rights Reserved.</p>
     </footer>
 
     <div class="modal-overlay" id="cart-modal">
@@ -475,12 +234,59 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="qty-modal" style="z-index: 2500;">
+        <div class="modal-content" style="max-width: 320px; text-align: center; padding: 2rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--dark);">Masukkan Jumlah</h3>
+            <h4 id="qty-item-name" style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1rem;"></h4>
+            
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem;">
+                <button onclick="changeQtyInput(-1)" style="width: 45px; height: 45px; border-radius: 12px; border: none; background: #f1f5f9; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: var(--dark);">-</button>
+                <input type="number" id="qty-input-val" value="1" min="1" inputmode="numeric" style="width: 70px; height: 45px; text-align: center; font-size: 1.3rem; font-weight: bold; border: 2px solid #e2e8f0; border-radius: 12px; outline: none; color: var(--dark);">
+                <button onclick="changeQtyInput(1)" style="width: 45px; height: 45px; border-radius: 12px; border: none; background: #f1f5f9; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: var(--dark);">+</button>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closeQtyModal()" style="flex: 1; padding: 12px; border: none; border-radius: 12px; background: #e2e8f0; color: var(--text-gray); font-weight: bold; cursor: pointer; font-size: 1rem;">Batal</button>
+                <button onclick="confirmAddCart()" style="flex: 1.5; padding: 12px; border: none; border-radius: 12px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; font-size: 1rem;">Tambah</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let produkBase = [];
         let keranjang = [];
         let kategoriAktif = "Semua";
         let totalHargaGlobal = 0;
+        let tempCartItem = null; // Menyimpan sementara item yg mau diatur jumlahnya
 
+        // Toggle Menu Mobile
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            if(window.innerWidth <= 768) { navLinks.classList.toggle('active'); }
+        }
+
+        // Tampilkan Toast
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.innerText = msg;
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 3000);
+        }
+
+        // Auto Scroll untuk Horizontal Katalog
+        setInterval(() => {
+            document.querySelectorAll('.katalog-horizontal').forEach(container => {
+                if(!container.matches(':hover') && !container.matches(':active')) {
+                    container.scrollBy({ left: 265, behavior: 'smooth' });
+                    // Kalau mentok kanan, balikin ke kiri
+                    if(container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+                        setTimeout(() => container.scrollTo({left: 0, behavior: 'smooth'}), 1500);
+                    }
+                }
+            });
+        }, 3500); // Geser tiap 3.5 detik
+
+        // FUNGSI KONVERSI GAMBAR DRIVE
         function konversiLinkDrive(url) {
             if (!url) return "";
             url = url.replace(/\s+/g, '').trim();
@@ -496,6 +302,7 @@
             return url;
         }
 
+        // BACA DATA SPREADSHEET
         function parseCSVData(text) {
             let lines = []; let row = [""]; let inQuotes = false;
             for (let i = 0; i < text.length; i++) {
@@ -521,9 +328,7 @@
                 if (currentLine.length < headers.length) continue;
                 
                 let itemRaw = {};
-                headers.forEach((h, idx) => { 
-                    itemRaw[h] = currentLine[idx] ? currentLine[idx].trim() : ""; 
-                });
+                headers.forEach((h, idx) => { itemRaw[h] = currentLine[idx] ? currentLine[idx].trim() : ""; });
 
                 let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || "";
                 if (!namaBarang) continue;
@@ -536,17 +341,12 @@
                 
                 let label = "";
                 for (let key in itemRaw) {
-                    if (key.includes('label')) {
-                        label = itemRaw[key].toLowerCase().replace(/\s+/g, '');
-                        break;
-                    }
+                    if (key.includes('label')) { label = itemRaw[key].toLowerCase().replace(/\s+/g, ''); break; }
                 }
 
                 let gambarRaw = "";
                 for (let key in itemRaw) {
-                    if (key.includes("gambar") || key.includes("foto")) {
-                        gambarRaw = itemRaw[key]; break;
-                    }
+                    if (key.includes("gambar") || key.includes("foto")) { gambarRaw = itemRaw[key]; break; }
                 }
 
                 produkBase.push({
@@ -591,7 +391,6 @@
             let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian">
                 <option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
             
-            // Perbaikan pengecekan kategori lebaran menggunakan huruf kecil total agar aman
             if (item.kategori.toLowerCase() !== "lebaran") {
                 selectVarianHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
             }
@@ -602,7 +401,7 @@
                     <span class="kategori-badge">${item.kategori}</span>
                     <div class="produk-img-wrapper">
                         <img src="${img}" alt="${item.nama}" class="produk-img" onerror="this.src='https://placehold.co/300/F8FAFC/a0aec0?text=No+Image'">
-                        <button class="btn-plus-img" onclick="tambahKeKeranjang(${item.id}, '${prefixArea}')"><i class="fa-solid fa-plus"></i></button>
+                        <button class="btn-plus-img" onclick="openQtyModal(${item.id}, '${prefixArea}')"><i class="fa-solid fa-plus"></i></button>
                     </div>
                     <h3>${item.nama}</h3>
                     ${selectVarianHtml}
@@ -614,62 +413,92 @@
             const pencarian = document.getElementById('search-input').value.toLowerCase();
             const catalogArea = document.getElementById('katalog-produk');
 
-            // 1. KONDISI PENCARIAN (Aman & terkunci menggunakan huruf kecil)
+            // PENCARIAN DIPERBAIKI: Jika di kategori Semua, sembunyikan lebaran. Jika di tab Lebaran, boleh dicari.
             if (pencarian !== "") {
-                let hasil = produkBase.filter(p => p.nama.toLowerCase().includes(pencarian) && p.kategori.toLowerCase() !== "lebaran");
+                let hasil = produkBase.filter(p => {
+                    let matchName = p.nama.toLowerCase().includes(pencarian);
+                    if (kategoriAktif === "Semua") {
+                        return matchName && p.kategori.toLowerCase() !== "lebaran";
+                    } else {
+                        return matchName && p.kategori === kategoriAktif;
+                    }
+                });
                 if (hasil.length === 0) { catalogArea.innerHTML = `<div class="loading-status">Pencarian tidak ditemukan...</div>`; return; }
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'cari')).join('')}</div>`;
                 return;
             }
 
-            // 2. KONDISI KLIK KATEGORI KHUSUS
+            // FILTER KLIK TAB KATEGORI
             if (kategoriAktif !== "Semua") {
                 let hasil = produkBase.filter(p => p.kategori === kategoriAktif);
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'kat')).join('')}</div>`;
                 return;
             }
 
-            // 3. KONDISI DEFAULT ("SEMUA TAMPILAN")
-            // Ambil data murni non-Lebaran dengan huruf kecil total
+            // HALAMAN DEPAN (SEMUA TAMPILAN)
             let itemBukanLebaran = produkBase.filter(p => p.kategori.toLowerCase() !== "lebaran");
-
             let itemPromo = itemBukanLebaran.filter(p => p.label === 'promo');
             let itemBaru = itemBukanLebaran.filter(p => p.label === 'baru');
             let itemSemua = itemBukanLebaran; 
 
-            if (itemPromo.length === 0) itemPromo = itemBukanLebaran.slice(0, 4);
-            if (itemBaru.length === 0) itemBaru = [...itemBukanLebaran].reverse().slice(0, 4);
+            if (itemPromo.length === 0) itemPromo = itemBukanLebaran.slice(0, 5);
+            if (itemBaru.length === 0) itemBaru = [...itemBukanLebaran].reverse().slice(0, 5);
 
             let htmlMarketplace = `
                 <h3 class="section-subtitle"><i class="fa-solid fa-fire" style="color:var(--primary);"></i> Promo Spesial</h3>
-                <div class="katalog-horizontal">
-                    ${itemPromo.map(p => buatKartuHTML(p, 'promo')).join('')}
-                </div>
-
+                <div class="katalog-horizontal">${itemPromo.map(p => buatKartuHTML(p, 'promo')).join('')}</div>
                 <h3 class="section-subtitle"><i class="fa-solid fa-sparkles" style="color:var(--secondary);"></i> Produk Baru Masuk</h3>
-                <div class="katalog-horizontal">
-                    ${itemBaru.map(p => buatKartuHTML(p, 'baru')).join('')}
-                </div>
-
+                <div class="katalog-horizontal">${itemBaru.map(p => buatKartuHTML(p, 'baru')).join('')}</div>
                 <h3 class="section-subtitle"><i class="fa-solid fa-box-open" style="color:var(--text-gray);"></i> Telusuri Semuanya</h3>
-                <div class="katalog-grid">
-                    ${itemSemua.map(p => buatKartuHTML(p, 'semua')).join('')}
-                </div>
+                <div class="katalog-grid">${itemSemua.map(p => buatKartuHTML(p, 'semua')).join('')}</div>
             `;
             catalogArea.innerHTML = htmlMarketplace;
         }
 
-        function tambahKeKeranjang(id, prefixArea) {
+        // ======= FUNGSI MODAL INPUT QTY & ADD TO CART ======= 
+        function openQtyModal(id, prefixArea) {
             const item = produkBase.find(p => p.id === id);
             const varian = document.getElementById(`varian-${prefixArea}-${id}`).value;
-            const harga = varian === 'ecer' ? item.hargaEcer : item.hargaKarton;
             const labelVarian = varian === 'ecer' ? `(ECER)` : "(Kartonan)";
-            const cartId = `${id}-${varian}`;
-            const ada = keranjang.find(k => k.cartId === cartId);
-            if (ada) { ada.jumlah += 1; } else { keranjang.push({ cartId: cartId, namaLengkap: `${item.nama} ${labelVarian}`, harga: harga, jumlah: 1 }); }
-            updateKeranjang();
+            
+            tempCartItem = { item, varian, labelVarian };
+            document.getElementById('qty-item-name').innerText = `${item.nama} ${labelVarian}`;
+            document.getElementById('qty-input-val').value = 1;
+            document.getElementById('qty-modal').style.display = 'flex';
         }
 
+        function closeQtyModal() {
+            document.getElementById('qty-modal').style.display = 'none';
+        }
+
+        function changeQtyInput(val) {
+            let input = document.getElementById('qty-input-val');
+            let current = parseInt(input.value) || 1;
+            if (current + val >= 1) input.value = current + val;
+        }
+
+        function confirmAddCart() {
+            let qty = parseInt(document.getElementById('qty-input-val').value) || 1;
+            const { item, varian, labelVarian } = tempCartItem;
+            
+            const harga = varian === 'ecer' ? item.hargaEcer : item.hargaKarton;
+            const cartId = `${item.id}-${varian}`;
+            const ada = keranjang.find(k => k.cartId === cartId);
+            
+            if (ada) { ada.jumlah += qty; } 
+            else { keranjang.push({ cartId: cartId, namaLengkap: `${item.nama} ${labelVarian}`, harga: harga, jumlah: qty }); }
+            
+            updateKeranjang();
+            closeQtyModal();
+            showToast(`${item.nama} ditambahkan!`); // Memanggil Toast
+            
+            // Efek berdenyut pada logo cart
+            const badge = document.getElementById('cart-badge');
+            badge.style.transform = "scale(1.5)";
+            setTimeout(() => badge.style.transform = "scale(1)", 200);
+        }
+
+        // KONTROL KERANJANG STANDAR
         function kurangiQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); } }
         function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); } }
         function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
