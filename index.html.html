@@ -23,7 +23,8 @@
         h1, h2, h3, h4, .logo { font-family: 'Fredoka', sans-serif; }
         
         /* NAVBAR */
-        nav { background-color: var(--white); display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 5%; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+        nav { background-color: var(--white); display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 5%; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: all 0.3s ease; }
+        nav.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 0.8rem 5%; }
         .logo { font-size: 1.8rem; color: var(--dark); text-decoration: none; letter-spacing: 0.5px; font-weight: 600; }
         .logo span { color: var(--primary); }
         .nav-links { list-style: none; display: flex; gap: 25px; transition: all 0.3s ease; }
@@ -44,24 +45,22 @@
         .floating-cart:hover { transform: scale(1.1) translateY(-5px); background-color: var(--primary-hover); }
         .badge-qty { position: absolute; top: -5px; right: -5px; background: var(--secondary); color: var(--dark); width: 26px; height: 26px; border-radius: 50%; font-size: 0.9rem; font-weight: 800; display: flex; justify-content: center; align-items: center; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        /* Tombol Animasi Goyang saat Ditambah */
         @keyframes jiggle { 0% { transform: scale(1); } 25% { transform: scale(1.2) rotate(-10deg); } 50% { transform: scale(1.2) rotate(10deg); } 75% { transform: scale(1.2) rotate(-10deg); } 100% { transform: scale(1); } }
         .cart-animate { animation: jiggle 0.5s ease-in-out; }
 
-        /* BACK TO TOP (UPGRADE BARU) */
         .btn-back-top { position: fixed; bottom: 30px; left: 30px; background-color: var(--dark); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 1400; border: none; opacity: 0; visibility: hidden; transition: all 0.3s ease; transform: translateY(20px); }
         .btn-back-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .btn-back-top:hover { background-color: var(--primary); transform: translateY(-3px); }
 
         /* HERO & BASIC SECTIONS */
-        #home { width: 100%; text-align: center; background-color: var(--white); }
+        #home { width: 100%; text-align: center; background-color: var(--white); position: relative; }
         #home img { width: 100%; max-width: 1793px; height: auto; aspect-ratio: 1793 / 592; object-fit: cover; display: block; margin: 0 auto; }
         .section { padding: 4rem 5%; max-width: 1300px; margin: auto; }
         h2.title { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; color: var(--dark); }
         h2.title span { color: var(--primary); position: relative; }
         h2.title span::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 4px; background: var(--secondary); border-radius: 2px; }
 
-        /* TRUST SIGNALS SECTION (UPGRADE BARU) */
+        /* TRUST SIGNALS */
         .trust-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 2.5rem 5%; max-width: 1300px; margin: -2rem auto 2rem auto; position: relative; z-index: 10; }
         .trust-card { background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px; border: 1px solid #f1f5f9; transition: transform 0.3s; }
         .trust-card:hover { transform: translateY(-5px); border-color: var(--secondary); }
@@ -70,13 +69,13 @@
         .trust-text p { font-size: 0.85rem; color: var(--text-gray); line-height: 1.4; font-weight: 500; }
 
         /* PENCARIAN & KATEGORI */
-        .search-filter-box { background: var(--white); padding: 1.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 2.5rem; border: 1px solid #f1f5f9; }
+        .search-filter-box { background: var(--white); padding: 1.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 2.5rem; border: 1px solid #f1f5f9; position: sticky; top: 75px; z-index: 500; }
         .search-wrapper { position: relative; margin-bottom: 1.5rem; }
         .search-wrapper i { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: #a0aec0; font-size: 1.3rem; }
         .search-input { width: 100%; padding: 16px 16px 16px 60px; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 1.05rem; font-weight: 600; outline: none; transition: all 0.3s ease; background-color: var(--light); color: var(--dark); }
         .search-input:focus { border-color: var(--primary); background-color: var(--white); box-shadow: 0 0 0 4px rgba(230,32,32,0.1); }
         
-        .kategori-menu { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; justify-content: flex-start; }
+        .kategori-menu { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; justify-content: flex-start; scroll-behavior: smooth; }
         .kategori-menu::-webkit-scrollbar { height: 0px; } 
         @media (min-width: 768px) { .kategori-menu { flex-wrap: wrap; justify-content: center; } }
         .kategori-btn { background-color: #f1f5f9; border: 1px solid #e2e8f0; color: var(--text-gray); padding: 0.7rem 1.6rem; border-radius: 50px; cursor: pointer; font-weight: 700; font-size: 0.95rem; transition: all 0.2s ease; white-space: nowrap; }
@@ -97,8 +96,6 @@
         .produk-card { background: var(--white); border-radius: 20px; padding: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.03); transition: all 0.3s ease; position: relative; display: flex; flex-direction: column; border: 1px solid #f1f5f9; }
         .katalog-horizontal .produk-card { min-width: 250px; max-width: 250px; flex-shrink: 0; scroll-snap-align: start; }
         .produk-card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-color: #cbd5e1; }
-        
-        /* Highlight FOMO (UPGRADE BARU) */
         .produk-card.highlight-promo { border: 2px solid var(--secondary); background: #fffdf5; }
         
         .produk-img-wrapper { width: 100%; height: 180px; border-radius: 16px; margin-bottom: 15px; background-color: var(--light); position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
@@ -110,7 +107,6 @@
         .btn-plus-img:hover { transform: scale(1.15); background-color: var(--dark); }
 
         .produk-card h3 { font-size: 1.1rem; margin-bottom: 6px; line-height: 1.4; height: 44px; color: var(--dark); font-weight: 700; text-align: left; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        
         .harga-tampil { font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
         .harga-tampil span { font-size: 0.85rem; color: var(--text-gray); font-weight: 600; }
 
@@ -121,7 +117,17 @@
         .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); color: #ffffff; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.25); white-space: nowrap; }
         .btn-habis { background-color: #cbd5e1 !important; cursor: not-allowed !important; box-shadow: none !important; color: white !important; transform: none !important; }
 
-        .loading-status { text-align: center; font-size: 1.1rem; color: var(--text-gray); padding: 3rem 0; width: 100%; font-weight: 600; }
+        /* SKELETON LOADING (UPGRADE) */
+        .skeleton { background: #e2e8f0; background-image: linear-gradient(90deg, #e2e8f0 0px, #f1f5f9 40px, #e2e8f0 80px); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+        @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+        .skel-card { background: white; border-radius: 20px; padding: 1.2rem; border: 1px solid #f1f5f9; height: 360px; display: flex; flex-direction: column; gap: 12px; }
+        .skel-img { height: 180px; width: 100%; border-radius: 16px; }
+        .skel-text { height: 22px; width: 90%; }
+        .skel-text-short { height: 22px; width: 60%; }
+        .skel-btn { height: 42px; width: 100%; margin-top: auto; border-radius: 12px; }
+
+        /* HIGHLIGHT PENCARIAN (UPGRADE) */
+        .highlight-text { background-color: var(--secondary); color: var(--dark); padding: 0 4px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
         /* PROMO & INFO SECTIONS */
         .promo-banner { background: linear-gradient(135deg, var(--primary), #a80f0f); border-radius: 24px; padding: 3rem; color: white; display: flex; align-items: center; gap: 2rem; box-shadow: 0 15px 40px rgba(230, 32, 32, 0.2); margin-bottom: 4rem; flex-wrap: wrap; position: relative; overflow: hidden; }
@@ -145,12 +151,13 @@
 
         @keyframes pulse-wa { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
 
-        /* FOOTER PROFESIONAL (UPGRADE BARU) */
+        /* FOOTER (DIROMBAK TOTAL) */
         footer { background-color: var(--white); border-top: 1px solid #e2e8f0; padding: 4rem 5% 2rem 5%; }
-        .footer-content { max-width: 1300px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-content { max-width: 1300px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-bottom: 2rem; }
         .footer-col h4 { font-size: 1.2rem; color: var(--dark); margin-bottom: 1.2rem; }
-        .footer-col p, .footer-col a { color: var(--text-gray); font-size: 0.95rem; font-weight: 500; line-height: 1.6; text-decoration: none; display: block; margin-bottom: 8px; }
-        .footer-col a:hover { color: var(--primary); padding-left: 5px; transition: 0.2s; }
+        .footer-col p { color: var(--text-gray); font-size: 0.95rem; font-weight: 500; line-height: 1.6; margin-bottom: 12px; }
+        .footer-col a { color: var(--text-gray); font-size: 0.95rem; font-weight: 600; text-decoration: none; display: block; margin-bottom: 10px; transition: 0.2s; }
+        .footer-col a:hover { color: var(--primary); padding-left: 5px; }
         .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid #f1f5f9; color: var(--text-gray); font-weight: 600; font-size: 0.9rem; }
 
         /* MODAL KERANJANG */
@@ -172,7 +179,6 @@
         .btn-wa { background-color: #25D366; color: white; border: none; padding: 1.2rem; border-radius: 16px; width: 100%; font-size: 1.15rem; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.2s; }
         .btn-wa:hover { background-color: #1ebd57; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3); }
         
-        /* NOTIFIKASI TOAST DENGAN SLIDE (UPGRADE BARU) */
         #toast { visibility: hidden; min-width: 280px; background-color: var(--success); color: #fff; text-align: center; border-radius: 50px; padding: 16px 24px; position: fixed; z-index: 4000; left: 50%; transform: translateX(-50%) translateY(50px); bottom: 120px; font-size: 1.05rem; font-weight: 700; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); display: flex; align-items: center; justify-content: center; gap: 10px; }
         #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
@@ -181,27 +187,25 @@
             .promo-banner { padding: 2rem; text-align: center; } 
             .btn-back-top { left: 20px; bottom: 20px; width: 45px; height: 45px; }
             .trust-section { padding: 1.5rem 5%; margin-top: -1rem; }
+            .search-filter-box { top: 60px; padding: 1.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NOTIFIKASI TOAST (DI-UPGRADE) -->
     <div id="toast"><i class="fa-solid fa-circle-check" style="font-size: 1.2rem;"></i> <span id="toast-msg">Produk ditambahkan!</span></div>
 
-    <nav>
+    <nav id="navbar-main">
         <a href="#home" class="logo">Snack<span>MickeyMouse</span></a>
-        <!-- MENU HAMBURGER -->
         <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
         <ul class="nav-links">
             <li><a href="#home" onclick="toggleMenu()">Home</a></li>
-            <li><a href="#pesan" onclick="toggleMenu()">Produk</a></li>
-            <li><a href="#about" onclick="toggleMenu()">Tentang</a></li>
+            <li><a href="#pesan" onclick="toggleMenu()">Katalog Produk</a></li>
+            <li><a href="#about" onclick="toggleMenu()">Tentang Kami</a></li>
             <li><a href="#contact" onclick="toggleMenu()">Kontak</a></li>
         </ul>
     </nav>
 
-    <!-- TOMBOL SCROLL KE ATAS -->
     <button class="btn-back-top" id="btn-back-top" onclick="window.scrollTo(0,0)" title="Kembali ke atas">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
@@ -215,58 +219,54 @@
         <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse" onerror="this.src='https://placehold.co/1200x400/F8FAFC/E62020?text=Grosir+Snack+Mickey+Mouse'">
     </section>
 
-    <!-- TRUST SIGNALS SECTION -->
     <div class="trust-section">
         <div class="trust-card">
             <div class="trust-icon"><i class="fa-solid fa-tags"></i></div>
             <div class="trust-text">
-                <h4>Harga Pabrik</h4>
-                <p>Spesialis grosir, beli ecer atau kartonan pasti lebih untung.</p>
+                <h4>Harga Tangan Pertama</h4>
+                <p>Spesialis grosir B2B, beli ecer atau kartonan sama-sama cuan maksimal.</p>
             </div>
         </div>
         <div class="trust-card">
             <div class="trust-icon"><i class="fa-solid fa-box-open"></i></div>
             <div class="trust-text">
-                <h4>Stok Selalu Baru</h4>
-                <p>Perputaran barang cepat, jaminan expired date masih panjang.</p>
+                <h4>Stok Selalu Fresh</h4>
+                <p>Perputaran barang sangat cepat, jaminan masa expired selalu panjang.</p>
             </div>
         </div>
         <div class="trust-card">
             <div class="trust-icon"><i class="fa-solid fa-truck-fast"></i></div>
             <div class="trust-text">
-                <h4>Kirim / Ambil Toko</h4>
-                <p>Bisa diambil langsung ke toko atau kami bantu kirim area Malang.</p>
+                <h4>Kirim Area Malang Raya</h4>
+                <p>Siap bantu kirim ke toko Anda atau bisa ambil langsung ke gudang kami.</p>
             </div>
         </div>
     </div>
 
     <section id="pesan" class="section">
-        <h2 class="title">Katalog <span>Produk</span></h2>
+        <h2 class="title">Katalog <span>Produk Terlengkap</span></h2>
         
         <div class="search-filter-box">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search-input" class="search-input" placeholder="Mau kulakan apa hari ini? Ketik di sini..." oninput="jalankanFilter()">
+                <input type="text" id="search-input" class="search-input" placeholder="Cari jajanan untuk isi toko Anda... (misal: Taro, Yupi)" oninput="jalankanFilter()">
             </div>
             <div class="kategori-menu" id="kategori-container">
-                <button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Tampilan</button>
+                <button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Etalase</button>
             </div>
         </div>
 
         <div id="katalog-produk">
-            <div class="loading-status" id="loading-text">
-                <i class="fa-solid fa-cookie-bite fa-spin" style="color:var(--primary); font-size: 2.5rem; margin-bottom: 15px;"></i><br>
-                Menyiapkan rak jajanan...
-            </div>
+            <!-- SKELETON LOADING INJECTED HERE -->
         </div>
     </section>
 
     <section id="about" class="section">
         <div class="promo-banner">
             <div class="promo-content">
-                <div class="promo-badge">🎉 Berdiri Sejak 2006</div>
-                <h3>Pusat Kulakan Jajanan Termurah di Malang Raya!</h3>
-                <p>Sudah lebih dari 20 Tahun Grosir Snack Mickey Mouse dipercaya oleh ribuan pemilik toko kelontong, agen, dan reseller. Temukan ratusan pilihan snack dengan harga tangan pertama!</p>
+                <div class="promo-badge">🎉 Dipercaya Sejak 2006</div>
+                <h3>Pusat Kulakan Jajanan Paling Menguntungkan di Malang!</h3>
+                <p>Lebih dari 20 Tahun Grosir Snack Mickey Mouse dipercaya oleh ribuan pemilik toko kelontong, agen, dan reseller. Saatnya gabung dan tingkatkan omset toko Anda bersama kami!</p>
                 <div style="font-size: 1.1rem; font-weight: 700; color: var(--secondary); background: rgba(0,0,0,0.2); display: inline-block; padding: 10px 20px; border-radius: 12px; backdrop-filter: blur(5px);">
                     <i class="fa-solid fa-clock"></i> Buka Tiap Hari (08.00 - 17.00 WIB)
                 </div>
@@ -275,7 +275,7 @@
         <div class="info-grid">
             <div class="info-card map-container">
                 <i class="fa-solid fa-map-location-dot"></i>
-                <h3>Kunjungi Toko Kami</h3>
+                <h3>Alamat Gudang / Toko Fisik</h3>
                 <p style="color: var(--text-gray); margin-top: 5px; font-size: 0.95rem; font-weight: 500;">Jl. Mayjen Sungkono No.38, Arjowinangun, Kec. Kedungkandang, Kota Malang</p>
                 <iframe src="https://www.google.com/maps?q=Grosir+Snack+Mickey+Mouse+Malang&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
@@ -283,41 +283,42 @@
     </section>
 
     <section id="contact" class="section" style="padding-top: 0;">
-        <h2 class="title">Hubungi <span>Kami</span></h2>
+        <h2 class="title">Butuh <span>Bantuan?</span></h2>
         <div class="info-grid" style="max-width: 900px; margin: auto;">
             <div class="info-card">
                 <i class="fa-brands fa-whatsapp"></i>
-                <h3>WhatsApp Admin</h3>
-                <p style="color: var(--text-gray); margin-bottom: 15px; font-size: 0.95rem;">Tanya ketersediaan stok atau butuh bantuan order? Langsung chat kami!</p>
-                <a href="https://wa.me/6285100116986" class="social-btn btn-whatsapp" target="_blank">Chat Admin 1</a>
+                <h3>Tanya Admin (Fast Respon)</h3>
+                <p style="color: var(--text-gray); margin-bottom: 15px; font-size: 0.95rem;">Tanya ketersediaan stok grosir atau panduan kirim ke luar kota? Kami siap bantu!</p>
+                <a href="https://wa.me/6285100116986" class="social-btn btn-whatsapp" target="_blank">Chat Admin via WhatsApp</a>
             </div>
             <div class="info-card">
                 <i class="fa-brands fa-tiktok" style="color: #000;"></i>
-                <h3>TikTok Toko</h3>
-                <p style="color: var(--text-gray); margin-bottom: 15px; font-size: 0.95rem;">Intip keramaian toko offline dan review jajanan viral terbaru kami.</p>
-                <a href="https://tiktok.com/@grosirsnackmm" class="social-btn btn-tiktok" target="_blank">Follow @grosirsnackmm</a>
+                <h3>Review Jajanan Viral</h3>
+                <p style="color: var(--text-gray); margin-bottom: 15px; font-size: 0.95rem;">Intip keramaian toko offline dan cek bocoran jajanan viral terbaru minggu ini.</p>
+                <a href="https://tiktok.com/@grosirsnackmm" class="social-btn btn-tiktok" target="_blank">Follow TikTok Kami</a>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- FOOTER DIROMBAK -->
     <footer>
         <div class="footer-content">
-            <div class="footer-col">
-                <h3 class="logo" style="font-size: 1.5rem; margin-bottom: 15px;">Snack<span>MickeyMouse</span></h3>
-                <p>Mitra terpercaya untuk kebutuhan grosir jajanan dan snack di Malang Raya. Harga jujur, barang hancur uang kembali (S&K berlaku).</p>
+            <div class="footer-col" style="flex: 2;">
+                <h3 class="logo" style="font-size: 1.6rem; margin-bottom: 15px;">Snack<span>MickeyMouse</span></h3>
+                <p style="font-size: 1rem; color: #475569;">Pusat kulakan snack & jajanan terlengkap di Malang Raya. Kami berkomitmen memberikan <strong>harga tangan pertama</strong> dan <strong>stok terbaru</strong> untuk dukung usaha toko Anda semakin laris manis.</p>
+                <p style="margin-top: 15px; font-size: 0.95rem; color: var(--primary); font-weight: 700; background: #fff1f1; display: inline-block; padding: 8px 15px; border-radius: 8px;"><i class="fa-solid fa-shield-halved"></i> Garansi Barang Hancur / Kadaluarsa</p>
             </div>
             <div class="footer-col">
-                <h4>Kategori Terpopuler</h4>
-                <a href="#pesan" onclick="gantiKategori('Semua')">Jajanan Viral</a>
-                <a href="#pesan" onclick="gantiKategori('Semua')">Snack Kiloan</a>
+                <h4>Belanja Cepat</h4>
+                <a href="#pesan" onclick="gantiKategori('Semua')">Jajanan Viral Promo</a>
+                <a href="#pesan" onclick="gantiKategori('Semua')">Snack Kiloan Grosir</a>
                 <a href="#pesan" onclick="gantiKategori('Semua')">Minuman Dus</a>
             </div>
             <div class="footer-col">
-                <h4>Informasi Toko</h4>
-                <p><i class="fa-solid fa-location-dot" style="width: 20px;"></i> Arjowinangun, Malang</p>
-                <p><i class="fa-solid fa-phone" style="width: 20px;"></i> 0851-0011-6986</p>
-                <p><i class="fa-solid fa-calendar-days" style="width: 20px;"></i> Senin - Minggu</p>
+                <h4>Hubungi Kami</h4>
+                <p><i class="fa-solid fa-location-dot" style="width: 20px; color: var(--primary);"></i> Arjowinangun, Malang</p>
+                <p><i class="fa-solid fa-phone" style="width: 20px; color: var(--primary);"></i> 0851-0011-6986</p>
+                <p><i class="fa-solid fa-calendar-days" style="width: 20px; color: var(--primary);"></i> Buka Setiap Hari (08:00 - 17:00)</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -347,7 +348,7 @@
         </div>
     </div>
 
-    <!-- MODAL INPUT JUMLAH BARANG (KEYBOARD ANGKA) -->
+    <!-- MODAL INPUT JUMLAH BARANG -->
     <div class="modal-overlay" id="qty-modal" style="z-index: 2500;">
         <div class="modal-content" style="max-width: 340px; text-align: center; padding: 2rem;">
             <h3 style="margin-bottom: 0.5rem; color: var(--dark);">Berapa Banyak?</h3>
@@ -373,6 +374,12 @@
         let totalHargaGlobal = 0;
         let tempCartItem = null;
 
+        // INJEKSI SKELETON LOADING AWAL
+        function renderSkeleton() {
+            let skels = Array(8).fill('<div class="skel-card"><div class="skeleton skel-img"></div><div class="skeleton skel-text"></div><div class="skeleton skel-text-short"></div><div class="skeleton skel-btn"></div></div>').join('');
+            document.getElementById('katalog-produk').innerHTML = `<div class="katalog-grid">${skels}</div>`;
+        }
+
         // FUNGSI MEMUAT KERANJANG
         function loadCartFromStorage() {
             const savedCart = localStorage.getItem('grosirMickeyCart');
@@ -380,38 +387,39 @@
         }
         function saveCartToStorage() { localStorage.setItem('grosirMickeyCart', JSON.stringify(keranjang)); }
 
-        // MENU HP
+        // MENU & SCROLL NAV
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
             if(window.innerWidth <= 768) { navLinks.classList.toggle('active'); }
         }
 
-        // TAMPILKAN TOAST NOTIF
+        window.onscroll = function() {
+            const backTopBtn = document.getElementById("btn-back-top");
+            const nav = document.getElementById("navbar-main");
+            
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                nav.classList.add("scrolled");
+            } else { nav.classList.remove("scrolled"); }
+
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backTopBtn.classList.add("show");
+            } else { backTopBtn.classList.remove("show"); }
+        };
+
         function showToast(msg) {
             const toast = document.getElementById("toast");
             document.getElementById("toast-msg").innerText = msg;
             toast.classList.add("show");
             
-            // Animasi Goyang di Icon Cart
             const cartBtn = document.getElementById('btn-cart-main');
             cartBtn.classList.remove('cart-animate');
-            void cartBtn.offsetWidth; // trigger reflow
+            void cartBtn.offsetWidth; 
             cartBtn.classList.add('cart-animate');
 
             setTimeout(() => { toast.classList.remove("show"); }, 2500);
         }
 
-        // TAMPILKAN TOMBOL BACK TO TOP SAAT DI-SCROLL
-        window.onscroll = function() {
-            const backTopBtn = document.getElementById("btn-back-top");
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                backTopBtn.classList.add("show");
-            } else {
-                backTopBtn.classList.remove("show");
-            }
-        };
-
-        // AUTO SCROLL KARTU
+        // AUTO SCROLL HORIZONTAL (JIKA ADA PROMO)
         let isTouching = false;
         document.addEventListener('touchstart', () => isTouching = true);
         document.addEventListener('touchend', () => setTimeout(() => isTouching = false, 2000));
@@ -459,7 +467,7 @@
             }
             if (row.length > 1 || row[0] !== '') lines.push(row);
             if (lines.length < 2) {
-                document.getElementById('loading-text').innerHTML = `Gagal memuat data.`;
+                document.getElementById('katalog-produk').innerHTML = `<h3 style="text-align:center; padding: 2rem;">Gagal memuat data.</h3>`;
                 return;
             }
 
@@ -504,6 +512,7 @@
                 });
             }
 
+            // Shuffle
             for (let i = produkBase.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [produkBase[i], produkBase[j]] = [produkBase[j], produkBase[i]]; 
@@ -514,17 +523,18 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
+            renderSkeleton(); // Munculkan skeleton duluan
             loadCartFromStorage(); 
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
                 .then(res => res.text())
                 .then(text => parseCSVData(text))
-                .catch(err => { document.getElementById('loading-text').innerHTML = `Oops! Koneksi ke data gagal.`; });
+                .catch(err => { document.getElementById('katalog-produk').innerHTML = `<h3 style="text-align:center; padding: 2rem;">Oops! Koneksi ke gudang gagal.</h3>`; });
         });
 
         function buatTombolKategoriDinamis() {
             const container = document.getElementById('kategori-container');
             const daftarKategori = [...new Set(produkBase.map(p => p.kategori))].filter(k => k !== "");
-            let htmlTombol = `<button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Tampilan</button>`;
+            let htmlTombol = `<button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Etalase</button>`;
             daftarKategori.forEach(kat => {
                 let safeId = kat.replace(/[^a-zA-Z0-9]/g, '');
                 htmlTombol += `<button class="kategori-btn" id="btn-cat-${safeId}" onclick="gantiKategori('${kat}')">${kat}</button>`;
@@ -543,10 +553,18 @@
             jalankanFilter();
         }
 
-        function buatKartuHTML(item, prefixArea) {
+        // FUNGSI BUAT KARTU (Dengan fitur Highlight Pencarian)
+        function buatKartuHTML(item, prefixArea, highlightTerm = "") {
             let isKosong = (item.label === 'kosong');
             let isPromoAtauBaru = (item.label === 'promo' || item.label === 'baru');
             let tampilkanEcer = (item.hargaEcer > 0);
+
+            // Highlight nama jika dicari
+            let namaTampil = item.nama;
+            if(highlightTerm) {
+                const regex = new RegExp(`(${highlightTerm})`, 'gi');
+                namaTampil = item.nama.replace(regex, `<span class="highlight-text">$1</span>`);
+            }
 
             let optionsHtml = `<option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
             if (tampilkanEcer && item.kategori.toLowerCase() !== "lebaran") {
@@ -569,7 +587,6 @@
             let hargaTampil = tampilkanEcer && item.kategori.toLowerCase() !== "lebaran" ? item.hargaEcer : item.hargaKarton;
             let labelHargaTampil = tampilkanEcer && item.kategori.toLowerCase() !== "lebaran" ? `/ ${item.ecerLabel}` : `/ Karton`;
 
-            // Efek FOMO jika label promo/baru (Highlight)
             let cardClass = isPromoAtauBaru && !isKosong ? 'produk-card highlight-promo' : 'produk-card';
 
             return `
@@ -580,7 +597,7 @@
                         ${overlayHabis}
                         ${btnPlus}
                     </div>
-                    <h3 style="${titleColor}">${item.nama}</h3>
+                    <h3 style="${titleColor}">${namaTampil}</h3>
                     <div class="harga-tampil" style="${titleColor}">
                         Rp ${hargaTampil.toLocaleString('id-ID')} <span>${labelHargaTampil}</span>
                     </div>
@@ -589,12 +606,18 @@
             `;
         }
 
+        function resetPencarian() {
+            document.getElementById('search-input').value = '';
+            jalankanFilter();
+        }
+
         function renderEmptySearch() {
             return `
                 <div style="text-align:center; padding: 4rem 1rem; width: 100%; grid-column: 1 / -1;">
                     <i class="fa-solid fa-box-open" style="font-size: 5rem; color: #cbd5e1; margin-bottom: 1.5rem;"></i>
                     <h3 style="color: var(--dark); font-size: 1.5rem; margin-bottom: 10px;">Yah, Jajanannya Nggak Ketemu...</h3>
-                    <p style="color: var(--text-gray); font-size: 1.05rem;">Coba ketik kata kunci lain atau pilih dari kategori di atas ya!</p>
+                    <p style="color: var(--text-gray); font-size: 1.05rem; margin-bottom: 20px;">Coba ketik kata kunci lain atau periksa ejaan Anda ya!</p>
+                    <button onclick="resetPencarian()" style="padding: 12px 25px; background: var(--primary); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: 700; font-size: 1rem; box-shadow: 0 4px 15px rgba(230,32,32,0.3);"><i class="fa-solid fa-rotate-left"></i> Tampilkan Semua</button>
                 </div>
             `;
         }
@@ -612,7 +635,9 @@
                 });
                 
                 if (hasil.length === 0) { catalogArea.innerHTML = renderEmptySearch(); return; }
-                catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'cari')).join('')}</div>`;
+                
+                // Masukkan term pencarian untuk di-highlight
+                catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'cari', pencarian)).join('')}</div>`;
                 return;
             }
 
