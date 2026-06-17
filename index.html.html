@@ -83,38 +83,9 @@
         .btn-plus-img:hover { transform: scale(1.15); background-color: var(--dark); }
 
         /* FITUR STOK KOSONG */
-        .img-kosong { 
-            filter: grayscale(100%) opacity(0.6); 
-            transition: all 0.3s ease;
-        }
-        .badge-habis { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            background: rgba(0, 0, 0, 0.75); 
-            backdrop-filter: blur(4px);
-            color: #ffffff; 
-            padding: 10px 22px; 
-            border-radius: 50px; 
-            font-weight: 700; 
-            font-size: 1rem; 
-            z-index: 10; 
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            white-space: nowrap;
-        }
-        .btn-habis { 
-            background-color: #cbd5e1 !important; 
-            cursor: not-allowed !important; 
-            box-shadow: none !important; 
-            color: white !important; 
-            transform: none !important; 
-        }
+        .img-kosong { filter: grayscale(100%) opacity(0.6); transition: all 0.3s ease; }
+        .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); color: #ffffff; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.25); white-space: nowrap; }
+        .btn-habis { background-color: #cbd5e1 !important; cursor: not-allowed !important; box-shadow: none !important; color: white !important; transform: none !important; }
 
         .produk-card h3 { font-size: 1.1rem; margin-bottom: 10px; line-height: 1.3; height: 42px; color: var(--dark); font-weight: 600; text-align: left; }
         .select-varian { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #e2e8f0; font-size: 0.85rem; outline: none; font-weight: 600; background-color: #f8fafc; color: var(--text-gray); cursor: pointer; margin-top: auto; }
@@ -295,6 +266,20 @@
         let totalHargaGlobal = 0;
         let tempCartItem = null;
 
+        // FUNGSI MEMUAT KERANJANG DARI LOCAL STORAGE (TIDAK HILANG SAAT REFRESH)
+        function loadCartFromStorage() {
+            const savedCart = localStorage.getItem('grosirMickeyCart');
+            if (savedCart) {
+                keranjang = JSON.parse(savedCart);
+                updateKeranjang();
+            }
+        }
+
+        // FUNGSI MENYIMPAN KERANJANG KE LOCAL STORAGE
+        function saveCartToStorage() {
+            localStorage.setItem('grosirMickeyCart', JSON.stringify(keranjang));
+        }
+
         // TAMPILKAN MENU HP
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
@@ -401,6 +386,8 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
+            loadCartFromStorage(); // Memuat keranjang saat web pertama kali dibuka
+            
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
                 .then(res => res.text())
                 .then(text => parseCSVData(text))
@@ -429,18 +416,17 @@
 
         function buatKartuHTML(item, prefixArea) {
             let isKosong = (item.label === 'kosong');
-
-            // Cek apakah harga ecer tersedia di spreadsheet
             let tampilkanEcer = (item.hargaEcer > 0);
 
-            // Jika Harga Ecer kosong (0), maka hanya ada pilihan kartonan.
-            let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian" ${isKosong ? 'disabled' : ''}>
-                <option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
+            let optionsHtml = `<option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
             
             if (tampilkanEcer && item.kategori.toLowerCase() !== "lebaran") {
-                selectVarianHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
+                optionsHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
             }
-            selectVarianHtml += `</select>`;
+
+            let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian" ${isKosong ? 'disabled' : ''}>
+                ${optionsHtml}
+            </select>`;
             
             let img = item.gambar ? item.gambar : 'https://placehold.co/300/F8FAFC/a0aec0?text=No+Image';
             
@@ -492,10 +478,16 @@
             let itemBukanLebaran = produkBase.filter(p => p.kategori.toLowerCase() !== "lebaran");
             let itemPromo = itemBukanLebaran.filter(p => p.label === 'promo');
             let itemBaru = itemBukanLebaran.filter(p => p.label === 'baru');
-            let itemSemua = itemBukanLebaran; 
+            
+            // FUNGSI PENGACAKAN (RANDOMIZER) UNTUK "TELUSURI SEMUANYA"
+            let itemSemua = [...itemBukanLebaran]; 
+            for (let i = itemSemua.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [itemSemua[i], itemSemua[j]] = [itemSemua[j], itemSemua[i]]; // Tukar posisi
+            }
 
             if (itemPromo.length === 0) itemPromo = itemBukanLebaran.slice(0, 5);
-            if (itemBaru.length === 0) itemBaru = [...itemBukanLebaran].reverse().slice(0, 5);
+            if (itemBaru.length === 0) itemBaru = [...itemBukanLebaran].slice(0, 5);
 
             let htmlMarketplace = `
                 <h3 class="section-subtitle"><i class="fa-solid fa-fire" style="color:var(--primary);"></i> Promo Spesial</h3>
@@ -542,6 +534,8 @@
             else { keranjang.push({ cartId: cartId, namaLengkap: `${item.nama} ${labelVarian}`, harga: harga, jumlah: qty }); }
             
             updateKeranjang();
+            saveCartToStorage(); // MENYIMPAN KERANJANG KE MEMORI
+            
             closeQtyModal();
             showToast(`${item.nama} ditambahkan!`); 
             
@@ -550,9 +544,30 @@
             setTimeout(() => badge.style.transform = "scale(1)", 200);
         }
 
-        function kurangiQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); } }
-        function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); } }
-        function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
+        function kurangiQty(cartId) { 
+            const item = keranjang.find(k => k.cartId === cartId); 
+            if (item) { 
+                item.jumlah -= 1; 
+                if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); 
+                updateKeranjang(); 
+                saveCartToStorage(); // MENYIMPAN KERANJANG
+            } 
+        }
+        
+        function tambahQty(cartId) { 
+            const item = keranjang.find(k => k.cartId === cartId); 
+            if (item) { 
+                item.jumlah += 1; 
+                updateKeranjang(); 
+                saveCartToStorage(); // MENYIMPAN KERANJANG
+            } 
+        }
+        
+        function hapusItem(cartId) { 
+            keranjang = keranjang.filter(k => k.cartId !== cartId); 
+            updateKeranjang(); 
+            saveCartToStorage(); // MENYIMPAN KERANJANG
+        }
 
         function updateKeranjang() {
             const container = document.getElementById('cart-items-container');
@@ -592,6 +607,13 @@
             teksKirim += `------------------------------------------\n\n`;
             keranjang.forEach((item, index) => { teksKirim += `${index + 1}. ${item.namaLengkap}\n   ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${(item.harga * item.jumlah).toLocaleString('id-ID')}\n`; });
             teksKirim += `\n------------------------------------------\n*TOTAL:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}`;
+            
+            // HAPUS KERANJANG SETELAH CHECKOUT SUKSES
+            localStorage.removeItem('grosirMickeyCart');
+            keranjang = [];
+            updateKeranjang();
+            toggleCart();
+            
             window.open(`https://wa.me/6285100116986?text=${encodeURIComponent(teksKirim)}`, '_blank');
         }
     </script>
