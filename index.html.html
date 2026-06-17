@@ -72,7 +72,7 @@
 
         /* KARTU PRODUK */
         .produk-card { background: var(--white); border-radius: 20px; padding: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.03); transition: all 0.3s ease; position: relative; display: flex; flex-direction: column; border: 1px solid #f1f5f9; }
-        .katalog-horizontal .produk-card { min-width: 250px; max-width: 250px; flex-shrink: 0; }
+        .katalog-horizontal .produk-card { min-width: 250px; max-width: 250px; flex-shrink: 0; scroll-snap-align: start; }
         .produk-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: #cbd5e1; }
         .produk-img-wrapper { width: 100%; height: 180px; border-radius: 16px; margin-bottom: 15px; background-color: var(--light); position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         .produk-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
@@ -126,6 +126,7 @@
         .checkout-form input, .checkout-form select, .checkout-form textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; outline: none; }
         .btn-wa { background-color: #25D366; color: white; border: none; padding: 1.2rem; border-radius: 12px; width: 100%; font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
         
+        /* NOTIFIKASI KECIL (TOAST) */
         #toast { visibility: hidden; min-width: 250px; background-color: var(--dark); color: #fff; text-align: center; border-radius: 50px; padding: 12px 24px; position: fixed; z-index: 4000; left: 50%; transform: translateX(-50%); bottom: 30px; font-size: 0.95rem; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 110px; }
 
@@ -193,7 +194,7 @@
                 <i class="fa-solid fa-map-location-dot"></i>
                 <h3>Kunjungi Toko Kami</h3>
                 <p style="color: var(--text-gray); margin-top: 5px; font-size: 0.9rem;">Jl. Mayjen Sungkono No.38, Arjowinangun, Kec. Kedungkandang, Kota Malang</p>
-                <iframe src="https://maps.google.com/maps?q=Jl.+Mayjen+Sungkono+No.38,+Arjowinangun,+Malang&t=&z=14&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://maps.google.com/maps?q=Jl.+Mayjen+Sungkono+No.38,+Arjowinangun,+Malang&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -264,33 +265,305 @@
         let totalHargaGlobal = 0;
         let tempCartItem = null;
 
-        // Toggle Menu Mobile
+        // TAMPILKAN MENU HP
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
             if(window.innerWidth <= 768) { navLinks.classList.toggle('active'); }
         }
 
-        // Tampilkan Toast
+        // TAMPILKAN TOAST NOTIF
         function showToast(msg) {
             const toast = document.getElementById("toast");
             toast.innerText = msg;
             toast.classList.add("show");
-            setTimeout(() => { toast.classList.remove("show"); }, 3000);
+            setTimeout(() => { toast.classList.remove("show"); }, 2500);
         }
 
-        // Auto Scroll untuk Horizontal Katalog
+        // SCROLL OTOMATIS KE KANAN
         setInterval(() => {
             document.querySelectorAll('.katalog-horizontal').forEach(container => {
                 if(!container.matches(':hover') && !container.matches(':active')) {
                     container.scrollBy({ left: 265, behavior: 'smooth' });
-                    // Kalau mentok kanan, balikin ke kiri
                     if(container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
                         setTimeout(() => container.scrollTo({left: 0, behavior: 'smooth'}), 1500);
                     }
                 }
             });
-        }, 3500); 
+        }, 3500);
 
-        // FUNGSI KONVERSI GAMBAR DRIVE
         function konversiLinkDrive(url) {
-            if
+            if (!url) return "";
+            url = url.replace(/\s+/g, '').trim();
+            let id = "";
+            if (url.includes("drive.google.com/file/d/")) {
+                let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                if (match) id = match[1];
+            } else if (url.includes("id=")) {
+                let match = url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (match) id = match[1];
+            }
+            if (id) return `https://drive.google.com/thumbnail?id=${id}&sz=w500`;
+            return url;
+        }
+
+        function parseCSVData(text) {
+            let lines = []; let row = [""]; let inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i]; let next = text[i+1];
+                if (c === '"') {
+                    if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
+                    else { inQuotes = !inQuotes; }
+                } else if ((c === ',' || c === ';') && !inQuotes) { 
+                    row.push(''); 
+                } else if ((c === '\r' || c === '\n') && !inQuotes) {
+                    if (c === '\r' && next === '\n') { i++; }
+                    lines.push(row); row = [''];
+                } else { row[row.length - 1] += c; }
+            }
+            if (row.length > 1 || row[0] !== '') lines.push(row);
+            if (lines.length < 2) {
+                document.getElementById('loading-text').innerHTML = `Gagal memuat data dari Spreadsheet.`;
+                return;
+            }
+
+            let headers = lines[0].map(h => String(h).trim().toLowerCase().replace(/\s+/g, ''));
+            produkBase = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                let currentLine = lines[i];
+                if (currentLine.length < headers.length) continue;
+                
+                let itemRaw = {};
+                headers.forEach((h, idx) => { 
+                    itemRaw[h] = currentLine[idx] ? String(currentLine[idx]).trim() : ""; 
+                });
+
+                let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || "";
+                if (!namaBarang) continue;
+
+                let kategori = itemRaw['kategori'] || "Lainnya";
+                let isi = Number(itemRaw['isi']) || 1;
+                let ecerLabel = itemRaw['eceer'] || itemRaw['ecer'] || "Pcs";
+                let hargaKarton = Number(itemRaw['hargakarton']) || 0;
+                let harga4 = Number(itemRaw['harga4']) || 0;
+                
+                let label = "";
+                for (let key in itemRaw) {
+                    if (key.includes('label') && itemRaw[key]) {
+                        label = String(itemRaw[key]).toLowerCase().replace(/\s+/g, '');
+                        break;
+                    }
+                }
+
+                let gambarRaw = "";
+                for (let key in itemRaw) {
+                    if ((key.includes("gambar") || key.includes("foto")) && itemRaw[key]) {
+                        gambarRaw = String(itemRaw[key]); break;
+                    }
+                }
+
+                produkBase.push({
+                    id: i, nama: namaBarang, kategori: kategori,
+                    hargaKarton: hargaKarton, hargaEcer: Math.ceil(harga4 / isi),
+                    isi: isi, ecerLabel: ecerLabel, gambar: konversiLinkDrive(gambarRaw),
+                    label: label
+                });
+            }
+            buatTombolKategoriDinamis();
+            jalankanFilter();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
+                .then(res => res.text())
+                .then(text => parseCSVData(text))
+                .catch(err => { document.getElementById('loading-text').innerHTML = `Gagal memuat data. Mohon periksa link Anda.`; });
+        });
+
+        function buatTombolKategoriDinamis() {
+            const container = document.getElementById('kategori-container');
+            const daftarKategori = [...new Set(produkBase.map(p => p.kategori))].filter(k => k !== "");
+            let htmlTombol = `<button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Tampilan</button>`;
+            daftarKategori.forEach(kat => {
+                let safeId = kat.replace(/[^a-zA-Z0-9]/g, '');
+                htmlTombol += `<button class="kategori-btn" id="btn-cat-${safeId}" onclick="gantiKategori('${kat}')">${kat}</button>`;
+            });
+            container.innerHTML = htmlTombol;
+        }
+
+        function gantiKategori(kat) {
+            kategoriAktif = kat;
+            document.querySelectorAll('.kategori-btn').forEach(btn => btn.classList.remove('active'));
+            let safeId = kat.replace(/[^a-zA-Z0-9]/g, '');
+            const targetBtn = document.getElementById(`btn-cat-${safeId}`);
+            if (targetBtn) targetBtn.classList.add('active');
+            jalankanFilter();
+        }
+
+        function buatKartuHTML(item, prefixArea) {
+            let isKosong = (item.label === 'kosong');
+
+            let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian" ${isKosong ? 'disabled' : ''}>
+                <option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
+            
+            if (item.kategori.toLowerCase() !== "lebaran") {
+                selectVarianHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
+            }
+            selectVarianHtml += `</select>`;
+            
+            let img = item.gambar ? item.gambar : 'https://placehold.co/300/F8FAFC/a0aec0?text=No+Image';
+            
+            let imageClass = isKosong ? 'produk-img img-kosong' : 'produk-img';
+            let overlayHabis = isKosong ? `<div class="badge-habis">STOK HABIS</div>` : '';
+            let btnPlus = isKosong 
+                ? `<button class="btn-plus-img btn-habis" disabled><i class="fa-solid fa-xmark"></i></button>`
+                : `<button class="btn-plus-img" onclick="openQtyModal(${item.id}, '${prefixArea}')"><i class="fa-solid fa-plus"></i></button>`;
+            let titleColor = isKosong ? 'color: #94a3b8;' : '';
+
+            return `
+                <div class="produk-card">
+                    <span class="kategori-badge" ${isKosong ? 'style="background: #94a3b8;"' : ''}>${item.kategori}</span>
+                    <div class="produk-img-wrapper">
+                        <img src="${img}" alt="${item.nama}" class="${imageClass}" onerror="this.src='https://placehold.co/300/F8FAFC/a0aec0?text=No+Image'">
+                        ${overlayHabis}
+                        ${btnPlus}
+                    </div>
+                    <h3 style="${titleColor}">${item.nama}</h3>
+                    ${selectVarianHtml}
+                </div>
+            `;
+        }
+
+        function jalankanFilter() {
+            const pencarian = document.getElementById('search-input').value.toLowerCase();
+            const catalogArea = document.getElementById('katalog-produk');
+
+            // FUNGSI CARI DIPERBAIKI
+            if (pencarian !== "") {
+                let hasil = produkBase.filter(p => {
+                    let isMatch = p.nama.toLowerCase().includes(pencarian);
+                    if (kategoriAktif === "Semua") {
+                        return isMatch && p.kategori.toLowerCase() !== "lebaran";
+                    } else {
+                        return isMatch && p.kategori === kategoriAktif;
+                    }
+                });
+                if (hasil.length === 0) { catalogArea.innerHTML = `<div class="loading-status">Pencarian tidak ditemukan...</div>`; return; }
+                catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'cari')).join('')}</div>`;
+                return;
+            }
+
+            if (kategoriAktif !== "Semua") {
+                let hasil = produkBase.filter(p => p.kategori === kategoriAktif);
+                catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'kat')).join('')}</div>`;
+                return;
+            }
+
+            let itemBukanLebaran = produkBase.filter(p => p.kategori.toLowerCase() !== "lebaran");
+            let itemPromo = itemBukanLebaran.filter(p => p.label === 'promo');
+            let itemBaru = itemBukanLebaran.filter(p => p.label === 'baru');
+            let itemSemua = itemBukanLebaran; 
+
+            if (itemPromo.length === 0) itemPromo = itemBukanLebaran.slice(0, 5);
+            if (itemBaru.length === 0) itemBaru = [...itemBukanLebaran].reverse().slice(0, 5);
+
+            let htmlMarketplace = `
+                <h3 class="section-subtitle"><i class="fa-solid fa-fire" style="color:var(--primary);"></i> Promo Spesial</h3>
+                <div class="katalog-horizontal">${itemPromo.map(p => buatKartuHTML(p, 'promo')).join('')}</div>
+                <h3 class="section-subtitle"><i class="fa-solid fa-sparkles" style="color:var(--secondary);"></i> Produk Baru Masuk</h3>
+                <div class="katalog-horizontal">${itemBaru.map(p => buatKartuHTML(p, 'baru')).join('')}</div>
+                <h3 class="section-subtitle"><i class="fa-solid fa-box-open" style="color:var(--text-gray);"></i> Telusuri Semuanya</h3>
+                <div class="katalog-grid">${itemSemua.map(p => buatKartuHTML(p, 'semua')).join('')}</div>
+            `;
+            catalogArea.innerHTML = htmlMarketplace;
+        }
+
+        // FUNGSI MODAL INPUT JUMLAH BARANG
+        function openQtyModal(id, prefixArea) {
+            const item = produkBase.find(p => p.id === id);
+            const varian = document.getElementById(`varian-${prefixArea}-${id}`).value;
+            const labelVarian = varian === 'ecer' ? `(Eceran)` : "(Kartonan)";
+            
+            tempCartItem = { item, varian, labelVarian };
+            document.getElementById('qty-item-name').innerText = `${item.nama} ${labelVarian}`;
+            document.getElementById('qty-input-val').value = 1;
+            document.getElementById('qty-modal').style.display = 'flex';
+        }
+
+        function closeQtyModal() {
+            document.getElementById('qty-modal').style.display = 'none';
+        }
+
+        function changeQtyInput(val) {
+            let input = document.getElementById('qty-input-val');
+            let current = parseInt(input.value) || 1;
+            if (current + val >= 1) input.value = current + val;
+        }
+
+        function confirmAddCart() {
+            let qty = parseInt(document.getElementById('qty-input-val').value) || 1;
+            const { item, varian, labelVarian } = tempCartItem;
+            
+            const harga = varian === 'ecer' ? item.hargaEcer : item.hargaKarton;
+            const cartId = `${item.id}-${varian}`;
+            const ada = keranjang.find(k => k.cartId === cartId);
+            
+            if (ada) { ada.jumlah += qty; } 
+            else { keranjang.push({ cartId: cartId, namaLengkap: `${item.nama} ${labelVarian}`, harga: harga, jumlah: qty }); }
+            
+            updateKeranjang();
+            closeQtyModal();
+            showToast(`${item.nama} ditambahkan!`); 
+            
+            const badge = document.getElementById('cart-badge');
+            badge.style.transform = "scale(1.5)";
+            setTimeout(() => badge.style.transform = "scale(1)", 200);
+        }
+
+        function kurangiQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); } }
+        function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); } }
+        function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); }
+
+        function updateKeranjang() {
+            const container = document.getElementById('cart-items-container');
+            const totalSpan = document.getElementById('cart-total-price');
+            const badge = document.getElementById('cart-badge');
+            const totalItem = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+            badge.innerText = totalItem;
+
+            if (keranjang.length === 0) { container.innerHTML = '<p style="color: var(--text-gray); text-align: center;">Keranjang kosong.</p>'; totalSpan.innerText = '0'; totalHargaGlobal = 0; return; }
+            let html = ''; totalHargaGlobal = 0;
+            keranjang.forEach(item => {
+                const subtotal = item.harga * item.jumlah; totalHargaGlobal += subtotal;
+                html += `<div class="cart-item">
+                    <div class="cart-info"><h4>${item.namaLengkap}</h4><p style="font-size:0.85rem; color:var(--text-gray);">Rp ${item.harga.toLocaleString('id-ID')} x ${item.jumlah}</p></div>
+                    <div class="cart-controls">
+                        <button class="btn-qty" onclick="kurangiQty('${item.cartId}')">-</button>
+                        <span style="font-weight:600; width:20px; text-align:center;">${item.jumlah}</span>
+                        <button class="btn-qty" onclick="tambahQty('${item.cartId}')">+</button>
+                        <button class="btn-hapus" onclick="hapusItem('${item.cartId}')"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html; totalSpan.innerText = totalHargaGlobal.toLocaleString('id-ID');
+        }
+
+        function toggleCart() { const modal = document.getElementById('cart-modal'); modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex'; }
+        function toggleAddress() { const method = document.getElementById('delivery-method').value; const addressInput = document.getElementById('cust-address'); addressInput.style.display = (method === 'kirim') ? 'block' : 'none'; }
+
+        function checkoutWA() {
+            const nama = document.getElementById('cust-name').value.trim();
+            const metode = document.getElementById('delivery-method').value;
+            const alamat = document.getElementById('cust-address').value.trim();
+            if (!nama) { alert("Silakan isi Nama Anda."); return; }
+            if (keranjang.length === 0) { alert("Keranjang masih kosong."); return; }
+            let teksKirim = `*PESANAN GROSIR SNACK MICKEY MOUSE*\n------------------------------------------\n*Nama:* ${nama}\n*Metode:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Kirim'}\n`;
+            if (metode === 'kirim') teksKirim += `*Alamat:* ${alamat}\n`;
+            teksKirim += `------------------------------------------\n\n`;
+            keranjang.forEach((item, index) => { teksKirim += `${index + 1}. ${item.namaLengkap}\n   ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${(item.harga * item.jumlah).toLocaleString('id-ID')}\n`; });
+            teksKirim += `\n------------------------------------------\n*TOTAL:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}`;
+            window.open(`https://wa.me/6285100116986?text=${encodeURIComponent(teksKirim)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
