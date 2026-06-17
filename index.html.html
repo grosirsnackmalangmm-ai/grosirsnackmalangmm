@@ -82,7 +82,7 @@
         .btn-plus-img { position: absolute; bottom: 10px; right: 10px; background-color: var(--primary); color: white; border: 3px solid white; width: 42px; height: 42px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; z-index: 10; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         .btn-plus-img:hover { transform: scale(1.15); background-color: var(--dark); }
 
-        /* FITUR STOK KOSONG (REKA BENTUK BARU YANG LEBIH CANTIK & KEMAS) */
+        /* FITUR STOK KOSONG */
         .img-kosong { 
             filter: grayscale(100%) opacity(0.6); 
             transition: all 0.3s ease;
@@ -321,7 +321,6 @@
             });
         }, 3500);
 
-        // FUNGSI KONVERSI GAMBAR (DIPERBAIKI AGAR LEBIH SELAMAT)
         function konversiLinkDrive(url) {
             if (!url) return "";
             let id = "";
@@ -383,7 +382,6 @@
                     }
                 }
 
-                // Carian Pautan Gambar (Diperbaiki)
                 let gambarRaw = "";
                 for (let key in itemRaw) {
                     if ((key.includes("gambar") || key.includes("foto")) && itemRaw[key]) {
@@ -432,10 +430,14 @@
         function buatKartuHTML(item, prefixArea) {
             let isKosong = (item.label === 'kosong');
 
+            // Cek apakah harga ecer tersedia di spreadsheet
+            let tampilkanEcer = (item.hargaEcer > 0);
+
+            // Jika Harga Ecer kosong (0), maka hanya ada pilihan kartonan.
             let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian" ${isKosong ? 'disabled' : ''}>
                 <option value="karton">Kartonan - Rp ${item.hargaKarton.toLocaleString('id-ID')} (Isi ${item.isi})</option>`;
             
-            if (item.kategori.toLowerCase() !== "lebaran") {
+            if (tampilkanEcer && item.kategori.toLowerCase() !== "lebaran") {
                 selectVarianHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
             }
             selectVarianHtml += `</select>`;
