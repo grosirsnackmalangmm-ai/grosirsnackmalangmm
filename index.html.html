@@ -68,8 +68,8 @@
         .trust-text h4 { font-size: 1.1rem; color: var(--dark); margin-bottom: 4px; }
         .trust-text p { font-size: 0.85rem; color: var(--text-gray); line-height: 1.4; font-weight: 500; }
 
-        /* PENCARIAN & KATEGORI */
-        .search-filter-box { background: var(--white); padding: 1.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 2.5rem; border: 1px solid #f1f5f9; position: sticky; top: 75px; z-index: 500; }
+        /* PENCARIAN & KATEGORI (FIXED: TIDAK MENGGANGGU SCROLL LAGI) */
+        .search-filter-box { background: var(--white); padding: 1.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 2.5rem; border: 1px solid #f1f5f9; position: relative; z-index: 10; }
         .search-wrapper { position: relative; margin-bottom: 1.5rem; }
         .search-wrapper i { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: #a0aec0; font-size: 1.3rem; }
         .search-input { width: 100%; padding: 16px 16px 16px 60px; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 1.05rem; font-weight: 600; outline: none; transition: all 0.3s ease; background-color: var(--light); color: var(--dark); }
@@ -117,7 +117,7 @@
         .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); color: #ffffff; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.25); white-space: nowrap; }
         .btn-habis { background-color: #cbd5e1 !important; cursor: not-allowed !important; box-shadow: none !important; color: white !important; transform: none !important; }
 
-        /* SKELETON LOADING (UPGRADE) */
+        /* SKELETON LOADING */
         .skeleton { background: #e2e8f0; background-image: linear-gradient(90deg, #e2e8f0 0px, #f1f5f9 40px, #e2e8f0 80px); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
         @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
         .skel-card { background: white; border-radius: 20px; padding: 1.2rem; border: 1px solid #f1f5f9; height: 360px; display: flex; flex-direction: column; gap: 12px; }
@@ -126,7 +126,7 @@
         .skel-text-short { height: 22px; width: 60%; }
         .skel-btn { height: 42px; width: 100%; margin-top: auto; border-radius: 12px; }
 
-        /* HIGHLIGHT PENCARIAN (UPGRADE) */
+        /* HIGHLIGHT PENCARIAN */
         .highlight-text { background-color: var(--secondary); color: var(--dark); padding: 0 4px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
         /* PROMO & INFO SECTIONS */
@@ -151,7 +151,7 @@
 
         @keyframes pulse-wa { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
 
-        /* FOOTER (DIROMBAK TOTAL) */
+        /* FOOTER */
         footer { background-color: var(--white); border-top: 1px solid #e2e8f0; padding: 4rem 5% 2rem 5%; }
         .footer-content { max-width: 1300px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-bottom: 2rem; }
         .footer-col h4 { font-size: 1.2rem; color: var(--dark); margin-bottom: 1.2rem; }
@@ -187,7 +187,8 @@
             .promo-banner { padding: 2rem; text-align: center; } 
             .btn-back-top { left: 20px; bottom: 20px; width: 45px; height: 45px; }
             .trust-section { padding: 1.5rem 5%; margin-top: -1rem; }
-            .search-filter-box { top: 60px; padding: 1.2rem; }
+            /* FIXED MOBILE SEARCH BOX */
+            .search-filter-box { padding: 1.2rem; margin-bottom: 1.5rem; }
         }
     </style>
 </head>
@@ -300,7 +301,6 @@
         </div>
     </section>
 
-    <!-- FOOTER DIROMBAK -->
     <footer>
         <div class="footer-content">
             <div class="footer-col" style="flex: 2;">
@@ -374,20 +374,17 @@
         let totalHargaGlobal = 0;
         let tempCartItem = null;
 
-        // INJEKSI SKELETON LOADING AWAL
         function renderSkeleton() {
             let skels = Array(8).fill('<div class="skel-card"><div class="skeleton skel-img"></div><div class="skeleton skel-text"></div><div class="skeleton skel-text-short"></div><div class="skeleton skel-btn"></div></div>').join('');
             document.getElementById('katalog-produk').innerHTML = `<div class="katalog-grid">${skels}</div>`;
         }
 
-        // FUNGSI MEMUAT KERANJANG
         function loadCartFromStorage() {
             const savedCart = localStorage.getItem('grosirMickeyCart');
             if (savedCart) { keranjang = JSON.parse(savedCart); updateKeranjang(); }
         }
         function saveCartToStorage() { localStorage.setItem('grosirMickeyCart', JSON.stringify(keranjang)); }
 
-        // MENU & SCROLL NAV
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
             if(window.innerWidth <= 768) { navLinks.classList.toggle('active'); }
@@ -419,7 +416,6 @@
             setTimeout(() => { toast.classList.remove("show"); }, 2500);
         }
 
-        // AUTO SCROLL HORIZONTAL (JIKA ADA PROMO)
         let isTouching = false;
         document.addEventListener('touchstart', () => isTouching = true);
         document.addEventListener('touchend', () => setTimeout(() => isTouching = false, 2000));
@@ -512,7 +508,6 @@
                 });
             }
 
-            // Shuffle
             for (let i = produkBase.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [produkBase[i], produkBase[j]] = [produkBase[j], produkBase[i]]; 
@@ -523,7 +518,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            renderSkeleton(); // Munculkan skeleton duluan
+            renderSkeleton(); 
             loadCartFromStorage(); 
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
                 .then(res => res.text())
@@ -553,13 +548,11 @@
             jalankanFilter();
         }
 
-        // FUNGSI BUAT KARTU (Dengan fitur Highlight Pencarian)
         function buatKartuHTML(item, prefixArea, highlightTerm = "") {
             let isKosong = (item.label === 'kosong');
             let isPromoAtauBaru = (item.label === 'promo' || item.label === 'baru');
             let tampilkanEcer = (item.hargaEcer > 0);
 
-            // Highlight nama jika dicari
             let namaTampil = item.nama;
             if(highlightTerm) {
                 const regex = new RegExp(`(${highlightTerm})`, 'gi');
@@ -636,7 +629,6 @@
                 
                 if (hasil.length === 0) { catalogArea.innerHTML = renderEmptySearch(); return; }
                 
-                // Masukkan term pencarian untuk di-highlight
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'cari', pencarian)).join('')}</div>`;
                 return;
             }
@@ -666,7 +658,6 @@
             catalogArea.innerHTML = htmlMarketplace;
         }
 
-        // FUNGSI QTY & ADD TO CART
         function openQtyModal(id, prefixArea) {
             const item = produkBase.find(p => p.id === id);
             const varian = document.getElementById(`varian-${prefixArea}-${id}`).value;
@@ -709,7 +700,8 @@
 
         function kurangiQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); saveCartToStorage(); } }
         function tambahQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah += 1; updateKeranjang(); saveCartToStorage(); } }
-        function hapusItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); saveCartToStorage(); }
+        function vanishedItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); saveCartToStorage(); }
+        function hapusItem(cartId) { vanishedItem(cartId); }
 
         function updateKeranjang() {
             const container = document.getElementById('cart-items-container');
