@@ -438,14 +438,23 @@
             });
         }, 3500);
 
-        // UPGRADE 1: SOLUSI GAMBAR TIDAK MUNCUL DI HP (MENGGUNAKAN /UC?EXPORT=VIEW)
+        // --- SOLUSI ANTI BLOKIR SERVER GAMBAR GOOGLE ---
         function konversiLinkDrive(url) {
             if (!url) return "";
             let id = "";
             let match1 = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
             let match2 = url.match(/id=([a-zA-Z0-9_-]+)/);
-            if (match1) id = match1[1]; else if (match2) id = match2[1];
-            if (id) return `https://drive.google.com/uc?export=view&id=${id}`;
+            
+            if (match1) {
+                id = match1[1];
+            } else if (match2) {
+                id = match2[1];
+            }
+            
+            if (id) {
+                // MENGGUNAKAN SERVER KONTEN GOOGLE (Solusi Anti-Blokir Browser HP)
+                return `https://lh3.googleusercontent.com/d/${id}`;
+            }
             return url.trim();
         }
 
@@ -529,7 +538,7 @@
             jalankanFilter();
         }
 
-        // UPGRADE 3: CACHING SYSTEM AGAR WEBSITE SECEPAT KILAT
+        // CACHING SYSTEM AGAR WEBSITE SECEPAT KILAT
         document.addEventListener("DOMContentLoaded", () => {
             renderSkeleton(); 
             loadCartFromStorage(); 
@@ -609,7 +618,7 @@
             let img = item.gambar ? item.gambar : 'https://placehold.co/300/F8FAFC/a0aec0?text=No+Image';
             let imageClass = isKosong ? 'produk-img img-kosong' : 'produk-img';
             
-            // UPGRADE 2: INDIKATOR SUDAH ADA DI KERANJANG
+            // INDIKATOR SUDAH ADA DI KERANJANG
             let itemDiKeranjang = keranjang.find(k => k.cartId.startsWith(item.id + '-'));
             let btnIcon = itemDiKeranjang ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-cart-plus"></i>';
             let btnStyle = itemDiKeranjang ? 'background-color: var(--success); border-color: var(--success);' : '';
@@ -769,7 +778,6 @@
         function vanishedItem(cartId) { keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); saveCartToStorage(); }
         function hapusItem(cartId) { vanishedItem(cartId); }
         
-        // UPGRADE 4: KOSONGKAN KERANJANG
         function kosongkanKeranjang() {
             if(confirm("Yakin ingin mengosongkan semua pesanan?")) {
                 keranjang = [];
