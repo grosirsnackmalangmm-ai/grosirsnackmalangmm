@@ -75,7 +75,7 @@
         .trust-text h4 { font-size: 1.1rem; color: var(--dark); margin-bottom: 4px; }
         .trust-text p { font-size: 0.85rem; color: var(--text-gray); line-height: 1.4; font-weight: 500; }
 
-        /* PENCARIAN & KATEGORI (FIXED SCROLL HP) */
+        /* PENCARIAN & KATEGORI */
         .search-filter-box { background: var(--white); padding: 1.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 2.5rem; border: 1px solid #f1f5f9; position: relative; z-index: 10; }
         .search-wrapper { position: relative; margin-bottom: 1.5rem; display: flex; align-items: center; }
         .search-wrapper i.fa-magnifying-glass { position: absolute; left: 22px; color: #a0aec0; font-size: 1.3rem; }
@@ -103,7 +103,7 @@
         .katalog-horizontal::-webkit-scrollbar-thumb:hover { background: var(--primary); }
         .katalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; padding: 10px; }
 
-        /* KARTU PRODUK & GAMBAR RESPONSIVE */
+        /* KARTU PRODUK & GAMBAR */
         .produk-card { background: var(--white); border-radius: 20px; padding: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.03); transition: all 0.3s ease; position: relative; display: flex; flex-direction: column; border: 1px solid #f1f5f9; }
         .katalog-horizontal .produk-card { min-width: 250px; max-width: 250px; flex-shrink: 0; scroll-snap-align: start; }
         .produk-card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-color: #cbd5e1; }
@@ -125,7 +125,7 @@
         .select-varian:focus { border-color: var(--primary); }
 
         .img-kosong { filter: grayscale(100%) opacity(0.6); transition: all 0.3s ease; }
-        .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); color: #ffffff; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.25); white-space: nowrap; }
+        .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); color: #ffffff; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap; }
         .btn-habis { background-color: #cbd5e1 !important; cursor: not-allowed !important; box-shadow: none !important; color: white !important; transform: none !important; }
 
         /* SKELETON LOADING */
@@ -272,8 +272,7 @@
             </div>
         </div>
 
-        <div id="katalog-produk">
-        </div>
+        <div id="katalog-produk"></div>
     </section>
 
     <section id="about" class="section">
@@ -449,11 +448,12 @@
             });
         }, 3500);
 
-        // Ekstraksi Link Google Drive yang lebih akurat
+        // API LINK GOOGLE DRIVE UNTUK MOBILE (ANTI-GAGAL)
         function konversiLinkDrive(url) {
             if (!url) return "";
             let match = url.match(/(?:\/d\/|id=)([\w-]+)/);
-            return match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w500` : url.trim();
+            // Menggunakan lh3.googleusercontent.com yang sangat responsif untuk HP
+            return match ? `https://lh3.googleusercontent.com/d/${match[1]}` : url.trim();
         }
 
         function bersihAngka(str) {
@@ -461,7 +461,6 @@
             return Number(String(str).replace(/[^0-9]/g, ''));
         }
 
-        // CSV PARSER ROBUST (Tahan Error Tanda Kutip & Koma)
         function splitCSVLine(text) {
             let result = [];
             let current = '';
@@ -500,7 +499,6 @@
                 let namaBarang = ""; let kategori = "Lainnya"; let gambarRaw = "";
                 let hargaKarton = 0; let harga4 = 0; let isi = 1;
 
-                // Membaca Kolom Dasar
                 for (let key in itemRaw) {
                     let val = itemRaw[key].trim();
                     if (!val) continue;
@@ -519,20 +517,17 @@
                 let ecerLabel = "Pcs";
                 let label = "";
 
-                // Membaca Kolom Dinamis (Label & Ecer)
                 for (let key in itemRaw) {
                     let val = itemRaw[key].trim();
                     let valLower = val.toLowerCase();
                     if (!val) continue;
 
-                    // Cek Label / Status (Promo, Baru, Kosong)
                     if (key.includes('label') || key.includes('status') || key.includes('stok') || key.includes('ket')) {
                         if (valLower === 'kosong' || valLower === 'habis' || valLower === '0') label = 'kosong';
                         else if (valLower.includes('promo') || valLower.includes('diskon')) label = 'promo';
                         else if (valLower.includes('baru') || valLower.includes('new')) label = 'baru';
                     }
 
-                    // Cek Status Ecer (Tulis tidak/no/false untuk mematikan Ecer)
                     if (key === 'ecer' || key.includes('jualecer') || key.includes('bisaecer')) {
                         if (valLower === 'tidak' || valLower === 'no' || valLower === 'false') {
                             ecerAktif = false;
@@ -556,7 +551,6 @@
                 });
             }
 
-            // Acak Produk (Sekali Saja)
             for (let i = produkBase.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [produkBase[i], produkBase[j]] = [produkBase[j], produkBase[i]]; 
@@ -569,8 +563,6 @@
         document.addEventListener("DOMContentLoaded", () => {
             renderSkeleton(); 
             loadCartFromStorage(); 
-            
-            // Perhatian: Pastikan akses Google Spreadsheet sudah diatur "Anyone with the link can view"
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
                 .then(res => res.text())
                 .then(text => parseCSVData(text))
@@ -606,10 +598,10 @@
             jalankanFilter();
         }
 
+        // LOGIKA PENAMPILAN GAMBAR & FALLBACK
         function buatKartuHTML(item, prefixArea, highlightTerm = "") {
             let isKosong = (item.label === 'kosong');
             let isPromoAtauBaru = (item.label === 'promo' || item.label === 'baru');
-            
             let tampilkanEcer = (item.ecerAktif && item.hargaEcer > 0 && item.kategori.toLowerCase() !== "lebaran");
 
             let namaTampil = item.nama;
@@ -627,15 +619,21 @@
                 ${optionsHtml}
             </select>`;
             
-            // KODE FALLBACK GAMBAR (Stok Belum Tersedia) JIKA KOSONG / ERROR DI HP
-            let img = item.gambar ? item.gambar : 'https://placehold.co/400x400/eeeeee/888888?text=Stok+Belum+Tersedia';
+            // Logika Fallback Teks Gambar (No Image / Stok Belum Tersedia)
+            let placeholderTeks = isKosong ? 'Stok+Belum+Tersedia' : 'No+Image';
+            let fallbackImg = `https://placehold.co/400x400/F8FAFC/a0aec0?text=${placeholderTeks}`;
+            
+            // Tampilkan gambar asli jika ada, jika tidak pakai fallback
+            let img = item.gambar ? item.gambar : fallbackImg;
             let imageClass = isKosong ? 'produk-img img-kosong' : 'produk-img';
             
             let itemDiKeranjang = keranjang.find(k => k.cartId.startsWith(item.id + '-'));
             let btnIcon = itemDiKeranjang ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-cart-plus"></i>';
             let btnStyle = itemDiKeranjang ? 'background-color: var(--success); border-color: var(--success);' : '';
 
-            let overlayHabis = isKosong ? `<div class="badge-habis"><i class="fa-solid fa-box-open"></i> Kosong</div>` : '';
+            // Badge Kosong Khusus
+            let overlayHabis = isKosong ? `<div class="badge-habis"><i class="fa-solid fa-box-open"></i> Stok Belum Tersedia</div>` : '';
+            
             let btnPlus = isKosong 
                 ? `<button class="btn-plus-img btn-habis" disabled><i class="fa-solid fa-xmark"></i></button>`
                 : `<button class="btn-plus-img cart-btn-item-${item.id}" style="${btnStyle}" onclick="openQtyModal(${item.id}, '${prefixArea}')">${btnIcon}</button>`;
@@ -649,7 +647,7 @@
                 <div class="${cardClass}">
                     <span class="kategori-badge" ${isKosong ? 'style="background: #94a3b8;"' : ''}>${item.kategori}</span>
                     <div class="produk-img-wrapper">
-                        <img src="${img}" alt="${item.nama}" class="${imageClass}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x400/eeeeee/888888?text=Stok+Belum+Tersedia';">
+                        <img src="${img}" alt="${item.nama}" class="${imageClass}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackImg}';">
                         ${overlayHabis}
                         ${btnPlus}
                     </div>
