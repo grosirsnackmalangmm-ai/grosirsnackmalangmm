@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grosir Snack Mickey Mouse | Pusat Jajanan Malang</title>
+    
+    <meta property="og:title" content="Grosir Snack Mickey Mouse | Pusat Kulakan Jajanan">
+    <meta property="og:description" content="Pusat grosir snack & jajanan terlengkap di Malang. Harga tangan pertama, bisa beli ecer atau kartonan, siap kirim!">
+    <meta property="og:image" content="https://snackmurahmickeymouse-ilbtmos2n.vercel.app/Homepage1.png">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#E62020">
+
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -70,10 +77,12 @@
 
         /* PENCARIAN & KATEGORI */
         .search-filter-box { background: var(--white); padding: 1.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 2.5rem; border: 1px solid #f1f5f9; position: relative; z-index: 10; }
-        .search-wrapper { position: relative; margin-bottom: 1.5rem; }
-        .search-wrapper i { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: #a0aec0; font-size: 1.3rem; }
-        .search-input { width: 100%; padding: 16px 16px 16px 60px; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 1.05rem; font-weight: 600; outline: none; transition: all 0.3s ease; background-color: var(--light); color: var(--dark); }
+        .search-wrapper { position: relative; margin-bottom: 1.5rem; display: flex; align-items: center; }
+        .search-wrapper i.fa-magnifying-glass { position: absolute; left: 22px; color: #a0aec0; font-size: 1.3rem; }
+        .search-input { width: 100%; padding: 16px 50px 16px 60px; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 1.05rem; font-weight: 600; outline: none; transition: all 0.3s ease; background-color: var(--light); color: var(--dark); }
         .search-input:focus { border-color: var(--primary); background-color: var(--white); box-shadow: 0 0 0 4px rgba(230,32,32,0.1); }
+        .btn-clear-search { position: absolute; right: 20px; color: #a0aec0; background: none; border: none; font-size: 1.2rem; cursor: pointer; display: none; }
+        .btn-clear-search:hover { color: var(--primary); }
         
         .kategori-menu { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; justify-content: flex-start; scroll-behavior: smooth; }
         .kategori-menu::-webkit-scrollbar { height: 0px; } 
@@ -114,7 +123,7 @@
         .select-varian:focus { border-color: var(--primary); }
 
         .img-kosong { filter: grayscale(100%) opacity(0.6); transition: all 0.3s ease; }
-        .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); color: #ffffff; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.25); white-space: nowrap; }
+        .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); color: #ffffff; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.25); white-space: nowrap; }
         .btn-habis { background-color: #cbd5e1 !important; cursor: not-allowed !important; box-shadow: none !important; color: white !important; transform: none !important; }
 
         /* SKELETON LOADING */
@@ -173,7 +182,6 @@
         .btn-hapus:hover { color: var(--primary); }
         .total-harga { font-size: 1.5rem; font-weight: 800; text-align: right; margin: 1.5rem 0; color: var(--primary); display: flex; justify-content: space-between; align-items: center;}
         
-        /* Tombol Kosongkan Keranjang */
         .btn-clear-cart { background: #fee2e2; color: var(--primary); border: none; padding: 8px 15px; border-radius: 8px; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .btn-clear-cart:hover { background: var(--primary); color: white; }
 
@@ -255,6 +263,7 @@
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="search-input" class="search-input" placeholder="Cari jajanan untuk isi toko Anda... (misal: Taro, Yupi)" oninput="jalankanFilter()">
+                <button class="btn-clear-search" id="btn-clear-search" onclick="resetPencarian()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="kategori-menu" id="kategori-container">
                 <button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Etalase</button>
@@ -262,7 +271,7 @@
         </div>
 
         <div id="katalog-produk">
-            </div>
+        </div>
     </section>
 
     <section id="about" class="section">
@@ -438,23 +447,13 @@
             });
         }, 3500);
 
-        // --- SOLUSI ANTI BLOKIR SERVER GAMBAR GOOGLE ---
         function konversiLinkDrive(url) {
             if (!url) return "";
             let id = "";
             let match1 = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
             let match2 = url.match(/id=([a-zA-Z0-9_-]+)/);
-            
-            if (match1) {
-                id = match1[1];
-            } else if (match2) {
-                id = match2[1];
-            }
-            
-            if (id) {
-                // MENGGUNAKAN SERVER KONTEN GOOGLE (Solusi Anti-Blokir Browser HP)
-                return `https://lh3.googleusercontent.com/d/${id}`;
-            }
+            if (match1) id = match1[1]; else if (match2) id = match2[1];
+            if (id) return `https://drive.google.com/thumbnail?id=${id}&sz=w500`;
             return url.trim();
         }
 
@@ -463,69 +462,101 @@
             return Number(String(str).replace(/[^0-9]/g, ''));
         }
 
-        function parseCSVData(text) {
-            let lines = []; let row = [""]; let inQuotes = false;
-            for (let i = 0; i < text.length; i++) {
-                let c = text[i]; let next = text[i+1];
-                if (c === '"') {
-                    if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
+        // CSV PARSER CERDAS: ANTI ERROR DAN BISA MEMBACA KOLOM FLEKSIBEL
+        function splitCSVLine(text) {
+            let result = [];
+            let current = '';
+            let inQuotes = false;
+            for(let i = 0; i < text.length; i++) {
+                let c = text[i];
+                if(c === '"') {
+                    if(inQuotes && text[i+1] === '"') { current += '"'; i++; }
                     else { inQuotes = !inQuotes; }
-                } else if ((c === ',' || c === ';') && !inQuotes) { 
-                    row.push(''); 
-                } else if ((c === '\r' || c === '\n') && !inQuotes) {
-                    if (c === '\r' && next === '\n') { i++; }
-                    lines.push(row); row = [''];
-                } else { row[row.length - 1] += c; }
+                } else if(c === ',' && !inQuotes) {
+                    result.push(current.trim()); current = '';
+                } else { current += c; }
             }
-            if (row.length > 1 || row[0] !== '') lines.push(row);
+            result.push(current.trim());
+            return result;
+        }
+
+        function parseCSVData(text) {
+            let lines = text.split(/\r?\n/);
             if (lines.length < 2) {
                 document.getElementById('katalog-produk').innerHTML = `<h3 style="text-align:center; padding: 2rem;">Gagal memuat data.</h3>`;
                 return;
             }
 
-            let headers = lines[0].map(h => String(h).trim().toLowerCase().replace(/\s+/g, ''));
+            let headers = splitCSVLine(lines[0]).map(h => h.toLowerCase().replace(/[^a-z0-9]/g, ''));
             produkBase = [];
 
             for (let i = 1; i < lines.length; i++) {
-                let currentLine = lines[i];
+                if(!lines[i].trim()) continue;
+                let currentLine = splitCSVLine(lines[i]);
                 if (currentLine.length < headers.length) continue;
                 
                 let itemRaw = {};
-                headers.forEach((h, idx) => { itemRaw[h] = currentLine[idx] ? String(currentLine[idx]).trim() : ""; });
+                headers.forEach((h, idx) => { itemRaw[h] = currentLine[idx] || ""; });
 
-                let namaBarang = itemRaw['namabarang'] || itemRaw['nama'] || "";
-                if (!namaBarang) continue;
+                let namaBarang = ""; let kategori = "Lainnya"; let gambarRaw = "";
+                let hargaKarton = 0; let harga4 = 0; let isi = 1;
 
-                let kategori = itemRaw['kategori'] || "Lainnya";
-                let isi = bersihAngka(itemRaw['isi']) || 1;
-                let ecerLabel = itemRaw['eceer'] || itemRaw['ecer'] || "Pcs";
-                let hargaKarton = bersihAngka(itemRaw['hargakarton']);
-                let harga4 = bersihAngka(itemRaw['harga4']);
-                
-                // LOGIKA ECERAN STATIS
-                let kolomEcer = String(itemRaw['ecer'] || itemRaw['eceer'] || "ya").toLowerCase().trim();
-                let ecerAktif = (kolomEcer !== "tidak" && kolomEcer !== "false" && kolomEcer !== "no");
-
-                let label = "";
+                // Tahap 1: Pencarian Kolom Dasar
                 for (let key in itemRaw) {
-                    if (key.includes('label') && itemRaw[key]) {
-                        label = String(itemRaw[key]).toLowerCase().replace(/\s+/g, ''); break;
-                    }
+                    let val = itemRaw[key].trim();
+                    if (!val) continue;
+                    if (key.includes('nama')) namaBarang = val;
+                    else if (key.includes('kategori')) kategori = val;
+                    else if (key.includes('isi')) isi = bersihAngka(val) || 1;
+                    else if (key.includes('hargakarton') || key.includes('hargadus')) hargaKarton = bersihAngka(val);
+                    else if (key.includes('harga4') || key.includes('hargaeceran')) harga4 = bersihAngka(val);
+                    else if (key.includes('gambar') || key.includes('foto')) gambarRaw = val;
                 }
 
-                let gambarRaw = "";
+                if (!namaBarang) continue;
+
+                let hargaEcer = Math.ceil(harga4 / isi);
+                let ecerAktif = (hargaEcer > 0); 
+                let ecerLabel = "Pcs";
+                let label = "";
+
+                // Tahap 2: Pencarian Kolom Dinamis (Label & Status Ecer)
                 for (let key in itemRaw) {
-                    if ((key.includes("gambar") || key.includes("foto")) && itemRaw[key]) {
-                        gambarRaw = String(itemRaw[key]); break;
+                    let val = itemRaw[key].trim();
+                    let valLower = val.toLowerCase();
+                    if (!val) continue;
+
+                    // Deteksi Status Kosong/Promo/Baru (Bisa diketik di kolom Label, Status, Stok)
+                    if (key.includes('label') || key.includes('status') || key.includes('stok') || key.includes('ket')) {
+                        if (valLower === 'kosong' || valLower === 'habis' || valLower === '0') label = 'kosong';
+                        else if (valLower.includes('promo') || valLower.includes('diskon')) label = 'promo';
+                        else if (valLower.includes('baru') || valLower.includes('new')) label = 'baru';
+                    }
+
+                    // Deteksi Bisa Ecer atau Tidak
+                    if (key === 'ecer' || key.includes('jualecer') || key.includes('bisaecer')) {
+                        if (valLower === 'tidak' || valLower === 'no' || valLower === 'false') {
+                            ecerAktif = false;
+                        } else if (valLower === 'ya' || valLower === 'yes' || valLower === 'true') {
+                            ecerAktif = true;
+                        } else {
+                            // Jika yang diketik bukan ya/tidak, melainkan "bungkus", "pak"
+                            ecerLabel = val;
+                            ecerAktif = true;
+                        }
+                    }
+                    
+                    // Deteksi Kolom Satuan Ecer Khusus
+                    if (key.includes('satuan') || key.includes('ecerlabel')) {
+                        ecerLabel = val;
                     }
                 }
 
                 produkBase.push({
                     id: i, nama: namaBarang, kategori: kategori,
-                    hargaKarton: hargaKarton, hargaEcer: Math.ceil(harga4 / isi),
-                    ecerAktif: ecerAktif,
-                    isi: isi, ecerLabel: ecerLabel, gambar: konversiLinkDrive(gambarRaw),
-                    label: label
+                    hargaKarton: hargaKarton, hargaEcer: hargaEcer,
+                    ecerAktif: ecerAktif, isi: isi, ecerLabel: ecerLabel, 
+                    gambar: konversiLinkDrive(gambarRaw), label: label
                 });
             }
 
@@ -538,35 +569,13 @@
             jalankanFilter();
         }
 
-        // CACHING SYSTEM AGAR WEBSITE SECEPAT KILAT
         document.addEventListener("DOMContentLoaded", () => {
             renderSkeleton(); 
             loadCartFromStorage(); 
-            
-            const cachedData = sessionStorage.getItem('katalogMickeyMouse');
-            const cacheTime = sessionStorage.getItem('katalogMickeyMouse_time');
-            const now = new Date().getTime();
-
-            // Cache berlaku selama 1 jam (3600000 ms)
-            if (cachedData && cacheTime && (now - cacheTime < 3600000)) {
-                parseCSVData(cachedData);
-            } else {
-                fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
-                    .then(res => res.text())
-                    .then(text => {
-                        sessionStorage.setItem('katalogMickeyMouse', text);
-                        sessionStorage.setItem('katalogMickeyMouse_time', now);
-                        parseCSVData(text);
-                    })
-                    .catch(err => { 
-                        document.getElementById('katalog-produk').innerHTML = `
-                        <div style="text-align:center; padding: 4rem 1rem;">
-                            <i class="fa-solid fa-wifi" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
-                            <h3 style="color: var(--dark);">Koneksi Terputus</h3>
-                            <p style="color: var(--text-gray);">Gagal menyambung ke gudang data. Periksa internet Anda.</p>
-                        </div>`; 
-                    });
-            }
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
+                .then(res => res.text())
+                .then(text => parseCSVData(text))
+                .catch(err => { document.getElementById('katalog-produk').innerHTML = `<h3 style="text-align:center; padding: 2rem;">Oops! Koneksi ke gudang gagal.</h3>`; });
         });
 
         function buatTombolKategoriDinamis() {
@@ -588,6 +597,7 @@
             if (targetBtn) targetBtn.classList.add('active');
             
             document.getElementById('search-input').value = "";
+            document.getElementById('btn-clear-search').style.display = 'none';
             jalankanFilter();
         }
 
@@ -595,7 +605,6 @@
             let isKosong = (item.label === 'kosong');
             let isPromoAtauBaru = (item.label === 'promo' || item.label === 'baru');
             
-            // LOGIKA ECERAN STATIS DITERAPKAN DI SINI
             let tampilkanEcer = (item.ecerAktif && item.hargaEcer > 0 && item.kategori.toLowerCase() !== "lebaran");
 
             let namaTampil = item.nama;
@@ -609,16 +618,13 @@
                 optionsHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
             }
 
-            // Jika tidak ada eceran, tampilkan info eksklusif dan sembunyikan dropdown aslinya (hidden input)
-            let selectVarianHtml = tampilkanEcer ? 
-                `<select id="varian-${prefixArea}-${item.id}" class="select-varian" ${isKosong ? 'disabled' : ''}>${optionsHtml}</select>` : 
-                `<div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); background: #fff1f1; padding: 12px; border-radius: 12px; margin-top: auto; text-align: center; border: 1px solid #ffe4e4;">Hanya Jual Kartonan</div>
-                 <input type="hidden" id="varian-${prefixArea}-${item.id}" value="karton">`;
+            let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="select-varian" ${isKosong ? 'disabled' : ''}>
+                ${optionsHtml}
+            </select>`;
             
             let img = item.gambar ? item.gambar : 'https://placehold.co/300/F8FAFC/a0aec0?text=No+Image';
             let imageClass = isKosong ? 'produk-img img-kosong' : 'produk-img';
             
-            // INDIKATOR SUDAH ADA DI KERANJANG
             let itemDiKeranjang = keranjang.find(k => k.cartId.startsWith(item.id + '-'));
             let btnIcon = itemDiKeranjang ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-cart-plus"></i>';
             let btnStyle = itemDiKeranjang ? 'background-color: var(--success); border-color: var(--success);' : '';
@@ -654,6 +660,7 @@
 
         function resetPencarian() {
             document.getElementById('search-input').value = '';
+            document.getElementById('btn-clear-search').style.display = 'none';
             jalankanFilter();
         }
 
@@ -670,9 +677,11 @@
 
         function jalankanFilter() {
             const pencarian = document.getElementById('search-input').value.toLowerCase();
+            const btnClear = document.getElementById('btn-clear-search');
             const catalogArea = document.getElementById('katalog-produk');
 
             if (pencarian !== "") {
+                btnClear.style.display = 'block';
                 let hasil = produkBase.filter(p => {
                     let matchName = p.nama.toLowerCase().includes(pencarian);
                     if (kategoriAktif === "Semua") {
@@ -685,6 +694,8 @@
                 catalogArea.innerHTML = `<div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'cari', pencarian)).join('')}</div>`;
                 updateCartIconsLive();
                 return;
+            } else {
+                btnClear.style.display = 'none';
             }
 
             if (kategoriAktif !== "Semua") {
@@ -714,7 +725,6 @@
             updateCartIconsLive();
         }
 
-        // FUNGSI UPDATE ICON KERANJANG SECARA LIVE (TANPA REFRESH)
         function updateCartIconsLive() {
             produkBase.forEach(p => {
                 let ada = keranjang.find(k => k.cartId.startsWith(p.id + '-'));
@@ -795,7 +805,6 @@
             const totalItem = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
             badge.innerText = totalItem;
             
-            // Panggil update icon live agar centang hijau di katalog hilang jika barang dihapus
             updateCartIconsLive();
 
             if (keranjang.length === 0) { 
