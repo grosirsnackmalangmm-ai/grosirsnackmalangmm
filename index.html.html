@@ -109,7 +109,7 @@
         .produk-card:hover .produk-img { transform: scale(1.08); }
         .kategori-badge { background: var(--dark); color: white; font-size: 0.75rem; padding: 6px 14px; border-radius: 50px; position: absolute; top: 12px; left: 12px; font-weight: 700; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        /* BADGE KARTON ONLY (NEW) */
+        /* BADGE KARTON ONLY */
         .badge-karton-only { background: var(--primary); color: white; font-size: 0.75rem; padding: 6px 14px; border-radius: 50px; position: absolute; top: 12px; right: 12px; font-weight: 800; z-index: 5; box-shadow: 0 4px 12px rgba(230,32,32,0.4); display: flex; align-items: center; gap: 5px; }
 
         .btn-plus-img { position: absolute; bottom: 10px; right: 10px; background-color: var(--primary); color: white; border: 3px solid white; width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.3rem; cursor: pointer; z-index: 10; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
@@ -345,11 +345,13 @@
                 <input type="text" id="cust-name" placeholder="Nama Lengkap / Nama Toko" required>
                 <select id="delivery-method" onchange="toggleAddress()">
                     <option value="ambil">Diambil di Toko (Gratis)</option>
-                    <option value="kirim">Dikirim ke Alamat (Min. Belanja 3 Juta)</option>
+                    <option value="kirim">Dikirim ke Alamat (Bisa Free Ongkir / Kurir)</option>
                 </select>
                 <textarea id="cust-address" placeholder="Tuliskan Alamat Lengkap Pengiriman..." style="display: none; height: 90px; resize: none;"></textarea>
-                <div style="font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-top: 8px; display: none; padding: 10px; background: #ffebeb; border-radius: 8px;" id="info-ongkir">
-                    <i class="fa-solid fa-circle-info"></i> Layanan pengiriman alamat khusus total belanja di atas Rp 3.000.000.
+                <div style="font-size: 0.85rem; color: var(--primary); font-weight: 500; margin-top: 8px; display: none; padding: 12px; background: #ffebeb; border-radius: 10px; line-height: 1.5;" id="info-ongkir">
+                    <i class="fa-solid fa-circle-info" style="margin-bottom: 5px;"></i> <strong>Gratis Ongkir</strong> untuk total belanja minimal Rp 5.000.000.<br>
+                    Belanja di bawah nominal tersebut akan dikirim via kurir (ada tambahan biaya ongkir).<br>
+                    <span style="font-size: 0.75rem; color: #a0aec0; margin-top: 5px; display: block;">*Syarat & Ketentuan (S&K) Berlaku</span>
                 </div>
             </div>
             <button class="btn-wa" onclick="checkoutWA()"><i class="fa-brands fa-whatsapp"></i> Pesan via WhatsApp</button>
@@ -507,7 +509,6 @@
                     }
                 }
 
-                // FITUR BARU: Cek Kolom "Bisa Ecer"
                 let bisaEcerRaw = "";
                 for (let key in itemRaw) {
                     if (key.includes('bisaecer') || key.includes('adaecer') || key.includes('jualecer')) {
@@ -515,7 +516,6 @@
                     }
                 }
                 
-                // Default true (bisa ecer), kecuali eksplisit dibilang "TIDAK" / "NO"
                 let statusEcer = true;
                 if (bisaEcerRaw === 'tidak' || bisaEcerRaw === 'no' || bisaEcerRaw === 'n' || bisaEcerRaw === 'tdk') {
                     statusEcer = false;
@@ -529,7 +529,6 @@
                 });
             }
 
-            // Acak urutan produk
             for (let i = produkBase.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [produkBase[i], produkBase[j]] = [produkBase[j], produkBase[i]]; 
@@ -575,7 +574,6 @@
             let isKosong = (item.label === 'kosong');
             let isPromoAtauBaru = (item.label === 'promo' || item.label === 'baru');
             
-            // LOGIKA BARU: Tampilkan ecer jika harga ada, kategori bukan lebaran, dan status BisaEcer = true
             let tampilkanEcer = (item.hargaEcer > 0 && item.bisaEcer && item.kategori.toLowerCase() !== "lebaran");
 
             let namaTampil = item.nama;
@@ -589,7 +587,6 @@
                 optionsHtml += `<option value="ecer">Ecer - Rp ${item.hargaEcer.toLocaleString('id-ID')} / ${item.ecerLabel}</option>`;
             }
 
-            // Jika hanya karton, disable/ganti style select box agar user paham itu harga fixed karton
             let classSelect = tampilkanEcer ? 'select-varian' : 'select-varian select-karton-only';
             let selectVarianHtml = `<select id="varian-${prefixArea}-${item.id}" class="${classSelect}" ${isKosong ? 'disabled' : ''}>
                 ${optionsHtml}
@@ -605,7 +602,6 @@
             
             let titleColor = isKosong ? 'color: #94a3b8;' : '';
 
-            // Tampilan Harga Depan Otomatis (Hanya Karton = Harga Karton)
             let hargaTampil = tampilkanEcer ? item.hargaEcer : item.hargaKarton;
             let labelHargaTampil = tampilkanEcer ? `/ ${item.ecerLabel}` : `/ Karton`;
             
@@ -795,13 +791,19 @@
             if (!nama) { alert("Silakan isi Nama atau Nama Toko Anda."); return; }
             if (keranjang.length === 0) { alert("Keranjang masih kosong."); return; }
             
-            if (metode === 'kirim' && totalHargaGlobal < 3000000) {
-                alert("Maaf, layanan pengiriman ke alamat khusus untuk total belanja minimal Rp 3.000.000. Silakan pilih 'Diambil di Toko' atau tambah pesanan Anda."); 
+            if (metode === 'kirim' && !alamat) {
+                alert("Silakan isi alamat lengkap pengiriman untuk menghitung ongkir/jarak."); 
                 return; 
             }
 
-            let teksKirim = `*PESANAN GROSIR SNACK MICKEY MOUSE*\n------------------------------------------\n*Nama:* ${nama}\n*Metode:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Kirim'}\n`;
-            if (metode === 'kirim') teksKirim += `*Alamat:* ${alamat}\n`;
+            let teksKirim = `*PESANAN GROSIR SNACK MICKEY MOUSE*\n------------------------------------------\n*Nama:* ${nama}\n*Metode:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Kirim ke Alamat'}\n`;
+            
+            if (metode === 'kirim') {
+                teksKirim += `*Alamat:* ${alamat}\n`;
+                let statusOngkir = totalHargaGlobal >= 5000000 ? "Free Ongkir (Min. 5 Juta) *S&K Berlaku" : "Via Kurir (Ada tambahan ongkir) *S&K Berlaku";
+                teksKirim += `*Info Pengiriman:* ${statusOngkir}\n`;
+            }
+            
             teksKirim += `------------------------------------------\n\n`;
             keranjang.forEach((item, index) => { teksKirim += `${index + 1}. ${item.namaLengkap}\n   ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${(item.harga * item.jumlah).toLocaleString('id-ID')}\n`; });
             teksKirim += `\n------------------------------------------\n*TOTAL:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}`;
