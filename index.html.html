@@ -75,7 +75,7 @@
         .trust-text h4 { font-size: 1.1rem; color: var(--dark); margin-bottom: 4px; }
         .trust-text p { font-size: 0.85rem; color: var(--text-gray); line-height: 1.4; font-weight: 500; }
 
-        /* PENCARIAN & KATEGORI */
+        /* PENCARIAN & KATEGORI (FIXED SCROLL HP) */
         .search-filter-box { background: var(--white); padding: 1.5rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 2.5rem; border: 1px solid #f1f5f9; position: relative; z-index: 10; }
         .search-wrapper { position: relative; margin-bottom: 1.5rem; display: flex; align-items: center; }
         .search-wrapper i.fa-magnifying-glass { position: absolute; left: 22px; color: #a0aec0; font-size: 1.3rem; }
@@ -89,6 +89,8 @@
         @media (min-width: 768px) { .kategori-menu { flex-wrap: wrap; justify-content: center; } }
         .kategori-btn { background-color: #f1f5f9; border: 1px solid #e2e8f0; color: var(--text-gray); padding: 0.7rem 1.6rem; border-radius: 50px; cursor: pointer; font-weight: 700; font-size: 0.95rem; transition: all 0.2s ease; white-space: nowrap; }
         .kategori-btn.active, .kategori-btn:hover { background-color: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 6px 15px rgba(230, 32, 32, 0.25); transform: translateY(-2px); }
+        .btn-promo-special { color: #e63946; border-color: #ffccd5; background: #fff0f3; }
+        .btn-baru-special { color: #d97706; border-color: #fde68a; background: #fffbeb; }
 
         .section-subtitle { font-size: 1.6rem; color: var(--dark); margin: 2rem 0 1.2rem 0; display: flex; align-items: center; gap: 10px; }
         .section-subtitle::after { content: ""; flex-grow: 1; height: 2px; background: #e2e8f0; margin-left: 15px; border-radius: 2px; }
@@ -101,14 +103,14 @@
         .katalog-horizontal::-webkit-scrollbar-thumb:hover { background: var(--primary); }
         .katalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; padding: 10px; }
 
-        /* KARTU PRODUK */
+        /* KARTU PRODUK & GAMBAR RESPONSIVE */
         .produk-card { background: var(--white); border-radius: 20px; padding: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.03); transition: all 0.3s ease; position: relative; display: flex; flex-direction: column; border: 1px solid #f1f5f9; }
         .katalog-horizontal .produk-card { min-width: 250px; max-width: 250px; flex-shrink: 0; scroll-snap-align: start; }
         .produk-card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-color: #cbd5e1; }
         .produk-card.highlight-promo { border: 2px solid var(--secondary); background: #fffdf5; }
         
-        .produk-img-wrapper { width: 100%; height: 180px; border-radius: 16px; margin-bottom: 15px; background-color: var(--light); position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        .produk-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+        .produk-img-wrapper { width: 100%; aspect-ratio: 1/1; border-radius: 16px; margin-bottom: 15px; background-color: var(--light); position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .produk-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
         .produk-card:hover .produk-img { transform: scale(1.08); }
         .kategori-badge { background: var(--dark); color: white; font-size: 0.75rem; padding: 6px 14px; border-radius: 50px; position: absolute; top: 12px; left: 12px; font-weight: 700; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
@@ -130,7 +132,7 @@
         .skeleton { background: #e2e8f0; background-image: linear-gradient(90deg, #e2e8f0 0px, #f1f5f9 40px, #e2e8f0 80px); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
         @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
         .skel-card { background: white; border-radius: 20px; padding: 1.2rem; border: 1px solid #f1f5f9; height: 360px; display: flex; flex-direction: column; gap: 12px; }
-        .skel-img { height: 180px; width: 100%; border-radius: 16px; }
+        .skel-img { aspect-ratio: 1/1; width: 100%; border-radius: 16px; }
         .skel-text { height: 22px; width: 90%; }
         .skel-text-short { height: 22px; width: 60%; }
         .skel-btn { height: 42px; width: 100%; margin-top: auto; border-radius: 12px; }
@@ -229,7 +231,7 @@
     </button>
 
     <section id="home">
-        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse" onerror="this.src='https://placehold.co/1200x400/F8FAFC/E62020?text=Grosir+Snack+Mickey+Mouse'">
+        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse" onerror="this.onerror=null; this.src='https://placehold.co/1200x400/F8FAFC/E62020?text=Grosir+Snack+Mickey+Mouse';">
     </section>
 
     <div class="trust-section">
@@ -447,14 +449,11 @@
             });
         }, 3500);
 
+        // Ekstraksi Link Google Drive yang lebih akurat
         function konversiLinkDrive(url) {
             if (!url) return "";
-            let id = "";
-            let match1 = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            let match2 = url.match(/id=([a-zA-Z0-9_-]+)/);
-            if (match1) id = match1[1]; else if (match2) id = match2[1];
-            if (id) return `https://drive.google.com/thumbnail?id=${id}&sz=w500`;
-            return url.trim();
+            let match = url.match(/(?:\/d\/|id=)([\w-]+)/);
+            return match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w500` : url.trim();
         }
 
         function bersihAngka(str) {
@@ -462,7 +461,7 @@
             return Number(String(str).replace(/[^0-9]/g, ''));
         }
 
-        // CSV PARSER CERDAS: ANTI ERROR DAN BISA MEMBACA KOLOM FLEKSIBEL
+        // CSV PARSER ROBUST (Tahan Error Tanda Kutip & Koma)
         function splitCSVLine(text) {
             let result = [];
             let current = '';
@@ -501,7 +500,7 @@
                 let namaBarang = ""; let kategori = "Lainnya"; let gambarRaw = "";
                 let hargaKarton = 0; let harga4 = 0; let isi = 1;
 
-                // Tahap 1: Pencarian Kolom Dasar
+                // Membaca Kolom Dasar
                 for (let key in itemRaw) {
                     let val = itemRaw[key].trim();
                     if (!val) continue;
@@ -510,7 +509,7 @@
                     else if (key.includes('isi')) isi = bersihAngka(val) || 1;
                     else if (key.includes('hargakarton') || key.includes('hargadus')) hargaKarton = bersihAngka(val);
                     else if (key.includes('harga4') || key.includes('hargaeceran')) harga4 = bersihAngka(val);
-                    else if (key.includes('gambar') || key.includes('foto')) gambarRaw = val;
+                    else if (key.includes('gambar') || key.includes('foto') || key.includes('image')) gambarRaw = val;
                 }
 
                 if (!namaBarang) continue;
@@ -520,33 +519,30 @@
                 let ecerLabel = "Pcs";
                 let label = "";
 
-                // Tahap 2: Pencarian Kolom Dinamis (Label & Status Ecer)
+                // Membaca Kolom Dinamis (Label & Ecer)
                 for (let key in itemRaw) {
                     let val = itemRaw[key].trim();
                     let valLower = val.toLowerCase();
                     if (!val) continue;
 
-                    // Deteksi Status Kosong/Promo/Baru (Bisa diketik di kolom Label, Status, Stok)
+                    // Cek Label / Status (Promo, Baru, Kosong)
                     if (key.includes('label') || key.includes('status') || key.includes('stok') || key.includes('ket')) {
                         if (valLower === 'kosong' || valLower === 'habis' || valLower === '0') label = 'kosong';
                         else if (valLower.includes('promo') || valLower.includes('diskon')) label = 'promo';
                         else if (valLower.includes('baru') || valLower.includes('new')) label = 'baru';
                     }
 
-                    // Deteksi Bisa Ecer atau Tidak
+                    // Cek Status Ecer (Tulis tidak/no/false untuk mematikan Ecer)
                     if (key === 'ecer' || key.includes('jualecer') || key.includes('bisaecer')) {
                         if (valLower === 'tidak' || valLower === 'no' || valLower === 'false') {
                             ecerAktif = false;
                         } else if (valLower === 'ya' || valLower === 'yes' || valLower === 'true') {
                             ecerAktif = true;
                         } else {
-                            // Jika yang diketik bukan ya/tidak, melainkan "bungkus", "pak"
-                            ecerLabel = val;
-                            ecerAktif = true;
+                            ecerLabel = val; ecerAktif = true;
                         }
                     }
                     
-                    // Deteksi Kolom Satuan Ecer Khusus
                     if (key.includes('satuan') || key.includes('ecerlabel')) {
                         ecerLabel = val;
                     }
@@ -560,6 +556,7 @@
                 });
             }
 
+            // Acak Produk (Sekali Saja)
             for (let i = produkBase.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [produkBase[i], produkBase[j]] = [produkBase[j], produkBase[i]]; 
@@ -572,6 +569,8 @@
         document.addEventListener("DOMContentLoaded", () => {
             renderSkeleton(); 
             loadCartFromStorage(); 
+            
+            // Perhatian: Pastikan akses Google Spreadsheet sudah diatur "Anyone with the link can view"
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRvUA9pSwJdE5DU_0kQQ8-Q16stom5aOFKMwtCCQy9YKeqh2IZeWNajkO3psO5g8WOGz2BE3m02Zl4r/pub?output=csv')
                 .then(res => res.text())
                 .then(text => parseCSVData(text))
@@ -581,7 +580,13 @@
         function buatTombolKategoriDinamis() {
             const container = document.getElementById('kategori-container');
             const daftarKategori = [...new Set(produkBase.map(p => p.kategori))].filter(k => k !== "");
-            let htmlTombol = `<button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Etalase</button>`;
+            
+            let htmlTombol = `
+                <button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Etalase</button>
+                <button class="kategori-btn btn-promo-special" id="btn-cat-Promo" onclick="gantiKategori('Promo')"><i class="fa-solid fa-fire"></i> Promo Diskon</button>
+                <button class="kategori-btn btn-baru-special" id="btn-cat-Baru" onclick="gantiKategori('Baru')"><i class="fa-solid fa-sparkles"></i> Baru Masuk</button>
+            `;
+            
             daftarKategori.forEach(kat => {
                 let safeId = kat.replace(/[^a-zA-Z0-9]/g, '');
                 htmlTombol += `<button class="kategori-btn" id="btn-cat-${safeId}" onclick="gantiKategori('${kat}')">${kat}</button>`;
@@ -622,7 +627,8 @@
                 ${optionsHtml}
             </select>`;
             
-            let img = item.gambar ? item.gambar : 'https://placehold.co/300/F8FAFC/a0aec0?text=No+Image';
+            // KODE FALLBACK GAMBAR (Stok Belum Tersedia) JIKA KOSONG / ERROR DI HP
+            let img = item.gambar ? item.gambar : 'https://placehold.co/400x400/eeeeee/888888?text=Stok+Belum+Tersedia';
             let imageClass = isKosong ? 'produk-img img-kosong' : 'produk-img';
             
             let itemDiKeranjang = keranjang.find(k => k.cartId.startsWith(item.id + '-'));
@@ -635,17 +641,15 @@
                 : `<button class="btn-plus-img cart-btn-item-${item.id}" style="${btnStyle}" onclick="openQtyModal(${item.id}, '${prefixArea}')">${btnIcon}</button>`;
             
             let titleColor = isKosong ? 'color: #94a3b8;' : '';
-
             let hargaTampil = tampilkanEcer ? item.hargaEcer : item.hargaKarton;
             let labelHargaTampil = tampilkanEcer ? `/ ${item.ecerLabel}` : `/ Karton`;
-
             let cardClass = isPromoAtauBaru && !isKosong ? 'produk-card highlight-promo' : 'produk-card';
 
             return `
                 <div class="${cardClass}">
                     <span class="kategori-badge" ${isKosong ? 'style="background: #94a3b8;"' : ''}>${item.kategori}</span>
                     <div class="produk-img-wrapper">
-                        <img src="${img}" alt="${item.nama}" class="${imageClass}" loading="lazy" onerror="this.src='https://placehold.co/300/F8FAFC/a0aec0?text=No+Image'">
+                        <img src="${img}" alt="${item.nama}" class="${imageClass}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x400/eeeeee/888888?text=Stok+Belum+Tersedia';">
                         ${overlayHabis}
                         ${btnPlus}
                     </div>
@@ -686,6 +690,10 @@
                     let matchName = p.nama.toLowerCase().includes(pencarian);
                     if (kategoriAktif === "Semua") {
                         return matchName && p.kategori.toLowerCase() !== "lebaran";
+                    } else if (kategoriAktif === "Promo") {
+                        return matchName && p.label === 'promo';
+                    } else if (kategoriAktif === "Baru") {
+                        return matchName && p.label === 'baru';
                     } else { return matchName && p.kategori === kategoriAktif; }
                 });
                 
@@ -696,6 +704,22 @@
                 return;
             } else {
                 btnClear.style.display = 'none';
+            }
+
+            if (kategoriAktif === "Promo") {
+                let hasil = produkBase.filter(p => p.label === 'promo');
+                if(hasil.length === 0) { catalogArea.innerHTML = renderEmptySearch(); return; }
+                catalogArea.innerHTML = `<h3 class="section-subtitle" style="grid-column: 1/-1;"><i class="fa-solid fa-fire" style="color:var(--primary);"></i> Spesial Promo Diskon</h3><div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'kat')).join('')}</div>`;
+                updateCartIconsLive();
+                return;
+            }
+
+            if (kategoriAktif === "Baru") {
+                let hasil = produkBase.filter(p => p.label === 'baru');
+                if(hasil.length === 0) { catalogArea.innerHTML = renderEmptySearch(); return; }
+                catalogArea.innerHTML = `<h3 class="section-subtitle" style="grid-column: 1/-1;"><i class="fa-solid fa-sparkles" style="color:var(--secondary);"></i> Baru Masuk Gudang</h3><div class="katalog-grid">${hasil.map(p => buatKartuHTML(p, 'kat')).join('')}</div>`;
+                updateCartIconsLive();
+                return;
             }
 
             if (kategoriAktif !== "Semua") {
