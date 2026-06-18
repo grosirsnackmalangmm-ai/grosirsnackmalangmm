@@ -339,6 +339,7 @@
         </div>
     </footer>
 
+    <!-- MODAL KERANJANG UPGRADE -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-content">
             <button class="btn-close" onclick="toggleCart()">×</button>
@@ -352,13 +353,15 @@
 
             <div class="checkout-form">
                 <input type="text" id="cust-name" placeholder="Nama Lengkap / Nama Toko" required>
+                <!-- UPGRADE LOGIKA PENGIRIMAN -->
                 <select id="delivery-method" onchange="toggleAddress()">
                     <option value="ambil">Diambil di Toko (Gratis)</option>
-                    <option value="kirim">Dikirim ke Alamat (Min. Belanja 3 Juta)</option>
+                    <option value="kirim_free">Dikirim ke Alamat (Free Ongkir, Min. Belanja 5 Juta)</option>
+                    <option value="kirim_kurir">Dikirim via Jasa Kurir (Ada Tambahan Ongkir)</option>
                 </select>
-                <textarea id="cust-address" placeholder="Tuliskan Alamat Lengkap Pengiriman..." style="display: none; height: 90px; resize: none;"></textarea>
+                <textarea id="cust-address" placeholder="Tuliskan Alamat Lengkap Pengiriman (Kecamatan, Kota, Patokan Rumah)..." style="display: none; height: 90px; resize: none;"></textarea>
                 <div style="font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-top: 8px; display: none; padding: 10px; background: #ffebeb; border-radius: 8px;" id="info-ongkir">
-                    <i class="fa-solid fa-circle-info"></i> Layanan pengiriman alamat khusus total belanja di atas Rp 3.000.000.
+                    <!-- Teks ini akan berubah dinamis lewat JS -->
                 </div>
             </div>
             <button class="btn-wa" onclick="checkoutWA()"><i class="fa-brands fa-whatsapp"></i> Pesan via WhatsApp</button>
@@ -448,11 +451,9 @@
             });
         }, 3500);
 
-        // API LINK GOOGLE DRIVE UNTUK MOBILE (ANTI-GAGAL)
         function konversiLinkDrive(url) {
             if (!url) return "";
             let match = url.match(/(?:\/d\/|id=)([\w-]+)/);
-            // Menggunakan lh3.googleusercontent.com yang sangat responsif untuk HP
             return match ? `https://lh3.googleusercontent.com/d/${match[1]}` : url.trim();
         }
 
@@ -462,9 +463,7 @@
         }
 
         function splitCSVLine(text) {
-            let result = [];
-            let current = '';
-            let inQuotes = false;
+            let result = []; let current = ''; let inQuotes = false;
             for(let i = 0; i < text.length; i++) {
                 let c = text[i];
                 if(c === '"') {
@@ -598,7 +597,6 @@
             jalankanFilter();
         }
 
-        // LOGIKA PENAMPILAN GAMBAR & FALLBACK
         function buatKartuHTML(item, prefixArea, highlightTerm = "") {
             let isKosong = (item.label === 'kosong');
             let isPromoAtauBaru = (item.label === 'promo' || item.label === 'baru');
@@ -619,11 +617,9 @@
                 ${optionsHtml}
             </select>`;
             
-            // Logika Fallback Teks Gambar (No Image / Stok Belum Tersedia)
             let placeholderTeks = isKosong ? 'Stok+Belum+Tersedia' : 'No+Image';
             let fallbackImg = `https://placehold.co/400x400/F8FAFC/a0aec0?text=${placeholderTeks}`;
             
-            // Tampilkan gambar asli jika ada, jika tidak pakai fallback
             let img = item.gambar ? item.gambar : fallbackImg;
             let imageClass = isKosong ? 'produk-img img-kosong' : 'produk-img';
             
@@ -631,7 +627,6 @@
             let btnIcon = itemDiKeranjang ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-cart-plus"></i>';
             let btnStyle = itemDiKeranjang ? 'background-color: var(--success); border-color: var(--success);' : '';
 
-            // Badge Kosong Khusus
             let overlayHabis = isKosong ? `<div class="badge-habis"><i class="fa-solid fa-box-open"></i> Stok Belum Tersedia</div>` : '';
             
             let btnPlus = isKosong 
@@ -860,20 +855,28 @@
 
         function toggleCart() { const modal = document.getElementById('cart-modal'); modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex'; }
         
+        // UPGRADE LOGIKA TOGGLE ALAMAT & ONGKIR
         function toggleAddress() { 
             const method = document.getElementById('delivery-method').value; 
             const addressInput = document.getElementById('cust-address'); 
             const infoOngkir = document.getElementById('info-ongkir');
             
-            if(method === 'kirim') {
+            if(method === 'kirim_free' || method === 'kirim_kurir') {
                 addressInput.style.display = 'block';
                 infoOngkir.style.display = 'block';
+                
+                if (method === 'kirim_free') {
+                    infoOngkir.innerHTML = '<i class="fa-solid fa-circle-info"></i> *S&K Berlaku. Promo Free Ongkir khusus untuk wilayah yang terjangkau dengan minimal belanja Rp 5.000.000.';
+                } else {
+                    infoOngkir.innerHTML = '<i class="fa-solid fa-circle-info"></i> *S&K Berlaku. Biaya tambahan ongkos kirim (jasa kurir) akan dihitungkan oleh Admin setelah pesanan masuk.';
+                }
             } else {
                 addressInput.style.display = 'none';
                 infoOngkir.style.display = 'none';
             }
         }
 
+        // UPGRADE CHECKOUT WA (FORMAT INVOICE PROFESIONAL)
         function checkoutWA() {
             const nama = document.getElementById('cust-name').value.trim();
             const metode = document.getElementById('delivery-method').value;
@@ -882,17 +885,48 @@
             if (!nama) { alert("Silakan isi Nama atau Nama Toko Anda."); return; }
             if (keranjang.length === 0) { alert("Keranjang masih kosong."); return; }
             
-            if (metode === 'kirim' && totalHargaGlobal < 3000000) {
-                alert("Maaf, layanan pengiriman ke alamat khusus untuk total belanja minimal Rp 3.000.000. Silakan pilih 'Diambil di Toko' atau tambah pesanan Anda."); 
+            if ((metode === 'kirim_free' || metode === 'kirim_kurir') && !alamat) {
+                alert("Silakan isi Alamat Lengkap pengiriman."); return;
+            }
+
+            // Validasi Limit 5 Juta untuk Free Ongkir
+            if (metode === 'kirim_free' && totalHargaGlobal < 5000000) {
+                alert("Maaf, layanan Free Ongkir khusus untuk total belanja minimal Rp 5.000.000.\n\nSilakan pilih metode 'Dikirim via Jasa Kurir' atau tambah pesanan Anda lagi ya!"); 
                 return; 
             }
 
-            let teksKirim = `*PESANAN GROSIR SNACK MICKEY MOUSE*\n------------------------------------------\n*Nama:* ${nama}\n*Metode:* ${metode === 'ambil' ? 'Diambil di Toko' : 'Kirim'}\n`;
-            if (metode === 'kirim') teksKirim += `*Alamat:* ${alamat}\n`;
-            teksKirim += `------------------------------------------\n\n`;
-            keranjang.forEach((item, index) => { teksKirim += `${index + 1}. ${item.namaLengkap}\n   ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${(item.harga * item.jumlah).toLocaleString('id-ID')}\n`; });
-            teksKirim += `\n------------------------------------------\n*TOTAL:* Rp ${totalHargaGlobal.toLocaleString('id-ID')}`;
+            let namaMetode = "";
+            if (metode === 'ambil') namaMetode = "Diambil di Toko";
+            else if (metode === 'kirim_free') namaMetode = "Dikirim ke Alamat (Free Ongkir)";
+            else if (metode === 'kirim_kurir') namaMetode = "Dikirim via Jasa Kurir";
+
+            // Format Pesan WA
+            let teksKirim = `Halo Admin Grosir Snack Mickey Mouse, 🐭\nSaya ingin melakukan pesanan dengan detail berikut:\n\n`;
             
+            teksKirim += `📋 *DETAIL PEMESANAN*\n`;
+            teksKirim += `------------------------------------------\n`;
+            teksKirim += `👤 *Nama/Toko :* ${nama}\n`;
+            teksKirim += `📦 *Pengiriman :* ${namaMetode}\n`;
+            if (metode !== 'ambil') {
+                teksKirim += `📍 *Alamat :*\n${alamat}\n`;
+            }
+            teksKirim += `------------------------------------------\n\n`;
+            
+            teksKirim += `🛒 *DAFTAR PESANAN*\n`;
+            keranjang.forEach((item, index) => { 
+                teksKirim += `${index + 1}. *${item.namaLengkap}*\n   ▫️ ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = *Rp ${(item.harga * item.jumlah).toLocaleString('id-ID')}*\n`; 
+            });
+            
+            teksKirim += `\n------------------------------------------\n`;
+            teksKirim += `💰 *TOTAL BELANJA: Rp ${totalHargaGlobal.toLocaleString('id-ID')}*\n`;
+            if (metode === 'kirim_kurir') {
+                teksKirim += `_(Belum termasuk biaya tambahan ongkir)_\n`;
+            }
+            teksKirim += `------------------------------------------\n\n`;
+            
+            teksKirim += `Mohon dibantu cek ketersediaan stoknya ya Min. Terima kasih! 🙏`;
+            
+            // Bersihkan keranjang setelah checkout sukses
             localStorage.removeItem('grosirMickeyCart');
             keranjang = [];
             updateKeranjang();
