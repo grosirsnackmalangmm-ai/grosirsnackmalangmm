@@ -10,182 +10,173 @@
     <style>
         :root {
             --primary: #E62020;
-            --primary-hover: #cc1b1b;
+            --primary-light: #ff4d4d;
             --secondary: #FFD700;
-            --secondary-hover: #e6c200;
-            --dark: #1A1A1A;
-            --light: #F4F7FB; /* Lebih modern dibanding F8FAFC */
+            --dark: #121212;
+            --light: #F7F9FC;
             --white: #FFFFFF;
-            --text-gray: #64748B;
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            --hover-shadow: 0 15px 35px rgba(230, 32, 32, 0.08);
+            --text-gray: #5A6A80;
+            --border-color: #EAEFF5;
+            --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+            --shadow-lg: 0 15px 35px rgba(230, 32, 32, 0.08);
+            --radius-lg: 24px;
+            --radius-md: 16px;
         }
+        
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; scroll-behavior: smooth; }
         body { background-color: var(--light); color: var(--dark); overflow-x: hidden; }
         h1, h2, h3, h4, .logo { font-family: 'Fredoka', sans-serif; }
-        
-        /* ANIMASI DASAR */
+
+        /* ANIMASI */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-        @keyframes pulseCart {
-            0% { box-shadow: 0 0 0 0 rgba(230, 32, 32, 0.5); }
-            70% { box-shadow: 0 0 0 15px rgba(230, 32, 32, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(230, 32, 32, 0); }
-        }
+        .animate-fade { animation: fadeInUp 0.7s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
 
-        .fade-in { animation: fadeInUp 0.6s ease-out forwards; }
-
-        /* NAVBAR (GLASSMORPHISM) */
+        /* NAVBAR PREMIUM GLASSMORPHISM */
         nav { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 1rem 5%; position: sticky; top: 0; z-index: 1000; 
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            padding: 1.2rem 5%; position: sticky; top: 0; z-index: 1000; 
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
         }
-        .logo { font-size: 1.8rem; color: var(--dark); text-decoration: none; letter-spacing: 0.5px; font-weight: 700; }
+        .logo { font-size: 1.8rem; color: var(--dark); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--primary); }
-        .nav-links { list-style: none; display: flex; gap: 30px; transition: all 0.3s ease; }
-        .nav-links a { color: var(--text-gray); text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; position: relative; }
-        .nav-links a::after {
-            content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0;
-            background-color: var(--primary); transition: width 0.3s ease;
-        }
+        .nav-links { list-style: none; display: flex; gap: 35px; }
+        .nav-links a { color: var(--text-gray); text-decoration: none; font-weight: 600; font-size: 1.05rem; position: relative; padding-bottom: 5px; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 0; background: var(--primary); border-radius: 5px; transition: width 0.3s ease; }
         .nav-links a:hover { color: var(--primary); }
         .nav-links a:hover::after { width: 100%; }
         .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: var(--dark); }
 
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
-            .nav-links { position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); flex-direction: column; gap: 0; box-shadow: 0 10px 15px rgba(0,0,0,0.05); display: none; }
-            .nav-links.active { display: flex; animation: fadeInUp 0.3s ease-out; }
-            .nav-links li { text-align: center; border-bottom: 1px solid #f1f5f9; }
-            .nav-links a { display: block; padding: 15px; }
+            .nav-links { position: absolute; top: 100%; left: 0; width: 100%; background: var(--white); flex-direction: column; gap: 0; display: none; border-top: 1px solid var(--border-color); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+            .nav-links.active { display: flex; animation: fadeInUp 0.3s ease; }
+            .nav-links a { display: block; padding: 18px 25px; border-bottom: 1px solid var(--border-color); }
             .nav-links a::after { display: none; }
         }
 
-        /* TOMBOL KERANJANG MENGAMBANG */
+        /* FLOATING CART TERBARU */
         .floating-cart { 
-            position: fixed; bottom: 30px; right: 30px; 
-            background: linear-gradient(135deg, var(--primary), #b31212); 
-            color: white; width: 65px; height: 65px; border-radius: 50%; 
+            position: fixed; bottom: 35px; right: 35px; 
+            background: linear-gradient(135deg, var(--primary), #a80f0f); 
+            color: white; width: 68px; height: 68px; border-radius: 50%; 
             display: flex; justify-content: center; align-items: center; 
-            font-size: 1.6rem; cursor: pointer; 
-            box-shadow: 0 8px 25px rgba(230, 32, 32, 0.4); 
-            z-index: 1500; border: none; 
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            animation: pulseCart 2.5s infinite;
+            font-size: 1.8rem; cursor: pointer; border: none; z-index: 1500;
+            box-shadow: 0 10px 30px rgba(230, 32, 32, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .floating-cart:hover { transform: scale(1.1) translateY(-5px); animation: none; }
-        .badge-qty { position: absolute; top: -5px; right: -5px; background: var(--secondary); color: var(--dark); width: 26px; height: 26px; border-radius: 50%; font-size: 0.9rem; font-weight: 700; display: flex; justify-content: center; align-items: center; border: 2px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .floating-cart:hover { transform: scale(1.1) translateY(-5px); }
+        .badge-qty { position: absolute; top: -2px; right: -2px; background: var(--secondary); color: var(--dark); width: 28px; height: 28px; border-radius: 50%; font-size: 0.95rem; font-weight: 800; display: flex; justify-content: center; align-items: center; border: 3px solid var(--white); }
 
         /* HERO & BASIC SECTIONS */
-        #home { width: 100%; text-align: center; background-color: var(--white); position: relative; }
-        #home img { width: 100%; max-width: 1793px; height: auto; aspect-ratio: 1793 / 592; object-fit: cover; display: block; margin: 0 auto; }
-        .section { padding: 4.5rem 5%; max-width: 1300px; margin: auto; }
-        h2.title { text-align: center; font-size: 2.8rem; margin-bottom: 2.5rem; color: var(--dark); position: relative; }
-        h2.title span { color: var(--primary); }
+        #home img { width: 100%; height: auto; max-height: 80vh; object-fit: cover; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; box-shadow: var(--shadow-sm); }
+        .section { padding: 5rem 5%; max-width: 1400px; margin: auto; }
+        h2.title { text-align: center; font-size: 3rem; margin-bottom: 3rem; color: var(--dark); }
+        h2.title span { color: var(--primary); position: relative; display: inline-block; }
+        h2.title span::after { content: ''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 10px; background: rgba(255, 215, 0, 0.4); z-index: -1; border-radius: 10px; }
 
-        /* PENCARIAN & FILTER */
-        .search-filter-box { background: var(--white); padding: 1.8rem 2rem; border-radius: 24px; box-shadow: var(--card-shadow); margin-bottom: 3rem; }
+        /* SEARCH & FILTER (APP STYLE) */
+        .search-filter-box { background: var(--white); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); margin-bottom: 3rem; border: 1px solid var(--border-color); }
         .search-wrapper { position: relative; margin-bottom: 1.5rem; }
-        .search-wrapper i { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 1.3rem; }
-        .search-input { width: 100%; padding: 16px 16px 16px 60px; border: 2px solid transparent; border-radius: 50px; font-size: 1.05rem; outline: none; transition: all 0.3s ease; background-color: #f1f5f9; color: var(--dark); }
-        .search-input:focus { border-color: var(--primary); background-color: var(--white); box-shadow: 0 4px 15px rgba(230, 32, 32, 0.1); }
+        .search-wrapper i { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 1.4rem; }
+        .search-input { width: 100%; padding: 18px 18px 18px 65px; border: 2px solid var(--border-color); border-radius: 50px; font-size: 1.1rem; outline: none; transition: all 0.3s; background-color: var(--light); font-weight: 500; }
+        .search-input:focus { border-color: var(--primary); background-color: var(--white); box-shadow: 0 0 0 4px rgba(230, 32, 32, 0.1); }
         .kategori-menu { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
-        .kategori-btn { background-color: #f1f5f9; border: 1px solid transparent; color: var(--text-gray); padding: 0.7rem 1.8rem; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: all 0.25s ease; }
-        .kategori-btn.active, .kategori-btn:hover { background-color: var(--primary); color: white; box-shadow: 0 6px 15px rgba(230, 32, 32, 0.25); transform: translateY(-2px); }
-        .section-subtitle { font-size: 1.6rem; color: var(--dark); margin: 2.5rem 0 1.2rem 0; display: flex; align-items: center; gap: 12px; }
-        .section-subtitle::after { content: ""; flex-grow: 1; height: 2px; background: linear-gradient(90deg, #e2e8f0, transparent); margin-left: 15px; border-radius: 2px; }
+        .kategori-btn { background: var(--light); color: var(--text-gray); border: none; padding: 10px 22px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: all 0.3s; border: 1px solid transparent; }
+        .kategori-btn.active, .kategori-btn:hover { background: var(--primary); color: white; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(230, 32, 32, 0.25); }
+        
+        .section-subtitle { font-size: 1.8rem; color: var(--dark); margin: 3rem 0 1.5rem 0; display: flex; align-items: center; gap: 12px; }
 
         /* GRID & HORIZONTAL SCROLL */
-        .katalog-horizontal { display: flex; overflow-x: auto; gap: 1.8rem; padding: 15px 10px 2rem 10px; scroll-behavior: smooth; scroll-snap-type: x mandatory; }
-        .katalog-horizontal::-webkit-scrollbar { height: 6px; }
-        .katalog-horizontal::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
-        .katalog-horizontal::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .katalog-horizontal::-webkit-scrollbar-thumb:hover { background: var(--primary); }
-        .katalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.8rem; padding: 10px; }
+        .katalog-horizontal { display: flex; overflow-x: auto; gap: 2rem; padding: 10px 10px 2.5rem 10px; scroll-behavior: smooth; scroll-snap-type: x mandatory; margin-right: -5%; padding-right: 5%; }
+        .katalog-horizontal::-webkit-scrollbar { display: none; } /* Hide scrollbar for cleaner look */
+        .katalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; padding: 10px; }
 
-        /* KARTU PRODUK */
-        .produk-card { background: var(--white); border-radius: 24px; padding: 1.2rem; box-shadow: var(--card-shadow); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.02); }
-        .katalog-horizontal .produk-card { min-width: 260px; max-width: 260px; flex-shrink: 0; scroll-snap-align: start; }
-        .produk-card:hover { transform: translateY(-8px); box-shadow: var(--hover-shadow); border-color: rgba(230, 32, 32, 0.1); }
-        .produk-img-wrapper { width: 100%; height: 200px; border-radius: 18px; margin-bottom: 15px; background-color: #f8fafc; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        .produk-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .produk-card:hover .produk-img { transform: scale(1.1); }
-        .kategori-badge { background: rgba(26, 26, 26, 0.85); backdrop-filter: blur(4px); color: white; font-size: 0.75rem; padding: 6px 14px; border-radius: 50px; position: absolute; top: 12px; left: 12px; font-weight: 700; z-index: 5; }
+        /* KARTU PRODUK PREMIUM */
+        .produk-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; border: 1px solid var(--border-color); position: relative; }
+        .katalog-horizontal .produk-card { min-width: 280px; max-width: 280px; flex-shrink: 0; scroll-snap-align: center; }
+        .produk-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: rgba(230, 32, 32, 0.2); }
         
-        .btn-plus-img { position: absolute; bottom: 12px; right: 12px; background: linear-gradient(135deg, var(--primary), #cc1b1b); color: white; border: 3px solid white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; z-index: 10; transition: all 0.2s ease; box-shadow: 0 5px 15px rgba(230, 32, 32, 0.3); }
-        .btn-plus-img:hover { transform: scale(1.1) rotate(90deg); }
+        .produk-img-wrapper { width: 100%; height: 220px; border-radius: var(--radius-md); margin-bottom: 20px; background-color: var(--light); position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .produk-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .produk-card:hover .produk-img { transform: scale(1.15); }
+        .kategori-badge { background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); color: white; font-size: 0.8rem; padding: 6px 14px; border-radius: 50px; position: absolute; top: 15px; left: 15px; font-weight: 700; z-index: 5; letter-spacing: 0.5px; }
+        
+        .btn-plus-img { position: absolute; bottom: 15px; right: 15px; background: var(--primary); color: white; border: none; width: 45px; height: 45px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1.4rem; cursor: pointer; z-index: 10; transition: all 0.3s; box-shadow: 0 5px 15px rgba(230, 32, 32, 0.3); }
+        .btn-plus-img:hover { transform: scale(1.1) rotate(90deg); background: var(--dark); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-        /* FITUR STOK KOSONG */
-        .img-kosong { filter: grayscale(100%) opacity(0.6); }
-        .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); color: #ffffff; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 20px rgba(0,0,0,0.25); white-space: nowrap; }
-        .btn-habis { background: #cbd5e1 !important; cursor: not-allowed !important; box-shadow: none !important; color: white !important; transform: none !important; }
+        .img-kosong { filter: grayscale(100%) opacity(0.5); }
+        .badge-habis { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.95); color: var(--dark); padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 1rem; z-index: 10; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); white-space: nowrap; }
 
-        .produk-card h3 { font-size: 1.15rem; margin-bottom: 12px; line-height: 1.4; height: 48px; color: var(--dark); font-weight: 600; text-align: left; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .select-varian { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #f1f5f9; font-size: 0.9rem; outline: none; font-weight: 600; background-color: var(--white); color: var(--text-gray); cursor: pointer; margin-top: auto; transition: border 0.3s ease; }
+        .produk-card h3 { font-size: 1.2rem; margin-bottom: 15px; line-height: 1.4; height: 50px; color: var(--dark); font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .select-varian { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid var(--border-color); font-size: 0.95rem; outline: none; font-weight: 600; background-color: var(--white); color: var(--text-gray); cursor: pointer; margin-top: auto; transition: all 0.3s; appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231A1A1A%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.65rem auto; }
         .select-varian:focus { border-color: var(--primary); }
 
-        .loading-status { text-align: center; font-size: 1.1rem; color: var(--text-gray); padding: 4rem 0; width: 100%; }
+        .loading-status { text-align: center; font-size: 1.2rem; color: var(--text-gray); padding: 5rem 0; width: 100%; font-weight: 600; }
 
-        /* PROMO & INFO SECTIONS */
-        .promo-banner { background: linear-gradient(135deg, var(--primary), #900b0b); border-radius: 30px; padding: 3.5rem; color: white; display: flex; align-items: center; gap: 2rem; box-shadow: 0 20px 50px rgba(230, 32, 32, 0.2); margin-bottom: 4rem; flex-wrap: wrap; position: relative; overflow: hidden; }
-        .promo-banner::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: rgba(255,255,255,0.1); border-radius: 50%; }
-        .promo-content { flex: 1; min-width: 300px; z-index: 2; }
-        .promo-badge { background: var(--secondary); color: var(--dark); font-weight: 700; padding: 8px 18px; border-radius: 50px; display: inline-block; margin-bottom: 1.5rem; font-size: 0.95rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .promo-banner h3 { font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.2; }
-        .promo-banner p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; line-height: 1.6; font-weight: 500; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
-        .info-card { background: var(--white); padding: 3rem 2rem; border-radius: 24px; box-shadow: var(--card-shadow); text-align: center; border: 1px solid rgba(0,0,0,0.02); transition: transform 0.3s ease; }
-        .info-card:hover { transform: translateY(-5px); box-shadow: var(--hover-shadow); }
-        .info-card i { font-size: 2.8rem; color: var(--primary); margin-bottom: 1.5rem; }
-        .map-container iframe { width: 100%; height: 250px; border: none; border-radius: 16px; margin-top: 1.5rem; }
+        /* PROMO & INFO */
+        .promo-banner { background: linear-gradient(135deg, var(--primary), #820707); border-radius: var(--radius-lg); padding: 4rem; color: white; display: flex; align-items: center; gap: 3rem; box-shadow: 0 25px 50px rgba(230, 32, 32, 0.25); margin-bottom: 5rem; flex-wrap: wrap; position: relative; overflow: hidden; }
+        .promo-banner::after { content: ''; position: absolute; right: -50px; bottom: -50px; width: 350px; height: 350px; background: rgba(255,255,255,0.05); border-radius: 50%; z-index: 1; }
+        .promo-content { flex: 1; z-index: 2; }
+        .promo-badge { background: var(--secondary); color: var(--dark); font-weight: 800; padding: 10px 20px; border-radius: 50px; display: inline-block; margin-bottom: 1.5rem; font-size: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .promo-banner h3 { font-size: 3rem; margin-bottom: 1.5rem; line-height: 1.2; }
         
-        .social-btn { display: inline-block; margin-top: 20px; padding: 14px 35px; border-radius: 50px; color: white; text-decoration: none; font-weight: 700; transition: all 0.3s; font-size: 1rem; }
-        .btn-tiktok { background: linear-gradient(135deg, #000000, #252525); }
-        .btn-tiktok:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+        .info-card { background: var(--white); padding: 3.5rem 2.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); text-align: center; border: 1px solid var(--border-color); transition: all 0.3s; }
+        .info-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: rgba(230, 32, 32, 0.1); }
+        .info-card i { font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; }
+        
+        .social-btn { display: inline-block; margin-top: 25px; padding: 16px 40px; border-radius: 50px; color: white; text-decoration: none; font-weight: 700; transition: all 0.3s; font-size: 1.1rem; }
         .btn-whatsapp { background: linear-gradient(135deg, #25D366, #1da851); }
-        .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4); }
+        .btn-whatsapp:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); }
 
-        footer { background-color: var(--white); color: var(--text-gray); text-align: center; padding: 4rem 5%; border-top: 1px solid #e2e8f0; }
+        footer { background-color: var(--white); color: var(--text-gray); text-align: center; padding: 4rem 5%; border-top: 1px solid var(--border-color); margin-top: 3rem; }
 
-        /* MODAL & TOAST */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; animation: fadeInUp 0.3s ease; }
-        .modal-content { background: var(--white); width: 90%; max-width: 520px; border-radius: 30px; padding: 2.5rem; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-        .btn-close { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: #a0aec0; background: none; border: none; transition: color 0.3s; }
-        .btn-close:hover { color: var(--primary); }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-bottom: 1px solid #f1f5f9; }
-        .cart-info h4 { margin-bottom: 6px; font-size: 1rem; color: var(--dark); line-height: 1.3; }
-        .cart-controls { display: flex; align-items: center; gap: 10px; }
-        .btn-qty { background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--dark); transition: background 0.2s; }
-        .btn-qty:hover { background: #e2e8f0; }
-        .btn-hapus { color: #cbd5e1; background: none; border: none; cursor: pointer; font-size: 1.3rem; margin-left: 10px; transition: color 0.2s; }
-        .btn-hapus:hover { color: var(--primary); }
-        .total-harga { font-size: 1.5rem; font-weight: 700; text-align: right; margin: 1.5rem 0; color: var(--dark); }
-        .checkout-form { background: #f8fafc; padding: 25px; border-radius: 20px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
-        .checkout-form input, .checkout-form select, .checkout-form textarea { width: 100%; padding: 14px; margin-bottom: 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.95rem; outline: none; transition: border 0.3s; }
-        .checkout-form input:focus, .checkout-form select:focus, .checkout-form textarea:focus { border-color: var(--primary); }
-        .btn-wa { background: linear-gradient(135deg, #25D366, #1da851); color: white; border: none; padding: 1.2rem; border-radius: 16px; width: 100%; font-size: 1.15rem; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 12px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); transition: transform 0.2s; }
-        .btn-wa:hover { transform: translateY(-2px); }
+        /* MODAL DRAWER KERANJANG (UPDATE BESAR) */
+        .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .drawer-overlay.active { display: block; opacity: 1; }
+        .cart-drawer-content { position: fixed; top: 0; right: -100%; width: 100%; max-width: 480px; height: 100vh; background: var(--white); box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 2001; display: flex; flex-direction: column; padding: 2rem; overflow-y: auto; }
+        .drawer-overlay.active .cart-drawer-content { right: 0; }
         
-        #toast { visibility: hidden; min-width: 250px; background-color: var(--dark); color: #fff; text-align: center; border-radius: 50px; padding: 14px 28px; position: fixed; z-index: 4000; left: 50%; transform: translateX(-50%); bottom: 30px; font-size: 1rem; font-weight: 600; box-shadow: 0 15px 30px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.4s, bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        #toast.show { visibility: visible; opacity: 1; bottom: 120px; }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+        .drawer-header h2 { font-size: 1.8rem; color: var(--dark); display: flex; align-items: center; gap: 10px; }
+        .btn-close-drawer { font-size: 2rem; cursor: pointer; color: var(--text-gray); background: none; border: none; transition: color 0.3s; width: 45px; height: 45px; border-radius: 50%; background: var(--light); display: flex; align-items: center; justify-content: center; }
+        .btn-close-drawer:hover { color: var(--white); background: var(--primary); }
 
-        @media (max-width: 768px) { 
-            h2.title { font-size: 2.2rem; } 
-            .promo-banner { padding: 2.5rem; text-align: center; } 
-            .section { padding: 3rem 5%; }
-        }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid var(--border-color); }
+        .cart-info h4 { margin-bottom: 8px; font-size: 1.1rem; color: var(--dark); line-height: 1.4; }
+        .cart-controls { display: flex; align-items: center; gap: 12px; background: var(--light); padding: 5px; border-radius: 12px; }
+        .btn-qty { background: var(--white); border: 1px solid var(--border-color); width: 35px; height: 35px; border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--dark); transition: all 0.2s; }
+        .btn-qty:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .btn-hapus { color: #cbd5e1; background: none; border: none; cursor: pointer; font-size: 1.4rem; margin-left: 10px; transition: color 0.2s; }
+        .btn-hapus:hover { color: var(--primary); }
+        
+        .checkout-section { margin-top: auto; padding-top: 2rem; background: var(--white); position: sticky; bottom: 0; }
+        .total-harga { font-size: 1.8rem; font-weight: 800; text-align: right; margin-bottom: 1.5rem; color: var(--primary); }
+        .checkout-form { background: var(--light); padding: 25px; border-radius: var(--radius-lg); margin-bottom: 20px; border: 1px solid var(--border-color); }
+        .checkout-form input, .checkout-form select, .checkout-form textarea { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid var(--border-color); border-radius: 12px; font-size: 1rem; outline: none; transition: border 0.3s; background: var(--white); }
+        .checkout-form input:focus, .checkout-form select:focus, .checkout-form textarea:focus { border-color: var(--primary); }
+        .btn-wa { background: linear-gradient(135deg, #25D366, #1da851); color: white; border: none; padding: 1.2rem; border-radius: 16px; width: 100%; font-size: 1.2rem; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); transition: transform 0.2s; }
+        .btn-wa:hover { transform: translateY(-3px); }
+
+        /* MODAL QTY */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); z-index: 2500; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; animation: fadeInUp 0.3s ease; }
+        .modal-content { background: var(--white); width: 90%; max-width: 380px; border-radius: var(--radius-lg); padding: 3rem 2rem; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+        
+        #toast { visibility: hidden; min-width: 250px; background: var(--dark); color: #fff; text-align: center; border-radius: 50px; padding: 16px 30px; position: fixed; z-index: 4000; left: 50%; transform: translateX(-50%) translateY(20px); bottom: 40px; font-size: 1.1rem; font-weight: 700; box-shadow: 0 15px 30px rgba(0,0,0,0.3); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; justify-content: center; }
+        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        @media (max-width: 768px) { h2.title { font-size: 2.4rem; } .promo-banner { padding: 2.5rem; text-align: center; } .cart-drawer-content { width: 100%; max-width: 100%; right: -100%; } }
     </style>
 </head>
 <body>
 
-    <div id="toast">Produk ditambahkan!</div>
+    <div id="toast"><i class="fa-solid fa-circle-check" style="color: #25D366;"></i> <span id="toast-msg">Produk ditambahkan!</span></div>
 
     <nav>
         <a href="#home" class="logo">Snack<span>MickeyMouse</span></a>
@@ -198,23 +189,22 @@
         </ul>
     </nav>
 
-    <button class="floating-cart" onclick="toggleCart()">
-        <i class="fa-solid fa-cart-shopping"></i>
+    <button class="floating-cart" onclick="openCartDrawer()">
+        <i class="fa-solid fa-bag-shopping"></i>
         <span class="badge-qty" id="cart-badge">0</span>
     </button>
 
-    <section id="home" class="fade-in">
-        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse" onerror="this.src='https://placehold.co/1200x400/F8FAFC/E62020?text=Grosir+Snack+Mickey+Mouse'">
+    <section id="home" class="animate-fade">
+        <img src="Homepage1.png" alt="Spanduk Grosir Snack Mickey Mouse" onerror="this.src='https://placehold.co/1200x400/F7F9FC/E62020?text=Grosir+Snack+Mickey+Mouse'">
     </section>
 
-    <section id="pesan" class="section fade-in">
+    <section id="pesan" class="section animate-fade">
         <h2 class="title">Katalog <span>Produk</span></h2>
         
         <div class="search-filter-box">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <!-- Teks placeholder diubah agar memberikan contoh produk yang realistis -->
-                <input type="text" id="search-input" class="search-input" placeholder="Cari nama snack, permen Milkita, kopi kemasan..." oninput="jalankanFilter()">
+                <input type="text" id="search-input" class="search-input" placeholder="Cari nama snack, permen, kopi kemasan..." oninput="jalankanFilter()">
             </div>
             <div class="kategori-menu" id="kategori-container">
                 <button class="kategori-btn active" id="btn-cat-Semua" onclick="gantiKategori('Semua')">Semua Tampilan</button>
@@ -223,19 +213,19 @@
 
         <div id="katalog-produk">
             <div class="loading-status" id="loading-text">
-                <i class="fa-solid fa-cookie-bite fa-spin" style="color:var(--primary); font-size: 2.5rem; margin-bottom: 20px;"></i><br>
-                Membuka rak jajanan...
+                <i class="fa-solid fa-cookie-bite fa-spin" style="color:var(--primary); font-size: 3rem; margin-bottom: 25px; display: block;"></i>
+                Sedang menyusun rak jajanan...
             </div>
         </div>
     </section>
 
-    <section id="about" class="section fade-in">
+    <section id="about" class="section animate-fade">
         <div class="promo-banner">
             <div class="promo-content">
-                <div class="promo-badge">🎉 Sejak 2006</div>
+                <div class="promo-badge"><i class="fa-solid fa-award"></i> Sejak 2006</div>
                 <h3>Pusat Kulakan Jajanan Termurah di Malang!</h3>
-                <p>Sudah lebih dari 20 Tahun Grosir Snack Mickey Mouse dipercaya oleh ribuan toko dan agen di Malang Raya.</p>
-                <div style="font-size: 1.15rem; font-weight: 700; color: var(--secondary);">
+                <p style="font-size: 1.2rem;">Lebih dari 20 Tahun dipercaya oleh ribuan toko dan agen di Malang Raya.</p>
+                <div style="font-size: 1.2rem; font-weight: 800; color: var(--secondary); margin-top: 2rem;">
                     <i class="fa-solid fa-clock"></i> Buka Setiap Hari (08.00 - 17.00 WIB)
                 </div>
             </div>
@@ -243,78 +233,77 @@
         <div class="info-grid">
             <div class="info-card map-container">
                 <i class="fa-solid fa-map-location-dot"></i>
-                <h3>Kunjungi Toko Kami</h3>
-                <p style="color: var(--text-gray); margin-top: 8px; font-size: 0.95rem;">Jl. Mayjen Sungkono No.38, Arjowinangun, Kec. Kedungkandang, Kota Malang</p>
-                <iframe src="https://www.google.com/maps?q=Grosir+Snack+Mickey+Mouse+Malang&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <h3 style="font-size: 1.8rem; color: var(--dark); margin-bottom: 10px;">Kunjungi Toko Kami</h3>
+                <p style="color: var(--text-gray); margin-bottom: 20px; font-size: 1.1rem;">Jl. Mayjen Sungkono No.38, Kedungkandang, Kota Malang</p>
+                <iframe src="https://www.google.com/maps?q=Grosir+Snack+Mickey+Mouse+Malang&output=embed" style="width: 100%; height: 280px; border: none; border-radius: 20px;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="section fade-in" style="padding-top: 0;">
+    <section id="contact" class="section animate-fade" style="padding-top: 0;">
         <h2 class="title">Hubungi <span>Kami</span></h2>
         <div class="info-grid" style="max-width: 900px; margin: auto;">
             <div class="info-card">
                 <i class="fa-brands fa-whatsapp"></i>
-                <h3>WhatsApp Admin</h3>
-                <p style="color: var(--text-gray); margin-bottom: 15px; font-size: 0.95rem;">Pesan cepat langsung diproses</p>
+                <h3 style="font-size: 1.5rem; margin-bottom: 10px;">WhatsApp Admin</h3>
+                <p style="color: var(--text-gray); margin-bottom: 20px;">Pesan cepat langsung diproses</p>
                 <a href="https://wa.me/6285100116986" class="social-btn btn-whatsapp" target="_blank">Chat WA Sekarang</a>
-            </div>
-            <div class="info-card">
-                <i class="fa-brands fa-tiktok" style="color: #000;"></i>
-                <h3>TikTok Toko</h3>
-                <p style="color: var(--text-gray); margin-bottom: 15px; font-size: 0.95rem;">Lihat review & keramaian toko</p>
-                <a href="https://tiktok.com/@grosirsnackmm" class="social-btn btn-tiktok" target="_blank">Follow @grosirsnackmm</a>
             </div>
         </div>
     </section>
 
     <footer>
-        <h3 class="logo" style="font-size: 1.6rem;">Snack<span>MickeyMouse</span></h3>
-        <p style="margin-top:12px; font-size: 0.95rem;">© 2026 Grosir Snack Mickey Mouse. All Rights Reserved.</p>
+        <h3 class="logo" style="justify-content: center;">Snack<span>MickeyMouse</span></h3>
+        <p style="margin-top:15px; font-weight: 600;">© 2026 Grosir Snack Mickey Mouse. All Rights Reserved.</p>
     </footer>
 
-    <!-- MODAL KERANJANG -->
-    <div class="modal-overlay" id="cart-modal">
-        <div class="modal-content">
-            <button class="btn-close" onclick="toggleCart()">×</button>
-            <h2 style="margin-bottom: 1.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;"><i class="fa-solid fa-cart-shopping" style="color: var(--primary);"></i> Keranjang Anda</h2>
-            <div id="cart-items-container" style="max-height: 280px; overflow-y: auto; margin-bottom: 20px; padding-right: 5px;"></div>
-            <div class="total-harga">Total: Rp <span id="cart-total-price">0</span></div>
-            <div class="checkout-form">
-                <input type="text" id="cust-name" placeholder="Nama Lengkap Anda" required>
-                <select id="delivery-method" onchange="toggleAddress()">
-                    <option value="ambil">Diambil di Toko</option>
-                    <option value="kirim">Dikirim ke Alamat</option>
-                </select>
-                <textarea id="cust-address" placeholder="Tuliskan Alamat Lengkap Pengiriman..." style="display: none; height: 85px; resize: none;"></textarea>
-                <div style="font-size: 0.85rem; color: var(--primary); font-weight: 600; font-style: italic; margin-top: 10px; display: none;" id="info-ongkir">
-                    *Layanan pengiriman alamat khusus total belanja di atas Rp 3.000.000.
-                </div>
+    <!-- CART DRAWER (PENGGANTI MODAL TENGAH) -->
+    <div class="drawer-overlay" id="cart-drawer-overlay" onclick="if(event.target === this) closeCartDrawer()">
+        <div class="cart-drawer-content" onclick="event.stopPropagation()">
+            <div class="drawer-header">
+                <h2><i class="fa-solid fa-bag-shopping" style="color: var(--primary);"></i> Tas Belanja</h2>
+                <button class="btn-close-drawer" onclick="closeCartDrawer()"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <button class="btn-wa" onclick="checkoutWA()"><i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp</button>
+            
+            <div id="cart-items-container" style="flex: 1; overflow-y: auto; padding-right: 10px;"></div>
+            
+            <div class="checkout-section">
+                <div class="total-harga">Total: Rp <span id="cart-total-price">0</span></div>
+                <div class="checkout-form">
+                    <input type="text" id="cust-name" placeholder="Nama Lengkap Anda" required>
+                    <select id="delivery-method" onchange="toggleAddress()">
+                        <option value="ambil">Diambil di Toko</option>
+                        <option value="kirim">Dikirim ke Alamat</option>
+                    </select>
+                    <textarea id="cust-address" placeholder="Tuliskan Alamat Lengkap Pengiriman..." style="display: none; height: 90px; resize: none;"></textarea>
+                    <div style="font-size: 0.85rem; color: var(--primary); font-weight: 700; font-style: italic; margin-top: 10px; display: none;" id="info-ongkir">
+                        *Pengiriman alamat khusus total belanja di atas Rp 3.000.000.
+                    </div>
+                </div>
+                <button class="btn-wa" onclick="checkoutWA()"><i class="fa-brands fa-whatsapp"></i> Pesan via WhatsApp</button>
+            </div>
         </div>
     </div>
 
     <!-- MODAL QTY -->
-    <div class="modal-overlay" id="qty-modal" style="z-index: 2500;">
-        <div class="modal-content" style="max-width: 340px; text-align: center; padding: 2.5rem 2rem;">
-            <h3 style="margin-bottom: 1.2rem; color: var(--dark);">Masukkan Jumlah</h3>
-            <h4 id="qty-item-name" style="color: var(--primary); margin-bottom: 1.8rem; font-size: 1.1rem; line-height: 1.4;"></h4>
+    <div class="modal-overlay" id="qty-modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1.5rem; color: var(--dark); font-size: 1.5rem;">Atur Jumlah</h3>
+            <h4 id="qty-item-name" style="color: var(--primary); margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.5; font-weight: 700;"></h4>
             
-            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 2rem;">
-                <button onclick="changeQtyInput(-1)" style="width: 48px; height: 48px; border-radius: 14px; border: none; background: #f1f5f9; font-size: 1.6rem; font-weight: bold; cursor: pointer; color: var(--dark); transition: background 0.2s;">-</button>
-                <input type="number" id="qty-input-val" value="1" min="1" inputmode="numeric" style="width: 75px; height: 48px; text-align: center; font-size: 1.4rem; font-weight: bold; border: 2px solid #e2e8f0; border-radius: 14px; outline: none; color: var(--dark);">
-                <button onclick="changeQtyInput(1)" style="width: 48px; height: 48px; border-radius: 14px; border: none; background: #f1f5f9; font-size: 1.6rem; font-weight: bold; cursor: pointer; color: var(--dark); transition: background 0.2s;">+</button>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 2.5rem;">
+                <button onclick="changeQtyInput(-1)" style="width: 55px; height: 55px; border-radius: 16px; border: none; background: var(--light); font-size: 1.8rem; font-weight: bold; cursor: pointer; color: var(--dark); transition: all 0.2s; border: 1px solid var(--border-color);">-</button>
+                <input type="number" id="qty-input-val" value="1" min="1" inputmode="numeric" style="width: 90px; height: 55px; text-align: center; font-size: 1.6rem; font-weight: 800; border: 2px solid var(--border-color); border-radius: 16px; outline: none; color: var(--dark);">
+                <button onclick="changeQtyInput(1)" style="width: 55px; height: 55px; border-radius: 16px; border: none; background: var(--light); font-size: 1.8rem; font-weight: bold; cursor: pointer; color: var(--dark); transition: all 0.2s; border: 1px solid var(--border-color);">+</button>
             </div>
             
-            <div style="display: flex; gap: 12px;">
-                <button onclick="closeQtyModal()" style="flex: 1; padding: 14px; border: none; border-radius: 14px; background: #e2e8f0; color: var(--text-gray); font-weight: bold; cursor: pointer; font-size: 1.05rem; transition: background 0.2s;">Batal</button>
-                <button onclick="confirmAddCart()" style="flex: 1.5; padding: 14px; border: none; border-radius: 14px; background: var(--primary); color: white; font-weight: bold; cursor: pointer; font-size: 1.05rem; box-shadow: 0 5px 15px rgba(230, 32, 32, 0.3); transition: transform 0.2s;">Tambah</button>
+            <div style="display: flex; gap: 15px;">
+                <button onclick="closeQtyModal()" style="flex: 1; padding: 16px; border: none; border-radius: 16px; background: var(--light); color: var(--text-gray); font-weight: 800; cursor: pointer; font-size: 1.1rem; transition: background 0.2s;">Batal</button>
+                <button onclick="confirmAddCart()" style="flex: 1.5; padding: 16px; border: none; border-radius: 16px; background: var(--primary); color: white; font-weight: 800; cursor: pointer; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(230, 32, 32, 0.3); transition: transform 0.2s;">Masukkan Tas</button>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT (LOGIKA TETAP SAMA AGAR TIDAK MERUSAK DATA GOOGLE SHEETS ANDA) -->
     <script>
         let produkBase = [];
         let keranjang = [];
@@ -338,7 +327,7 @@
 
         function showToast(msg) {
             const toast = document.getElementById("toast");
-            toast.innerText = msg;
+            document.getElementById("toast-msg").innerText = msg;
             toast.classList.add("show");
             setTimeout(() => { toast.classList.remove("show"); }, 3000);
         }
@@ -351,7 +340,7 @@
             if(isTouching) return; 
             document.querySelectorAll('.katalog-horizontal').forEach(container => {
                 if(!container.matches(':hover') && !container.matches(':active')) {
-                    container.scrollBy({ left: 280, behavior: 'smooth' });
+                    container.scrollBy({ left: 300, behavior: 'smooth' });
                     if(container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
                         setTimeout(() => container.scrollTo({left: 0, behavior: 'smooth'}), 1500);
                     }
@@ -485,12 +474,12 @@
                 ${optionsHtml}
             </select>`;
             
-            let img = item.gambar ? item.gambar : 'https://placehold.co/300/F8FAFC/a0aec0?text=No+Image';
+            let img = item.gambar ? item.gambar : 'https://placehold.co/300/F7F9FC/a0aec0?text=No+Image';
             
             let imageClass = isKosong ? 'produk-img img-kosong' : 'produk-img';
             let overlayHabis = isKosong ? `<div class="badge-habis"><i class="fa-solid fa-box-open"></i> Stok Kosong</div>` : '';
             let btnPlus = isKosong 
-                ? `<button class="btn-plus-img btn-habis" disabled><i class="fa-solid fa-xmark"></i></button>`
+                ? `<button class="btn-plus-img" style="background:#cbd5e1;cursor:not-allowed;" disabled><i class="fa-solid fa-xmark"></i></button>`
                 : `<button class="btn-plus-img" onclick="openQtyModal(${item.id}, '${prefixArea}')"><i class="fa-solid fa-plus"></i></button>`;
             let titleColor = isKosong ? 'color: #94a3b8;' : '';
 
@@ -498,7 +487,7 @@
                 <div class="produk-card">
                     <span class="kategori-badge" ${isKosong ? 'style="background: #94a3b8;"' : ''}>${item.kategori}</span>
                     <div class="produk-img-wrapper">
-                        <img src="${img}" alt="${item.nama}" class="${imageClass}" onerror="this.src='https://placehold.co/300/F8FAFC/a0aec0?text=No+Image'">
+                        <img src="${img}" alt="${item.nama}" class="${imageClass}" onerror="this.src='https://placehold.co/300/F7F9FC/a0aec0?text=No+Image'">
                         ${overlayHabis}
                         ${btnPlus}
                     </div>
@@ -550,6 +539,11 @@
             catalogArea.innerHTML = htmlMarketplace;
         }
 
+        /* --- FUNGSI DRAWER KERANJANG --- */
+        function openCartDrawer() { document.getElementById('cart-drawer-overlay').classList.add('active'); }
+        function closeCartDrawer() { document.getElementById('cart-drawer-overlay').classList.remove('active'); }
+
+        /* --- FUNGSI MODAL INPUT QTY --- */
         function openQtyModal(id, prefixArea) {
             const item = produkBase.find(p => p.id === id);
             const varian = document.getElementById(`varian-${prefixArea}-${id}`).value;
@@ -558,10 +552,10 @@
             tempCartItem = { item, varian, labelVarian };
             document.getElementById('qty-item-name').innerText = `${item.nama} ${labelVarian}`;
             document.getElementById('qty-input-val').value = 1;
-            document.getElementById('qty-modal').style.display = 'flex';
+            document.getElementById('qty-modal').classList.add('active');
         }
 
-        function closeQtyModal() { document.getElementById('qty-modal').style.display = 'none'; }
+        function closeQtyModal() { document.getElementById('qty-modal').classList.remove('active'); }
 
         function changeQtyInput(val) {
             let input = document.getElementById('qty-input-val');
@@ -583,11 +577,11 @@
             updateKeranjang();
             saveCartToStorage(); 
             closeQtyModal();
-            showToast(`✅ ${item.nama} ditambahkan!`); 
+            showToast(`${item.nama} masuk ke tas!`); 
             
             const badge = document.getElementById('cart-badge');
             badge.style.transform = "scale(1.5)";
-            setTimeout(() => badge.style.transform = "scale(1)", 200);
+            setTimeout(() => badge.style.transform = "scale(1)", 300);
         }
 
         function kurangiQty(cartId) { const item = keranjang.find(k => k.cartId === cartId); if (item) { item.jumlah -= 1; if (item.jumlah === 0) keranjang = keranjang.filter(k => k.cartId !== cartId); updateKeranjang(); saveCartToStorage(); } }
@@ -601,15 +595,19 @@
             const totalItem = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
             badge.innerText = totalItem;
 
-            if (keranjang.length === 0) { container.innerHTML = '<p style="color: var(--text-gray); text-align: center; padding: 20px 0;">Keranjang Anda masih kosong.</p>'; totalSpan.innerText = '0'; totalHargaGlobal = 0; return; }
+            if (keranjang.length === 0) { 
+                container.innerHTML = '<div style="text-align: center; padding: 40px 0; color: var(--text-gray);"><i class="fa-solid fa-basket-shopping" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i><p>Tas belanja Anda masih kosong.</p></div>'; 
+                totalSpan.innerText = '0'; totalHargaGlobal = 0; return; 
+            }
+            
             let html = ''; totalHargaGlobal = 0;
             keranjang.forEach(item => {
                 const subtotal = item.harga * item.jumlah; totalHargaGlobal += subtotal;
                 html += `<div class="cart-item">
-                    <div class="cart-info"><h4>${item.namaLengkap}</h4><p style="font-size:0.9rem; color:var(--text-gray); font-weight: 500;">Rp ${item.harga.toLocaleString('id-ID')} x ${item.jumlah}</p></div>
+                    <div class="cart-info"><h4>${item.namaLengkap}</h4><p style="font-size:0.95rem; color:var(--text-gray); font-weight: 600;">Rp ${item.harga.toLocaleString('id-ID')} x ${item.jumlah}</p></div>
                     <div class="cart-controls">
                         <button class="btn-qty" onclick="kurangiQty('${item.cartId}')">-</button>
-                        <span style="font-weight:700; width:25px; text-align:center;">${item.jumlah}</span>
+                        <span style="font-weight:800; width:30px; text-align:center; font-size: 1.1rem;">${item.jumlah}</span>
                         <button class="btn-qty" onclick="tambahQty('${item.cartId}')">+</button>
                         <button class="btn-hapus" onclick="hapusItem('${item.cartId}')"><i class="fa-solid fa-trash-can"></i></button>
                     </div>
@@ -618,8 +616,6 @@
             container.innerHTML = html; totalSpan.innerText = totalHargaGlobal.toLocaleString('id-ID');
         }
 
-        function toggleCart() { const modal = document.getElementById('cart-modal'); modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex'; }
-        
         function toggleAddress() { 
             const method = document.getElementById('delivery-method').value; 
             const addressInput = document.getElementById('cust-address'); 
@@ -640,7 +636,7 @@
             const alamat = document.getElementById('cust-address').value.trim();
             
             if (!nama) { alert("Silakan isi Nama Lengkap Anda terlebih dahulu."); return; }
-            if (keranjang.length === 0) { alert("Keranjang belanja Anda masih kosong."); return; }
+            if (keranjang.length === 0) { alert("Tas belanja Anda masih kosong."); return; }
             
             if (metode === 'kirim' && totalHargaGlobal < 3000000) {
                 alert("Maaf, layanan pengiriman ke alamat khusus untuk total belanja di atas Rp 3.000.000. Silakan pilih 'Diambil di Toko' atau tambah pesanan Anda."); 
@@ -656,7 +652,7 @@
             localStorage.removeItem('grosirMickeyCart');
             keranjang = [];
             updateKeranjang();
-            toggleCart();
+            closeCartDrawer();
             
             window.open(`https://wa.me/6285100116986?text=${encodeURIComponent(teksKirim)}`, '_blank');
         }
